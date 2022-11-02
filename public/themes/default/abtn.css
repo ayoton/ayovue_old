@@ -1,0 +1,7 @@
+.ABtnDefault {
+  background: lightgray;
+  color: darkred;
+  cursor: pointer;
+  padding: 5px 7px;
+  border-radius: 3px;
+}
