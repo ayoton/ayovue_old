@@ -18,7 +18,6 @@ const writePKG = (_path: string, _: string) => {
 }
 
 export default defineConfig({
-  resolve: {},
   plugins: [
     vue({
       template: {
@@ -37,12 +36,12 @@ export default defineConfig({
       entryRoot: "src",
       outputDir: "packages",
       staticImport: true,
+      afterBuild: () => {},
     }),
   ],
   build: {
     minify: false,
     outDir: "packages",
-    assetsDir: "src/themes",
     lib: {
       entry: entries,
       fileName(format, entryName) {

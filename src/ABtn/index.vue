@@ -4,9 +4,7 @@
   </button>
 </template>
 <script lang="ts" setup>
-import "ayovue/themes/default/all.css"
 import { tryOnScopeDispose } from "../tryOnScopeDispose"
-;("../tryOnScopeDispose")
 defineProps({
   size: {
     type: String,
