@@ -18,11 +18,7 @@ const writePKG = (_path: string, _: string) => {
 }
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      "ayovue/themes": "public/themes",
-    },
-  },
+  resolve: {},
   plugins: [
     vue({
       template: {
