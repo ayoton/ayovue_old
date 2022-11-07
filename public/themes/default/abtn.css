@@ -1,7 +1,7 @@
-.btn:hover {
+.a-btn:hover {
   background: var(--ac-theme-500);
 }
-.btn {
+.a-btn {
   --font-size: 1rem;
   --border-radius: calc(var(--font-size) * 0.2);
   --color: var(--ac-theme-50);
@@ -25,71 +25,71 @@
   user-select: none;
 }
 @media (hover: none) {
-  .btn {
+  .a-btn {
     cursor: default;
   }
 }
-.btn:hover {
+.a-btn:hover {
   background: var(--ac-theme-500);
 }
-.btn:active {
+.a-btn:active {
   transform: scale(0.95);
   outline: 0 solid var(--ac-theme-200);
 }
-.btn:focus {
+.a-btn:focus {
   outline: 3px solid var(--ac-theme-200);
   z-index: 1;
 }
 
-.btn.block {
+.a-btn.block {
   width: 100%;
 }
-.btn-group > .btn.block {
+.a-btn-group > .a-btn.block {
   width: initial;
 }
 
-.btn.text {
+.a-btn.text {
   border: none;
 }
-.btn:not(.text):not(.outlined) {
+.a-btn:not(.text):not(.outlined) {
   background: var(--ac-theme-600);
   color: var(--ac-theme-50);
   fill: var(--ac-theme-50);
 }
-.btn:not(.text):not(.outlined):hover {
+.a-btn:not(.text):not(.outlined):hover {
   background: var(--ac-theme-500);
   border-color: var(--ac-theme-500);
   color: var(--ac-theme-50);
 }
 
-.btn.text,
-.btn.outlined {
+.a-btn.text,
+.a-btn.outlined {
   background: transparent;
   color: var(--ac-theme-600);
   fill: var(--ac-theme-600);
 }
 
-.btn.text:hover,
-.btn.outlined:hover {
+.a-btn.text:hover,
+.a-btn.outlined:hover {
   background: var(--ac-theme-50);
 }
 
-.btn.raised,
-.btn-group.raised {
+.a-btn.raised,
+.a-btn-group.raised {
   box-shadow: 0 3px 1px -2px var(--ac-gray-500), 0 2px 2px 0 var(--ac-gray-400),
     0 1px 5px 0 var(--ac-gray-300);
 }
-.btn.raised.text,
-.btn.raised.outlined {
+.a-btn.raised.text,
+.a-btn.raised.outlined {
   box-shadow: 0 3px 1px -2px var(--ac-gray-400), 0 2px 2px 0 var(--ac-gray-300),
     0 1px 5px 0 var(--ac-gray-200);
 }
 
-.btn.rounded {
+.a-btn.rounded {
   --border-radius: 10rem;
 }
 
-.btn.icon {
+.a-btn.icon {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -99,21 +99,21 @@
   aspect-ratio: 1/1;
 }
 
-.btn.icon > svg {
+.a-btn.icon > svg {
   width: var(--font-size);
   height: var(--font-size);
 }
 
-.btn.flat {
+.a-btn.flat {
   --border-radius: 0;
 }
 
-.btn:disabled {
+.a-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
 }
-.btn-group {
+.a-btn-group {
   --font-size: 1rem;
   --border-radius: calc(var(--font-size) * 0.2);
   display: inline-flex;
@@ -121,72 +121,72 @@
   flex-wrap: wrap;
   border-radius: var(--border-radius);
 }
-.btn-group > .btn {
+.a-btn-group > .a-btn {
   --font-size: 1rem;
   --border-radius: calc(var(--font-size) * 0.2);
 }
-.btn-group.flat,
-.btn-group.flat > .btn {
+.a-btn-group.flat,
+.a-btn-group.flat > .a-btn {
   --border-radius: 0;
 }
 
-.btn-group.rounded,
-.btn-group.rounded > .btn {
+.a-btn-group.rounded,
+.a-btn-group.rounded > .a-btn {
   --border-radius: 10rem;
 }
 
-.btn.sm,
-.btn-group.sm,
-.btn-group.sm > .btn {
+.a-btn.sm,
+.a-btn-group.sm,
+.a-btn-group.sm > .a-btn {
   --font-size: 0.7rem;
   --padding-y: 0.2rem;
   --padding-x: 0.5rem;
 }
-.btn.md,
-.btn-group.md,
-.btn-group.md > .btn,
-.btn-group:not(.sm):not(.lg):not(.xl):not(.xxl) > .btn {
+.a-btn.md,
+.a-btn-group.md,
+.a-btn-group.md > .a-btn,
+.a-btn-group:not(.sm):not(.lg):not(.xl):not(.xxl) > .a-btn {
   --font-size: 1rem;
   --padding-y: 0.4rem;
   --padding-x: 1rem;
 }
-.btn.lg,
-.btn-group.lg,
-.btn-group.lg > .btn {
+.a-btn.lg,
+.a-btn-group.lg,
+.a-btn-group.lg > .a-btn {
   --font-size: 1.5rem;
   --padding-y: 0.5rem;
   --padding-x: 1.5rem;
 }
-.btn.xl,
-.btn-group.xl,
-.btn-group.xl > .btn {
+.a-btn.xl,
+.a-btn-group.xl,
+.a-btn-group.xl > .a-btn {
   --font-size: 2rem;
   --padding-y: 1rem;
   --padding-x: 2rem;
 }
-.btn.xxl,
-.btn-group.xxl,
-.btn-group.xxl > .btn {
+.a-btn.xxl,
+.a-btn-group.xxl,
+.a-btn-group.xxl > .a-btn {
   --font-size: 4rem;
   --padding-y: 1.3rem;
   --padding-x: 4rem;
 }
 
-.btn-group > .btn:not(:first-child):not(:last-child) {
+.a-btn-group > .a-btn:not(:first-child):not(:last-child) {
   border-radius: 0;
 }
 
-.btn-group > .btn.raised {
+.a-btn-group > .a-btn.raised {
   box-shadow: none;
 }
-.btn-group > .btn:not(:focus):not(:last-child) {
+.a-btn-group > .a-btn:not(:focus):not(:last-child) {
   border-right: none;
 }
-.btn-group > .btn:first-child {
+.a-btn-group > .a-btn:first-child {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.btn-group > .btn:last-child {
+.a-btn-group > .a-btn:last-child {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }

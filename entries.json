@@ -1,6 +1,6 @@
 {
-  "AInput": "src/AInput/index.vue",
-  "ABtn": "src/ABtn/index.vue",
-  "tryOnScopeDispose": "src/tryOnScopeDispose/",
-  "useEventListener": "src/useEventListener/"
+  "AInput": "src/components/AInput/index.vue",
+  "AButton": "src/components/AButton/index.vue",
+  "tryOnScopeDispose": "src/components/tryOnScopeDispose/",
+  "useEventListener": "src/components/useEventListener/"
 }
