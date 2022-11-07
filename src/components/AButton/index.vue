@@ -4,14 +4,14 @@
   </button>
 </template>
 <script lang="ts" setup>
-import { tryOnScopeDispose } from "../tryOnScopeDispose"
+import { tryOnScopeDispose } from "../../tryOnScopeDispose";
 defineProps({
   size: {
     type: String,
-    default: "md",
-  },
-})
+    default: "md"
+  }
+});
 tryOnScopeDispose(() => {
-  console.log("Disposed")
-})
+  console.log("Disposed");
+});
 </script>
