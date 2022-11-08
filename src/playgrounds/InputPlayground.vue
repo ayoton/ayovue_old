@@ -8,8 +8,6 @@ import {
   inputTypes,
   inputStates
 } from "./playgroundData";
-// const color = ref("");
-// const size = ref("");
 
 const playgroundText = ref("");
 const placeholder = ref("Enter your name");
@@ -85,15 +83,11 @@ const componentStates = reactive<AT>({
         </select>
       </div>
 
-      <div
-        v-for="(value, inputState) in inputStates"
-        :key="inputState"
-        class="input-state"
-      >
-        <label class="mr-3 ai-center" :class="['label-' + inputState]">
-          <input type="checkbox" v-model="componentStates[inputState]" />
+      <div v-for="(value, cs) in componentStates" :key="cs" class="input-state">
+        <label class="mr-3 ai-center" :class="['label-' + cs]">
+          <input type="checkbox" v-model="componentStates[cs]" />
           <span class="ml-1">
-            {{ inputState }}
+            {{ cs }}
           </span>
         </label>
       </div>
