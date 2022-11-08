@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import "../public/themes/default/all.css";
-import Playground from "./playgrounds/ButtonPlayground.vue";
+import Playground from "./playgrounds/InputPlayground.vue";
 </script>
 <template>
   <div class="playground">
