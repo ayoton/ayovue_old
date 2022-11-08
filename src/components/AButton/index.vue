@@ -1,17 +1,44 @@
+<script lang="ts" setup>
+import { computed, useAttrs } from "vue";
+import { colorProp, sizeProp, booleanProp } from "../../utils/props";
+
+const attrs = useAttrs();
+const props = defineProps({
+  color: colorProp,
+  size: sizeProp,
+  loading: booleanProp,
+  outlined: booleanProp,
+  raised: booleanProp,
+  rounded: booleanProp,
+  flat: booleanProp,
+  text: booleanProp,
+  icon: booleanProp,
+  block: booleanProp
+});
+
+const classes = computed(() => {
+  return {
+    "a-btn": true,
+    [props.color]: true,
+    [props.size]: true,
+    loading: props.loading,
+    outlined: props.outlined,
+    raised: props.raised,
+    rounded: props.rounded,
+    flat: props.flat,
+    text: props.text,
+    icon: props.icon,
+    block: props.block
+  };
+});
+
+const disabled = computed(() => {
+  return props.loading || Boolean(attrs.disabled);
+});
+</script>
+
 <template>
-  <button :class="{ [size]: true, 'a-btn': true }">
-    <slot>Button</slot>
+  <button :class="classes" type="button" :disabled="disabled">
+    <slot> </slot>
   </button>
 </template>
-<script lang="ts" setup>
-import { tryOnScopeDispose } from "../tryOnScopeDispose"
-defineProps({
-  size: {
-    type: String,
-    default: "md",
-  },
-})
-tryOnScopeDispose(() => {
-  console.log("Disposed")
-})
-</script>

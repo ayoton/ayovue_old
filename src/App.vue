@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import "../public/themes/default/all.css"
-import Playground from "./playgrounds/ButtonPlayground.vue"
+import "../public/themes/default/all.css";
+import Playground from "./playgrounds/ButtonPlayground.vue";
 </script>
 <template>
   <div class="playground">
@@ -11,7 +11,8 @@ import Playground from "./playgrounds/ButtonPlayground.vue"
 <style>
 body {
   color: #2c2c2c;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Liberation Sans, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Liberation Sans,
+    sans-serif;
   line-height: 1.6em;
   word-spacing: 0.05em;
   letter-spacing: 0.02em;
@@ -44,6 +45,7 @@ body {
 
 .playground__variations {
   flex: 1;
+  padding-left: 22px;
 }
 
 input[type="checkbox"] {
