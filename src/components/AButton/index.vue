@@ -2,7 +2,6 @@
 import { computed, useAttrs } from "vue";
 import { variantProp, sizeProp, booleanProp } from "../../utils/props";
 
-const attrs = useAttrs();
 const props = defineProps({
   variant: variantProp,
   size: sizeProp,
@@ -31,14 +30,10 @@ const classes = computed(() => {
     block: props.block
   };
 });
-
-const disabled = computed(() => {
-  return props.loading || Boolean(attrs.disabled);
-});
 </script>
 
 <template>
-  <button :class="classes" type="button" :disabled="disabled">
+  <button :class="classes" type="button">
     <slot> </slot>
   </button>
 </template>
