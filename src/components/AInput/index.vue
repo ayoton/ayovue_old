@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from "@vue/reactivity";
-import { ref, defineEmits } from "vue";
+import { ref } from "vue";
 import {
   inputTypeProp,
   sizeProp,
