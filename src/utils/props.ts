@@ -76,7 +76,7 @@ type allowedColors =
   | "success"
   | string;
 
-export const colorProp = {
+export const variantProp = {
   type: String as PropType<allowedColors>,
   default: "primary",
   validator(value: string) {

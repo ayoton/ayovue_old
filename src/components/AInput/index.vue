@@ -5,7 +5,7 @@ import {
   inputTypeProp,
   sizeProp,
   stringProp,
-  stateProp,
+  variantProp,
   booleanProp,
   widthProp
 } from "../../utils/props";
@@ -16,7 +16,7 @@ const props = defineProps({
   floatingLabel: stringProp,
   modelValue: stringProp,
   size: sizeProp,
-  state: stateProp,
+  variant: variantProp,
   clearable: booleanProp,
   placeholder: stringProp
 });
@@ -44,7 +44,7 @@ const classes = computed(() => {
   return {
     "a-input": true,
     [props.size]: true,
-    [props.state]: true
+    [props.variant]: true
   };
 });
 </script>
