@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from "@vue/reactivity";
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
 import {
   inputTypeProp,
   sizeProp,
@@ -18,8 +18,12 @@ const props = defineProps({
   size: sizeProp,
   variant: variantProp,
   clearable: booleanProp,
-  placeholder: stringProp
+  placeholder: stringProp,
+  width: widthProp
 });
+
+const emit = defineEmits(["update:modelValue"]);
+
 const isFocused = ref(false);
 const isFloating = computed(() => props.modelValue || isFocused.value);
 const floatingStyle = computed(() => {
@@ -47,9 +51,23 @@ const classes = computed(() => {
     [props.variant]: true
   };
 });
+
+function clearValue() {
+  emit("update:modelValue", "");
+  console.log("clearing..");
+}
+
+const localValue = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(value) {
+    emit("update:modelValue", value);
+  }
+});
 </script>
 <template>
-  <div :class="classes" ref="inputParent">
+  <div :class="classes" ref="inputParent" :style="{ width }">
     <span class="fl-label" v-if="floatingLabel" :style="floatingStyle">
       {{ floatingLabel }}
     </span>
@@ -61,8 +79,14 @@ const classes = computed(() => {
       :type="type"
       class="a-input-field"
       :placeholder="placeholder"
-      v-model="modelValue"
+      v-model="localValue"
     />
     <slot name="append"></slot>
+
+    <div
+      class="a-icon-close a-action-btn"
+      v-if="clearable && modelValue"
+      @click="clearValue"
+    ></div>
   </div>
 </template>
