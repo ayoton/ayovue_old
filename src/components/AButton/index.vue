@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { computed, useAttrs } from "vue";
-import { colorProp, sizeProp, booleanProp } from "../../utils/props";
+import { variantProp, sizeProp, booleanProp } from "../../utils/props";
 
 const attrs = useAttrs();
 const props = defineProps({
-  color: colorProp,
+  variant: variantProp,
   size: sizeProp,
   loading: booleanProp,
   outlined: booleanProp,
@@ -19,7 +19,7 @@ const props = defineProps({
 const classes = computed(() => {
   return {
     "a-btn": true,
-    [props.color]: true,
+    [props.variant]: true,
     [props.size]: true,
     loading: props.loading,
     outlined: props.outlined,
