@@ -7,10 +7,14 @@
   outline: none;
   border: none;
   font-size: var(--font-size, 16px);
-  /* background: transparent; */
+  background: transparent;
 }
-.a-input-field::placeholder {
-  color: transparent;
+.fl-label ~ .a-input-field::placeholder {
+  opacity: 1;
+  animation: opacity 0.3s linear 0.3s;
+}
+.fl-label ~ .a-input-field:not(:focus)::placeholder {
+  opacity: 0;
 }
 .a-input > .fl-label {
   position: absolute;
