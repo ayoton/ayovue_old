@@ -1,7 +1,17 @@
 .a-input {
   --font-size: 16px;
   gap: calc(var(--font-size) / 2);
+  border: 1px solid var(--ac-theme-500);
+  border-radius: calc(var(--font-size) / 5);
+  padding: calc(var(--font-size) / 3) calc(var(--font-size) / 2);
+  outline: 0 solid var(--ac-theme-300);
+  animation: all 0.3s linear;
 }
+
+.a-input:not(.info):not(.success):not(.warning):not(.danger):not(:focus-within) {
+  border: 1px solid var(--ac-gray-300);
+}
+
 .a-input:focus-within {
   outline: 1px solid var(--ac-theme-300);
 }
