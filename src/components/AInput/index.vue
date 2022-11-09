@@ -6,8 +6,7 @@ import {
   sizeProp,
   stringProp,
   variantProp,
-  booleanProp,
-  widthProp
+  booleanProp
 } from "../../utils/props";
 const inputParent = ref<HTMLElement>();
 const inputField = ref<HTMLElement>();
@@ -18,8 +17,7 @@ const props = defineProps({
   size: sizeProp,
   variant: variantProp,
   clearable: booleanProp,
-  placeholder: stringProp,
-  width: widthProp
+  placeholder: stringProp
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -67,7 +65,7 @@ const localValue = computed({
 });
 </script>
 <template>
-  <div :class="classes" ref="inputParent" :style="{ width }">
+  <div :class="classes" ref="inputParent">
     <span class="fl-label" v-if="floatingLabel" :style="floatingStyle">
       {{ floatingLabel }}
     </span>
