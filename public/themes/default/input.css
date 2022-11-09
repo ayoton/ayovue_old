@@ -16,6 +16,10 @@
   outline: 1px solid var(--ac-theme-300);
 }
 
+.a-input:not(:focus-within) > .fl-label {
+  opacity: 0.6;
+}
+
 .a-input.xl {
   --font-size: 28px;
 }
