@@ -1,34 +1,29 @@
 .a-input {
-  --font-size: 16px;
-  gap: calc(var(--font-size) / 2);
-  border: 1px solid var(--ac-theme-500);
-  border-radius: calc(var(--font-size) / 5);
-  padding: calc(var(--font-size) / 3) calc(var(--font-size) / 2);
-  outline: 0 solid var(--ac-theme-300);
+  font-size: var(--a-font-size, 16px);
+  gap: 0.5em;
+  border: 1px solid var(--a-c-theme-500);
+  border-radius: 0.2em;
+  padding: 0.5em 0.75em;
+  outline: 0 solid var(--a-c-theme-300);
   transition: all 0.3s linear;
 }
 
-.a-input:not(.info):not(.success):not(.warning):not(.danger):not(:focus-within) {
-  border: 1px solid var(--ac-gray-300);
+.a-input-field {
+  accent-color: var(--a-c-theme-500);
+}
+
+.a-input-field[type="color"] {
+  height: 1em;
+}
+
+.a-input:not(.a-info):not(.a-success):not(.a-warning):not(.a-danger):not(:focus-within) {
+  border: 1px solid var(--a-c-gray-300);
 }
 
 .a-input:focus-within {
-  outline: 1px solid var(--ac-theme-300);
+  outline: 1px solid var(--a-c-theme-300);
 }
 
-.a-input:not(:focus-within) > .fl-label {
+.a-input:not(:focus-within) > .a-fl-label {
   opacity: 0.6;
-}
-
-.a-input.xl {
-  --font-size: 28px;
-}
-.a-input.lg {
-  --font-size: 20px;
-}
-.a-input.md {
-  --font-size: 16px;
-}
-.a-input.sm {
-  --font-size: 10px;
 }

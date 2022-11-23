@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { ref } from "vue"
-import AButton from "../components/AButton/index.vue"
-import { variants, sizes, buttonStates } from "./playgroundData"
-const variant = ref("")
-const size = ref(16)
+import { ref } from "vue";
+import AButton from "../components/AButton/index.vue";
+import { variants, sizes, buttonStates } from "./playgroundData";
+const variant = ref("");
+const size = ref(16);
 </script>
 <template>
   <div class="main__container">
@@ -40,7 +40,7 @@ const size = ref(16)
 
         <div class="col-md-6">
           <strong> Other Props </strong> <br />
-          <label for="variant"> Variant </label>
+          <label for="variant"> variant </label>
           <select v-model="variant" class="mr-3" id="variant">
             <option v-for="v in variants">
               {{ v }}
@@ -49,7 +49,7 @@ const size = ref(16)
 
           <br />
           <br />
-          <label for="size"> Size </label>
+          <label for="size"> size </label>
           <input type="number" v-model="size" />
         </div>
       </div>

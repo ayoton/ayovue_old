@@ -2,29 +2,40 @@
   display: flex;
   position: relative;
   align-items: center;
-  width: 100%;
+  /* width: 100%; */
 }
 .a-input-field {
   flex-grow: 1;
   outline: none;
   border: none;
-  font-size: var(--font-size, 16px);
+  font-size: var(--a-font-size, 16px);
   background: transparent;
+  width: 100%;
 }
-.fl-label ~ .a-input-field::placeholder {
+
+.a-input-field:disabled {
+  opacity: 0.5;
+}
+
+.a-fl-label ~ .a-input-field::placeholder {
   opacity: 1;
   transition: opacity 0.3s linear;
 }
-.fl-label ~ .a-input-field:not(:focus)::placeholder {
+.a-fl-label ~ .a-input-field:not(:focus)::placeholder {
   opacity: 0;
 }
-.a-input > .fl-label {
+.a-input > .a-fl-label {
   position: absolute;
   transition: all 0.3s ease-in-out;
-  font-size: var(--font-size, 16px);
+  font-size: var(--a-font-size, 16px);
   line-height: normal;
   letter-spacing: normal;
   display: flex;
   align-items: center;
   z-index: -1;
 }
+
+/* .a-input-field::-webkit-slider-thumb,
+.a-input-field::-moz-range-thumb {
+  height: 1em;
+} */

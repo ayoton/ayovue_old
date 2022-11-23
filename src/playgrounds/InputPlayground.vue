@@ -5,9 +5,10 @@ import { variants, sizes, inputTypes } from "./playgroundData";
 
 const playgroundText = ref("");
 const placeholder = ref("Enter your name");
-const type = ref("");
+const floatingLabel = ref("");
+const type = ref("text");
 const variant = ref("");
-const size = ref("");
+const size = ref(16);
 interface AT {
   [key: string]: boolean;
 }
@@ -18,16 +19,16 @@ const componentStates = reactive<AT>({
 </script>
 <template>
   <div class="main__container">
-    <div class="main__output">
+    <div class="main__output" style="display: block">
       <AInput
         v-model="playgroundText"
         :type="type"
         :size="size"
         :variant="variant"
         :placeholder="placeholder"
-        :floatingLabel="''"
+        :floatingLabel="floatingLabel"
         :clearable="componentStates.clearable"
-        :disabled="componentStates.disabled"
+        :isDisabled="componentStates.disabled"
       >
       </AInput>
     </div>
@@ -54,10 +55,12 @@ const componentStates = reactive<AT>({
 
           <strong>Other Props</strong>
           <br />
-          <div class="ai-center">
-            <label>Placeholder</label>
-            <AInput v-model="placeholder" size="sm" class="ml-2"> </AInput>
-          </div>
+
+          <label>Placeholder</label> <br />
+          <AInput v-model="placeholder"> </AInput>
+
+          <label class="d-block mt-2">Floating Label</label>
+          <AInput v-model="floatingLabel"> </AInput>
 
           <div class="mt-2">
             <label>Type</label>
@@ -71,14 +74,9 @@ const componentStates = reactive<AT>({
           </div>
 
           <div class="mt-2">
-            <label>Sizes</label>
-
-            <select class="ml-2" v-model="size">
-              <option></option>
-              <option v-for="size in sizes" :key="size">
-                {{ size }}
-              </option>
-            </select>
+            <label>Size</label>
+            <AInput type="number" v-model="size" :size="16" class="ml-2">
+            </AInput>
           </div>
 
           <div class="mt-2">

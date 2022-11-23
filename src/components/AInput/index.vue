@@ -6,14 +6,15 @@ import {
   sizeProp,
   stringProp,
   variantProp,
-  booleanProp
+  booleanProp,
+  stringOrNumberProp
 } from "../../utils/props";
 const inputParent = ref<HTMLElement>();
 const inputField = ref<HTMLElement>();
 const props = defineProps({
   type: inputTypeProp,
   floatingLabel: stringProp,
-  modelValue: stringProp,
+  modelValue: stringOrNumberProp,
   size: sizeProp,
   variant: variantProp,
   clearable: booleanProp,
@@ -46,8 +47,7 @@ const floatingStyle = computed(() => {
 const classes = computed(() => {
   return {
     "a-input": true,
-    [props.size]: true,
-    [props.variant]: true
+    [`a-${props.variant}`]: true
   };
 });
 
@@ -66,8 +66,12 @@ const localValue = computed({
 });
 </script>
 <template>
-  <div :class="classes" ref="inputParent">
-    <span class="fl-label" v-if="floatingLabel" :style="floatingStyle">
+  <div
+    :class="classes"
+    ref="inputParent"
+    :style="{ '--a-font-size': `${size}px` }"
+  >
+    <span class="a-fl-label" v-if="floatingLabel" :style="floatingStyle">
       {{ floatingLabel }}
     </span>
     <slot name="prepend"></slot>
