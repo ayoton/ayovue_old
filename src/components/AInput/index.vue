@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from "@vue/reactivity";
-import { ref, defineEmits } from "vue";
+import { ref } from "vue";
 import {
   inputTypeProp,
   sizeProp,
@@ -17,7 +17,8 @@ const props = defineProps({
   size: sizeProp,
   variant: variantProp,
   clearable: booleanProp,
-  placeholder: stringProp
+  placeholder: stringProp,
+  isDisabled: booleanProp
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -78,6 +79,7 @@ const localValue = computed({
       class="a-input-field"
       :placeholder="placeholder"
       v-model="localValue"
+      :disabled="isDisabled"
     />
     <slot name="append"></slot>
 
