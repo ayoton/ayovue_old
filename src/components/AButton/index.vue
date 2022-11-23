@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { computed, useAttrs } from "vue";
-import { variantProp, sizeProp, booleanProp } from "../../utils/props";
+import { computed } from "vue"
+import { variantProp, sizeProp, booleanProp } from "../../utils/props"
 
 const props = defineProps({
   variant: variantProp,
@@ -12,28 +12,27 @@ const props = defineProps({
   flat: booleanProp,
   text: booleanProp,
   icon: booleanProp,
-  block: booleanProp
-});
+  block: booleanProp,
+})
 
 const classes = computed(() => {
   return {
     "a-btn": true,
-    [props.variant]: true,
-    [props.size]: true,
-    loading: props.loading,
-    outlined: props.outlined,
-    raised: props.raised,
-    rounded: props.rounded,
-    flat: props.flat,
-    text: props.text,
-    icon: props.icon,
-    block: props.block
-  };
-});
+    [`a-${props.variant}`]: true,
+    "a-loading": props.loading,
+    "a-outlined": props.outlined,
+    "a-raised": props.raised,
+    "a-rounded": props.rounded,
+    "a-flat": props.flat,
+    "a-text": props.text,
+    "a-icon": props.icon,
+    "a-block": props.block,
+  }
+})
 </script>
 
 <template>
-  <button :class="classes" type="button">
-    <slot> </slot>
+  <button :class="classes" :style="{ '--a-font-size': `${size}px` }" type="button">
+    <slot />
   </button>
 </template>

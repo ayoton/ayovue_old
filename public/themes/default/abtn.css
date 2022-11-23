@@ -1,27 +1,20 @@
 .a-btn:hover {
-  background: var(--ac-theme-500);
+  background: var(--a-c-theme-500);
 }
 .a-btn {
-  --font-size: 1rem;
-  --border-radius: calc(var(--font-size) * 0.2);
-  --color: var(--ac-theme-50);
-  --background: var(--ac-theme-600);
-  --border: 1px solid var(--ac-theme-600);
-  --padding-x: 1rem;
-  --padding-y: 0.4rem;
-  outline: 0 solid var(--ac-theme-200);
-  border-radius: var(--border-radius);
-  font-size: var(--font-size);
-  color: var(--color);
-  background: var(--background);
-  border: var(--border);
-  padding: var(--padding-y) var(--padding-x);
+  font-size: var(--a-font-size, 1rem);
+  outline: 0 solid var(--a-c-theme-200);
+  border-radius: 0.2em;
+  color: var(--a-color, var(--a-c-theme-50));
+  background: var(--a-background, var(--a-c-theme-600));
+  border: 1px solid var(--a-c-theme-600);
+  padding: 0.4em 1em;
   position: relative;
   cursor: pointer;
   overflow: hidden;
   transition: all 0.1s ease;
   cursor: pointer;
-  outline: 0 solid var(--ac-theme-200);
+  outline: 0 solid var(--a-c-theme-200);
   user-select: none;
 }
 @media (hover: none) {
@@ -30,82 +23,81 @@
   }
 }
 .a-btn:hover {
-  background: var(--ac-theme-500);
+  background: var(--a-c-theme-500);
 }
 .a-btn:active {
   transform: scale(0.95);
-  outline: 0 solid var(--ac-theme-200);
+  outline: 0 solid var(--a-c-theme-200);
 }
 .a-btn:focus {
-  outline: 3px solid var(--ac-theme-200);
+  outline: 3px solid var(--a-c-theme-200);
   z-index: 1;
 }
 
-.a-btn.block {
+.a-btn.a-block {
   width: 100%;
 }
-.a-btn-group > .a-btn.block {
+.a-btn-group > .a-btn.a-block {
   width: initial;
 }
 
-.a-btn.text {
+.a-btn.a-text {
   border: none;
 }
-.a-btn:not(.text):not(.outlined) {
-  background: var(--ac-theme-600);
-  color: var(--ac-theme-50);
-  fill: var(--ac-theme-50);
+.a-btn:not(.a-text):not(.a-outlined) {
+  background: var(--a-c-theme-600);
+  color: var(--a-c-theme-50);
+  fill: var(--a-c-theme-50);
 }
-.a-btn:not(.text):not(.outlined):hover {
-  background: var(--ac-theme-500);
-  border-color: var(--ac-theme-500);
-  color: var(--ac-theme-50);
+.a-btn:not(.a-text):not(.a-outlined):hover {
+  background: var(--a-c-theme-500);
+  border-color: var(--a-c-theme-500);
+  color: var(--a-c-theme-50);
 }
-
-.a-btn.text,
-.a-btn.outlined {
+.a-btn.a-text,
+.a-btn.a-outlined {
   background: transparent;
-  color: var(--ac-theme-600);
-  fill: var(--ac-theme-600);
+  color: var(--a-c-theme-600);
+  fill: var(--a-c-theme-600);
 }
 
-.a-btn.text:hover,
-.a-btn.outlined:hover {
-  background: var(--ac-theme-50);
+.a-btn.a-text:hover,
+.a-btn.a-outlined:hover {
+  background: var(--a-c-theme-50);
 }
 
-.a-btn.raised,
-.a-btn-group.raised {
-  box-shadow: 0 3px 1px -2px var(--ac-gray-500), 0 2px 2px 0 var(--ac-gray-400),
-    0 1px 5px 0 var(--ac-gray-300);
+.a-btn.a-raised,
+.a-btn-group.a-raised {
+  box-shadow: 0 3px 1px -2px var(--a-c-gray-500), 0 2px 2px 0 var(--a-c-gray-400),
+    0 1px 5px 0 var(--a-c-gray-300);
 }
-.a-btn.raised.text,
-.a-btn.raised.outlined {
-  box-shadow: 0 3px 1px -2px var(--ac-gray-400), 0 2px 2px 0 var(--ac-gray-300),
-    0 1px 5px 0 var(--ac-gray-200);
-}
-
-.a-btn.rounded {
-  --border-radius: 10rem;
+.a-btn.a-raised.a-text,
+.a-btn.a-raised.a-outlined {
+  box-shadow: 0 3px 1px -2px var(--a-c-gray-400), 0 2px 2px 0 var(--a-c-gray-300),
+    0 1px 5px 0 var(--a-c-gray-200);
 }
 
-.a-btn.icon {
+.a-btn.a-rounded {
+  border-radius: 10em;
+}
+
+.a-btn.a-icon {
   display: inline-flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  fill: var(--ac-theme-600);
-  padding: var(--padding-y);
+  fill: var(--a-c-theme-600);
+  padding: 1em;
   aspect-ratio: 1/1;
 }
 
-.a-btn.icon > svg {
-  width: var(--font-size);
-  height: var(--font-size);
+.a-btn.a-icon > svg {
+  width: 1em;
+  height: 1em;
 }
 
-.a-btn.flat {
-  --border-radius: 0;
+.a-btn.a-flat {
+  border-radius: 0;
 }
 
 .a-btn:disabled {
@@ -124,58 +116,21 @@
   --font-size: 1rem;
   --border-radius: calc(var(--font-size) * 0.2);
 }
-.a-btn-group.flat,
-.a-btn-group.flat > .a-btn {
+.a-btn-group.a-flat,
+.a-btn-group.a-flat > .a-btn {
   --border-radius: 0;
 }
 
-.a-btn-group.rounded,
-.a-btn-group.rounded > .a-btn {
+.a-btn-group.a-rounded,
+.a-btn-group.a-rounded > .a-btn {
   --border-radius: 10rem;
-}
-
-.a-btn.sm,
-.a-btn-group.sm,
-.a-btn-group.sm > .a-btn {
-  --font-size: 0.7rem;
-  --padding-y: 0.2rem;
-  --padding-x: 0.5rem;
-}
-.a-btn.md,
-.a-btn-group.md,
-.a-btn-group.md > .a-btn,
-.a-btn-group:not(.sm):not(.lg):not(.xl):not(.xxl) > .a-btn {
-  --font-size: 1rem;
-  --padding-y: 0.4rem;
-  --padding-x: 1rem;
-}
-.a-btn.lg,
-.a-btn-group.lg,
-.a-btn-group.lg > .a-btn {
-  --font-size: 1.5rem;
-  --padding-y: 0.5rem;
-  --padding-x: 1.5rem;
-}
-.a-btn.xl,
-.a-btn-group.xl,
-.a-btn-group.xl > .a-btn {
-  --font-size: 2rem;
-  --padding-y: 1rem;
-  --padding-x: 2rem;
-}
-.a-btn.xxl,
-.a-btn-group.xxl,
-.a-btn-group.xxl > .a-btn {
-  --font-size: 4rem;
-  --padding-y: 1.3rem;
-  --padding-x: 4rem;
 }
 
 .a-btn-group > .a-btn:not(:first-child):not(:last-child) {
   border-radius: 0;
 }
 
-.a-btn-group > .a-btn.raised {
+.a-btn-group > .a-btn.a-raised {
   box-shadow: none;
 }
 .a-btn-group > .a-btn:not(:focus):not(:last-child) {

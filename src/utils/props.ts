@@ -1,4 +1,4 @@
-import { PropType } from "vue";
+import { PropType } from "vue"
 
 type allowedInputTypes =
   | "text"
@@ -12,7 +12,7 @@ type allowedInputTypes =
   | "time"
   | "range"
   | "color"
-  | string;
+  | string
 export const inputTypeProp = {
   type: String as PropType<allowedInputTypes>,
   default: "text",
@@ -29,43 +29,39 @@ export const inputTypeProp = {
       "date",
       "time",
       "range",
-      "color"
-    ].includes(value);
-  }
-};
+      "color",
+    ].includes(value)
+  },
+}
 
-type allowedSizes = "sm" | "md" | "lg" | "xl" | "xxl" | string;
 export const sizeProp = {
-  type: String as PropType<allowedSizes>,
-  default: "md",
-  validator(value: string) {
-    return ["", "sm", "md", "lg", "xl", "xxl"].includes(value);
-  }
-};
+  type: Number as PropType<number>,
+  default: 16,
+}
 
 export const stringProp = {
   type: String,
-  default: ""
-};
+  default: "",
+}
 
 export const booleanProp = {
   type: Boolean,
-  default: false
-};
+  default: false,
+}
 
-type allowedStates = "info" | "success" | "warning" | "danger" | "";
+type allowedStates = "info" | "success" | "warning" | "danger" | ""
 export const stateProp = {
   type: String as PropType<allowedStates>,
   default: "",
   validator(value: string) {
-    return ["", "info", "success", "warning", "danger"].includes(value);
-  }
-};
+    return ["", "info", "success", "warning", "danger"].includes(value)
+  },
+}
 
 export const widthProp = {
   type: String,
-  default: "100%"
-};
+  default: "100%",
+}
 
 type allowedColors =
   | "primary"
@@ -74,7 +70,7 @@ type allowedColors =
   | "warning"
   | "info"
   | "success"
-  | string;
+  | string
 
 export const variantProp = {
   type: String as PropType<allowedColors>,
@@ -87,7 +83,7 @@ export const variantProp = {
       "warning",
       "danger",
       "success",
-      "info"
-    ].includes(value);
-  }
-};
+      "info",
+    ].includes(value)
+  },
+}
