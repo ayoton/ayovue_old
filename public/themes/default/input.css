@@ -13,7 +13,14 @@
 }
 
 .a-input-field[type="color"] {
+  appearance: none;
   height: 1em;
+}
+.a-input-field[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+.a-input-field[type="color"]::-webkit-color-swatch {
+  border: none;
 }
 
 .a-input:not(.a-info):not(.a-success):not(.a-warning):not(.a-danger):not(:focus-within) {
