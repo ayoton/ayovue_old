@@ -11,7 +11,7 @@ App.vue
 
 
 node_modules
-src/playgrounds
+# src/playgrounds
 
 dist
 packages
