@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import "ayoflex";
+import "ayoflex"
 </script>
 
 <template>
@@ -8,6 +8,7 @@ import "ayoflex";
       <div class="nav">
         <RouterLink to="/button">Button</RouterLink>
         <RouterLink to="/input">Input Text</RouterLink>
+        <RouterLink to="/switch">Switch</RouterLink>
       </div>
     </div>
     <div class="playground__right">
