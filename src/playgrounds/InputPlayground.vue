@@ -57,15 +57,15 @@ const componentStates = reactive<AT>({
           <br />
 
           <label>Placeholder</label> <br />
-          <AInput v-model="placeholder"> </AInput>
+          <AInput v-model="placeholder" :size="12"> </AInput>
 
           <label class="d-block mt-2">Floating Label</label>
-          <AInput v-model="floatingLabel"> </AInput>
+          <AInput v-model="floatingLabel" :size="12"> </AInput>
 
           <div class="mt-2">
-            <label>Type</label>
+            <label class="d-block">Type</label>
 
-            <select class="ml-2" v-model="type">
+            <select v-model="type" class="w-100">
               <option></option>
               <option v-for="type in inputTypes" :key="type.type">
                 {{ type.type }}
@@ -74,15 +74,14 @@ const componentStates = reactive<AT>({
           </div>
 
           <div class="mt-2">
-            <label>Size</label>
-            <AInput type="number" v-model="size" :size="16" class="ml-2">
-            </AInput>
+            <label class="d-block">Size</label>
+            <AInput type="number" v-model="size" :size="12"> </AInput>
           </div>
 
           <div class="mt-2">
-            <label>Variant</label>
+            <label class="d-block">Variant</label>
 
-            <select class="ml-2" v-model="variant">
+            <select v-model="variant" class="w-100">
               <option v-for="v in variants" :key="v + ''">
                 {{ v }}
               </option>
