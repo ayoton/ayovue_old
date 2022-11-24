@@ -26,6 +26,9 @@
 .a-input:not(.a-info):not(.a-success):not(.a-warning):not(.a-danger):not(:focus-within) {
   border: 1px solid var(--a-c-gray-300);
 }
+.a-input:has(.a-input-field[type="range"]) {
+  border: none !important;
+}
 
 .a-input:focus-within {
   outline: 1px solid var(--a-c-theme-300);
