@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import AButton from "../components/AButton/index.vue";
+import AInput from "../components/AInput/index.vue";
 import { variants, sizes, buttonStates } from "./playgroundData";
 const variant = ref("");
 const size = ref(16);
@@ -48,7 +49,7 @@ const size = ref(16);
           </select>
 
           <label for="size" class="d-block"> size </label>
-          <input type="number" v-model="size" />
+          <AInput type="number" :size="12" v-model="size" />
         </div>
       </div>
 

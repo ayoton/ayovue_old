@@ -44,6 +44,11 @@ export const stringProp = {
   default: ""
 };
 
+export const nameProp = {
+  type: String,
+  default: `input-` + Math.ceil(Math.random() * 100000)
+};
+
 export const stringOrNumberProp = {
   type: [String, Number],
   default: ""

@@ -7,7 +7,7 @@ const playgroundText = ref("");
 const placeholder = ref("Enter your name");
 const floatingLabel = ref("");
 const type = ref("text");
-const variant = ref("");
+const variant = ref("primary");
 const size = ref(16);
 interface AT {
   [key: string]: boolean;
@@ -16,10 +16,14 @@ const componentStates = reactive<AT>({
   clearable: false,
   disabled: false
 });
+
+// function handleFocus() {
+//   console.log("hohoho");
+// }
 </script>
 <template>
   <div class="main__container">
-    <div class="main__output" style="display: block">
+    <div class="main__output pt-7" style="display: block">
       <AInput
         v-model="playgroundText"
         :type="type"
@@ -29,6 +33,9 @@ const componentStates = reactive<AT>({
         :floatingLabel="floatingLabel"
         :clearable="componentStates.clearable"
         :isDisabled="componentStates.disabled"
+        class="test 123"
+        id="abc def"
+        tabindex="-1"
       >
       </AInput>
     </div>
