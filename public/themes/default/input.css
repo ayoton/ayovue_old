@@ -40,9 +40,11 @@
   background: inherit;
   transform-origin: 0 50%;
   transform: scale(1);
+  opacity: 0.6;
 }
 .a-input-is-floating > .a-fl-label {
   padding: 0 0.3em;
   transform: scale(0.7);
   backdrop-filter: blur(1em);
+  opacity: 1;
 }
