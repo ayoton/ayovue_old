@@ -11,6 +11,7 @@
   font-size: var(--a-font-size, 16px);
   background: transparent;
   width: 100%;
+  z-index: 1;
 }
 
 .a-input-field:disabled {
@@ -19,7 +20,7 @@
 
 .a-fl-label ~ .a-input-field::placeholder {
   opacity: 1;
-  transition: opacity 0.3s linear;
+  transition: all 0.3s linear;
 }
 .a-fl-label ~ .a-input-field:not(:focus)::placeholder {
   opacity: 0;
@@ -32,7 +33,6 @@
   letter-spacing: normal;
   display: flex;
   align-items: center;
-  z-index: -1;
 }
 
 /* .a-input-field::-webkit-slider-thumb,

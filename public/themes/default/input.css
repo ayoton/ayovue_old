@@ -34,6 +34,15 @@
   outline: 1px solid var(--a-c-theme-300);
 }
 
-.a-input:not(:focus-within) > .a-fl-label {
-  opacity: 0.6;
+.a-fl-label {
+  --floating-pos-top: calc(-0.5em - 3px);
+  --floating-pos-left: 0.6em;
+  background: inherit;
+  transform-origin: 0 50%;
+  transform: scale(1);
+}
+.a-input-is-floating > .a-fl-label {
+  padding: 0 0.3em;
+  transform: scale(0.7);
+  backdrop-filter: blur(1em);
 }
