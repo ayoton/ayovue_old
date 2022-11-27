@@ -1,21 +1,21 @@
 <script lang="ts" setup>
-import { ref, reactive } from "vue";
-import AInput from "../components/AInput/index.vue";
-import { variants, sizes, inputTypes } from "./playgroundData";
+import { ref, reactive } from "vue"
+import AInput from "../components/AInput/index.vue"
+import { variants, sizes, inputTypes } from "./playgroundData"
 
-const playgroundText = ref("");
-const placeholder = ref("Enter your name");
-const floatingLabel = ref("");
-const type = ref("text");
-const variant = ref("primary");
-const size = ref(16);
+const playgroundText = ref("")
+const placeholder = ref("Enter your name")
+const floatingLabel = ref("")
+const type = ref("text")
+const variant = ref("primary")
+const size = ref(16)
 interface AT {
-  [key: string]: boolean;
+  [key: string]: boolean
 }
 const componentStates = reactive<AT>({
   clearable: false,
-  disabled: false
-});
+  disabled: false,
+})
 
 // function handleFocus() {
 //   console.log("hohoho");
@@ -46,11 +46,7 @@ const componentStates = reactive<AT>({
         <div class="col-md-6">
           <strong>Boolean Props</strong>
           <br />
-          <div
-            v-for="(value, cs) in componentStates"
-            :key="cs"
-            class="input-state"
-          >
+          <div v-for="(value, cs) in componentStates" :key="cs" class="input-state">
             <label class="mr-3 ai-center" :class="['label-' + cs]">
               <input type="checkbox" v-model="componentStates[cs]" />
               <span class="ml-1">

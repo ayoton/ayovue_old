@@ -3,8 +3,10 @@ import { createRouter, createWebHistory } from "vue-router";
 const ButtonPlayground = () => import("../ButtonPlayground.vue");
 const InputPlayground = () => import("../InputPlayground.vue");
 const SelectPlayground = () => import("../SelectPlayground.vue");
+const SwitchPlayground = () => import("../SwitchPlayground.vue");
 
 const routes = <any>[
+  { path: "/switch", component: SwitchPlayground },
   { path: "/button", component: ButtonPlayground },
   { path: "/input", component: InputPlayground },
   { path: "/select", component: SelectPlayground },
