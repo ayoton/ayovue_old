@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
+import ASelect from "../components/ASelect/index.vue";
 import AInput from "../components/AInput/index.vue";
 import { variants, sizes, inputTypes } from "./playgroundData";
 
-const playgroundText = ref("");
+const selected = ref("");
 const placeholder = ref("Enter your name");
 const floatingLabel = ref("");
 const type = ref("text");
@@ -17,6 +18,8 @@ const componentStates = reactive<AT>({
   disabled: false
 });
 
+const options = ["Option1", "Option2", "Option3"];
+
 // function handleFocus() {
 //   console.log("hohoho");
 // }
@@ -24,8 +27,8 @@ const componentStates = reactive<AT>({
 <template>
   <div class="main__container">
     <div class="main__output pt-7" style="display: block">
-      <AInput
-        v-model="playgroundText"
+      <ASelect
+        v-model="selected"
         :type="type"
         :size="size"
         :variant="variant"
@@ -33,12 +36,11 @@ const componentStates = reactive<AT>({
         :floatingLabel="floatingLabel"
         :clearable="componentStates.clearable"
         :isDisabled="componentStates.disabled"
+        :options="options"
       >
-      </AInput>
+      </ASelect>
 
-      <div class="mt-3" style="font-size: 14px">
-        Value: {{ playgroundText }}
-      </div>
+      <div class="mt-3" style="font-size: 14px">Value: {{ selected }}</div>
     </div>
 
     <div class="main__variations">

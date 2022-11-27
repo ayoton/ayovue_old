@@ -8,6 +8,7 @@ import "ayoflex";
       <div class="nav">
         <RouterLink to="/button">Button</RouterLink>
         <RouterLink to="/input">Input Text</RouterLink>
+        <RouterLink to="/select">Select</RouterLink>
       </div>
     </div>
     <div class="playground__right">
