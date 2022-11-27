@@ -7,7 +7,7 @@ import {
   variantProp,
   booleanProp,
   stringOrNumberProp
-} from "../../utils/props";
+} from "../proptypes";
 
 const select = ref<HTMLInputElement | null>(null);
 const filterInput = ref<HTMLInputElement | null>(null);

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { computed } from "vue"
-import { variantProp, sizeProp, booleanProp } from "../../utils/props"
+import { computed } from "vue";
+import { variantProp, sizeProp, booleanProp } from "../proptypes/";
 
 const props = defineProps({
   variant: variantProp,
@@ -12,8 +12,8 @@ const props = defineProps({
   flat: booleanProp,
   text: booleanProp,
   icon: booleanProp,
-  block: booleanProp,
-})
+  block: booleanProp
+});
 
 const classes = computed(() => {
   return {
@@ -26,13 +26,17 @@ const classes = computed(() => {
     "a-flat": props.flat,
     "a-text": props.text,
     "a-icon": props.icon,
-    "a-block": props.block,
-  }
-})
+    "a-block": props.block
+  };
+});
 </script>
 
 <template>
-  <button :class="classes" :style="{ '--a-font-size': `${size}px` }" type="button">
+  <button
+    :class="classes"
+    :style="{ '--a-font-size': `${size}px` }"
+    type="button"
+  >
     <slot />
   </button>
 </template>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { computed } from "@vue/reactivity"
-import { ref, StyleValue, useAttrs } from "vue"
+import { computed } from "@vue/reactivity";
+import { ref, StyleValue, useAttrs } from "vue";
 import {
   inputTypeProp,
   sizeProp,
@@ -8,10 +8,10 @@ import {
   variantProp,
   booleanProp,
   stringOrNumberProp,
-  nameProp,
-} from "../../utils/props"
-const inputParent = ref<HTMLElement>()
-const inputField = ref<HTMLElement>()
+  nameProp
+} from "../proptypes";
+const inputParent = ref<HTMLElement>();
+const inputField = ref<HTMLElement>();
 
 const props = defineProps({
   type: inputTypeProp,
@@ -23,55 +23,59 @@ const props = defineProps({
   placeholder: stringProp,
   isDisabled: booleanProp,
   name: nameProp,
-  class: stringProp,
-})
+  class: stringProp
+});
 
-const emit = defineEmits(["update:modelValue"])
+const emit = defineEmits(["update:modelValue"]);
 
-const isFocused = ref(false)
-const isFloating = computed(() => props.modelValue || isFocused.value)
+const isFocused = ref(false);
+const isFloating = computed(() => props.modelValue || isFocused.value);
 const floatingStyle = computed(() => {
   if (!inputField.value || !inputParent.value) {
-    return {}
+    return {};
   }
   if (!isFloating.value) {
     return {
       top: inputField.value?.offsetTop! + "px",
       left: inputField.value?.offsetLeft! + "px",
-      height: inputField.value?.clientHeight! + "px",
-    }
+      height: inputField.value?.clientHeight! + "px"
+    };
   } else {
     return {
       top: `var(--floating-pos-top, -1.5em)`,
       left: `var(--floating-pos-left, 0.15em)`,
-      zIndex: "1",
-    } as any
+      zIndex: "1"
+    } as any;
   }
-})
+});
 const classes = computed(() => {
   return {
     [props.class]: true,
     "a-input": true,
     [`a-${props.variant}`]: true,
-    "a-input-is-floating": isFloating.value,
-  }
-})
+    "a-input-is-floating": isFloating.value
+  };
+});
 
 function clearValue() {
-  emit("update:modelValue", "")
+  emit("update:modelValue", "");
 }
 
 const localValue = computed({
   get() {
-    return props.modelValue
+    return props.modelValue;
   },
   set(value) {
-    emit("update:modelValue", value)
-  },
-})
+    emit("update:modelValue", value);
+  }
+});
 </script>
 <template>
-  <div :class="classes" ref="inputParent" :style="{ '--a-font-size': `${size}px` }">
+  <div
+    :class="classes"
+    ref="inputParent"
+    :style="{ '--a-font-size': `${size}px` }"
+  >
     <span class="a-fl-label" v-if="floatingLabel" :style="floatingStyle">
       {{ floatingLabel }}
     </span>
