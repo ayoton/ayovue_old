@@ -1,5 +1,23 @@
 <script setup lang="ts">
-//   import { faL } from "@fortawesome/free-solid-svg-icons";
+/**
+ * Props:
+ * labelField, keyField, showSearchField, variant, size,
+ * clearable, disabled, floating label, modelValue
+ * placeholder, options, grouped, groupLabelField,
+ * autofocus
+ *
+ * Events:
+ * focus, blur, select, change, clear
+ *
+ *
+ * Methods:
+ * blur, focus, isFocused, clearValue
+ *
+ * Slots:
+ * append, prepend, item, selected
+ *
+ */
+
 import { computed, PropType, ref, useSlots, onMounted, watch } from "vue";
 import {
   sizeProp,
