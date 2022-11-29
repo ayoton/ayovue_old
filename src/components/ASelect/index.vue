@@ -277,15 +277,17 @@ function resetFilter() {
 <style lang="scss" scoped>
 .select {
   border: 1px solid rgb(199, 199, 199);
-  padding: 5px 11px;
+  padding: 0.31em 0.687em;
   border-radius: 5px;
   cursor: pointer;
   position: relative;
+  font-size: var(--a-font-size);
+  line-height: 1;
 }
 .select:focus,
 .select--focused {
-  outline: 3px solid var(--ac-theme-200);
-  border: 1.2px solid var(--ac-theme-500);
+  outline: 3px solid var(--a-c-theme-200);
+  border: 1.2px solid var(--a-c-theme-500);
 }
 .select__dropdown {
   position: absolute;

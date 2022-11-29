@@ -7,7 +7,6 @@ import { variants, sizes, inputTypes } from "./playgroundData";
 const selected = ref("");
 const placeholder = ref("Enter your name");
 const floatingLabel = ref("");
-const type = ref("text");
 const variant = ref("primary");
 const size = ref(16);
 interface AT {
@@ -29,7 +28,6 @@ const options = ["Option1", "Option2", "Option3"];
     <div class="main__output pt-7" style="display: block">
       <ASelect
         v-model="selected"
-        :type="type"
         :size="size"
         :variant="variant"
         :placeholder="placeholder"
@@ -71,17 +69,6 @@ const options = ["Option1", "Option2", "Option3"];
 
           <label class="d-block mt-2">Floating Label</label>
           <AInput v-model="floatingLabel" :size="12"> </AInput>
-
-          <div class="mt-2">
-            <label class="d-block">Type</label>
-
-            <select v-model="type" class="w-100">
-              <option></option>
-              <option v-for="type in inputTypes" :key="type.type">
-                {{ type.type }}
-              </option>
-            </select>
-          </div>
 
           <div class="mt-2">
             <label class="d-block">Size</label>
