@@ -110,10 +110,10 @@ defineExpose({
     />
     <slot name="append"></slot>
 
-    <div
+    <button
       class="a-icon-close a-action-btn"
       v-if="clearable && modelValue"
       @click="clearValue"
-    ></div>
+    ></button>
   </div>
 </template>

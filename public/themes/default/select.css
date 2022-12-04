@@ -1,0 +1,7 @@
+.a-select:focus {
+  border: 1px solid var(--a-c-theme-500);
+  outline: 0;
+}
+.a-select-field {
+  cursor: pointer;
+}

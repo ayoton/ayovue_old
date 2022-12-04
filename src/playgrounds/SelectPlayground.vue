@@ -26,6 +26,8 @@ const options = ["Option1", "Option2", "Option3"];
 <template>
   <div class="main__container">
     <div class="main__output pt-7" style="display: block">
+      <AInput placeholder="Username"> </AInput> <br />
+
       <ASelect
         v-model="selected"
         :size="size"

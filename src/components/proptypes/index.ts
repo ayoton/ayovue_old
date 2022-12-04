@@ -59,6 +59,20 @@ export const booleanProp = {
   default: false
 };
 
+export const anyProp = {
+  default: ""
+};
+
+export const anyArrayProp = {
+  type: Array<any>,
+  default: []
+};
+
+export const labelFieldProp = {
+  type: String,
+  default: "name"
+};
+
 type allowedStates = "info" | "success" | "warning" | "danger" | "";
 export const stateProp = {
   type: String as PropType<allowedStates>,
