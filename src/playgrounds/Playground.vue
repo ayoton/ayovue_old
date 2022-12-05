@@ -56,6 +56,17 @@ import "ayoflex";
   /* background-color: rgb(54 160 110 / 8%); */
   overflow-y: auto;
 }
+
+.playground__item {
+  border-right: 1px solid rgb(221, 221, 221);
+  padding-right: 44px;
+  padding-left: 44px;
+}
+
+div:last-child .playground__item {
+  border-right: 0;
+}
+
 @media screen and (max-width: 700px) {
   .playground__left {
     display: none;
@@ -109,5 +120,10 @@ import "ayoflex";
 .nav a.router-link-active {
   color: #fff;
   background-color: rgb(21, 151, 53);
+}
+
+.playground hr {
+  border-bottom: 1px solid #e3e3e3;
+  border-top: 0;
 }
 </style>
