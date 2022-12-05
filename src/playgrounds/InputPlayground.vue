@@ -3,12 +3,6 @@ import { ref, reactive } from "vue";
 import AInput from "../components/AInput/index.vue";
 import { variants, sizes, inputTypes } from "./playgroundData";
 
-const playgroundText = ref("");
-const placeholder = ref("Enter your name");
-const floatingLabel = ref("");
-const type = ref("text");
-const variant = ref("primary");
-const size = ref(16);
 interface AT {
   [key: string]: boolean;
 }
@@ -91,10 +85,8 @@ const playgroundProps = ref({
           </label>
         </div>
 
-        <br />
-
-        <strong>Other Props</strong>
-        <div class="mt-2">
+        <strong class="d-block mt-3">Other Props</strong>
+        <div class="mt-1">
           <label class="d-block">Type</label>
 
           <select v-model="props.type" class="w-100">
@@ -115,7 +107,7 @@ const playgroundProps = ref({
           </select>
         </div>
 
-        <label>Placeholder</label> <br />
+        <label class="d-block mt-2">Placeholder</label>
         <AInput v-model="props.placeholder" :size="12"> </AInput>
 
         <label class="d-block mt-2">Floating Label</label>

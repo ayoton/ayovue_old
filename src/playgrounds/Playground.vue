@@ -126,4 +126,11 @@ div:last-child .playground__item {
   border-bottom: 1px solid #e3e3e3;
   border-top: 0;
 }
+
+.playground select {
+  padding: 4px;
+  border: 1px solid #cdcdcd;
+  background: #fff;
+  border-radius: 3px;
+}
 </style>
