@@ -69,23 +69,25 @@ const playgroundProps = ref({
         </div>
         <hr class="mt-2" />
 
-        <strong class="d-block mt-2">Boolean Props</strong>
+        <h4 class="mt-2">Boolean Props</h4>
 
-        <div class="input-state">
-          <label class="mr-3 ai-center">
-            <input type="checkbox" v-model="props.clearable" />
-            <span class="ml-1"> clearable </span>
-          </label>
+        <div class="d-flex fr-wrap">
+          <div class="input-state">
+            <label class="mr-3 ai-center">
+              <input type="checkbox" v-model="props.clearable" />
+              <span class="ml-1"> clearable </span>
+            </label>
+          </div>
+
+          <div class="input-state">
+            <label class="mr-3 ai-center">
+              <input type="checkbox" v-model="props.disabled" />
+              <span class="ml-1"> disabled </span>
+            </label>
+          </div>
         </div>
 
-        <div class="input-state">
-          <label class="mr-3 ai-center">
-            <input type="checkbox" v-model="props.disabled" />
-            <span class="ml-1"> disabled </span>
-          </label>
-        </div>
-
-        <strong class="d-block mt-3">Other Props</strong>
+        <h4 class="mt-2">Other Props</h4>
         <div class="mt-1">
           <label class="d-block">Type</label>
 

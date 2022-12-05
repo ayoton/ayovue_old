@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import VueJsonPretty from "vue-json-pretty";
+import "vue-json-pretty/lib/styles.css";
+
 import { ref, reactive } from "vue";
 import ASelect from "../components/ASelect/index.vue";
 import AInput from "../components/AInput/index.vue";
@@ -18,7 +21,7 @@ const componentStates = reactive<AT>({
 });
 
 const options = ["Option1", "Option2", "Option3"];
-const arrayOfString = ["Bangladesh", "India", "Pakistan", "Bhutan"];
+const arrayOfStrings = ["Bangladesh", "India", "Pakistan", "Bhutan"];
 const arrayOfObjects = [
   { name: "Bangladesh", language: "Bangla", code: "+880" },
   { name: "India", language: "Hindi", code: "+91" },
@@ -57,31 +60,27 @@ const playgroundProps = reactive({
           Value: {{ playgroundProps.selected }}
         </div>
 
-        <strong>Boolean Props</strong>
-        <br />
-        <div class="input-state">
-          <label class="mr-3 ai-center">
-            <input type="checkbox" v-model="playgroundProps.clearable" />
-            <span class="ml-1"> clearable </span>
-          </label>
+        <h4 class="mt-1">Props</h4>
+        <div class="d-flex fr-wrap">
+          <div class="input-state">
+            <label class="mr-3 ai-center">
+              <input type="checkbox" v-model="playgroundProps.clearable" />
+              <span class="ml-1"> clearable </span>
+            </label>
+          </div>
+
+          <div class="input-state">
+            <label class="mr-3 ai-center">
+              <input type="checkbox" v-model="playgroundProps.disabled" />
+              <span class="ml-1"> disabled </span>
+            </label>
+          </div>
         </div>
 
-        <div class="input-state">
-          <label class="mr-3 ai-center">
-            <input type="checkbox" v-model="playgroundProps.disabled" />
-            <span class="ml-1"> disabled </span>
-          </label>
-        </div>
-
-        <br />
-
-        <strong>Other Props</strong>
-        <br />
-
-        <label>Placeholder</label> <br />
+        <label class="d-block mt-2">Placeholder</label>
         <AInput v-model="playgroundProps.placeholder" :size="12"> </AInput>
 
-        <label class="d-block mt-2">Floating Label</label>
+        <label class="d-block mt-1">Floating Label</label>
         <AInput v-model="playgroundProps.floatingLabel" :size="12"> </AInput>
 
         <div class="mt-2">
@@ -105,16 +104,16 @@ const playgroundProps = reactive({
     <div class="col-1 col-md-8">
       <div class="playground__item">
         <h2>Variables</h2>
-        <div class="mt-2">
-          <strong>arrayOfString:</strong>
 
-          {{ arrayOfString }}
-        </div>
-
-        <div class="mt-2">
-          <strong>arrayOfObjects:</strong>
-
-          {{ arrayOfObjects }}
+        <div class="row">
+          <div class="col-md-6 mt-2">
+            <strong>arrayOfObjects:</strong>
+            <vue-json-pretty :data="arrayOfObjects" />
+          </div>
+          <div class="col-md-6 mt-2">
+            <strong>arrayOfStrings:</strong>
+            <vue-json-pretty :data="arrayOfStrings" />
+          </div>
         </div>
       </div>
     </div>
