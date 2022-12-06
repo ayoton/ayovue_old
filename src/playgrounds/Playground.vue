@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import "ayoflex"
-import { useDate } from "../components/useDate"
-const date = useDate("")
+import "ayoflex";
+import { useDate } from "../components/useDate";
+const date = useDate("");
 const addDay = () => {
-  date.value.setDate(date.value.getDate() + 1)
-}
+  date.value.setDate(date.value.getDate() + 1);
+};
 </script>
 
 <template>
@@ -21,10 +21,10 @@ const addDay = () => {
     <div class="playground__right">
       <div class="playground__top"></div>
       <div class="playground__main main">
-        <h1>{{ date }}</h1>
+        <!-- <h1>{{ date }}</h1>
         <input type="datetime-local" v-model="date" /><button @click.prevent="addDay">
           add day
-        </button>
+        </button> -->
         <RouterView></RouterView>
       </div>
     </div>
