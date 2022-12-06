@@ -5,8 +5,8 @@
   font-size: var(--a-font-size, 1rem);
   outline: 0 solid var(--a-c-theme-200);
   border-radius: 0.2em;
-  color: var(--a-color, var(--a-c-theme-50));
-  background: var(--a-background, var(--a-c-theme-600));
+  color: var(--a-color, white);
+  background: var(--a-background, var(--a-c-theme-700));
   border: 1px solid var(--a-c-theme-600);
   padding: 0.4em 1em;
   position: relative;
@@ -23,7 +23,7 @@
   }
 }
 .a-btn:hover {
-  background: var(--a-c-theme-500);
+  background: var(--a-c-theme-600);
 }
 .a-btn:active {
   transform: scale(0.95);

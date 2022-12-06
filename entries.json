@@ -2,6 +2,6 @@
   "AInput": "src/components/AInput/index.vue",
   "AButton": "src/components/AButton/index.vue",
   "proptypes": "src/components/proptypes/index",
-  "tryOnScopeDispose": "src/components/tryOnScopeDispose/",
-  "useEventListener": "src/components/useEventListener/"
+  "useDate": "src/components/useDate/",
+  "composables": "src/components/composables/"
 }
