@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * Props:
- * labelField, keyField, showSearchField, variant, size,
+ * labelField, showSearchField, variant, size,
  * clearable, isDisabled, floating label, modelValue
  * placeholder, options, grouped, groupLabelField,
  * autofocus
@@ -48,7 +48,7 @@ const props = defineProps({
   class: stringProp,
   variant: variantProp,
   clearable: booleanProp,
-  keyField: stringProp,
+  labelField: labelFieldProp,
   showSearchField: booleanProp,
   floatingLabel: stringProp,
   modelValue: anyProp,
@@ -61,7 +61,6 @@ const props = defineProps({
     default: "auto"
   },
   options: anyArrayProp,
-  labelField: labelFieldProp,
   optionValue: {
     type: String,
     default: "value"
@@ -148,13 +147,7 @@ function handleDropdownClick(e: Event) {
 }
 function updateValue(option: any) {
   inputParentEl.value?.focus();
-
-  if (typeof option === "string") {
-    emit("update:modelValue", option);
-  } else {
-    emit("update:value", option[props.optionValue]);
-    emit("update:label", option[props.labelField]);
-  }
+  emit("update:modelValue", option);
   isFocused.value = false;
   resetFilter();
 }
@@ -238,7 +231,7 @@ const floatingStyle = computed(() => {
     <div ref="inputFieldEl" class="a-input-field a-select-field">
       <div v-if="modelValue">
         <slot name="selected" :activeOption="activeOption">
-          {{ modelValue }}
+          {{ optionType === "string" ? modelValue : modelValue[labelField] }}
         </slot>
       </div>
 
@@ -327,8 +320,7 @@ const floatingStyle = computed(() => {
           class="select__option"
           :class="{
             'select__option--active':
-              option[optionValue] === modelValue ||
-              option[optionValue] === value,
+              option[labelField] === modelValue[labelField],
             'select__option--hovered': hoverIndex === i
           }"
           @click="updateValue(option)"

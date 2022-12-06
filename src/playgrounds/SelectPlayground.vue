@@ -2,12 +2,11 @@
 import VueJsonPretty from "vue-json-pretty";
 import "vue-json-pretty/lib/styles.css";
 
-import { ref, reactive } from "vue";
+import { ref, reactive, computed, watch, nextTick, shallowRef } from "vue";
 import ASelect from "../components/ASelect/index.vue";
 import AInput from "../components/AInput/index.vue";
 import { variants, sizes, inputTypes } from "./playgroundData";
 
-const selected = ref("");
 const placeholder = ref("Enter your name");
 const floatingLabel = ref("");
 const variant = ref("primary");
@@ -20,7 +19,8 @@ const componentStates = reactive<AT>({
   disabled: false
 });
 
-const options = ["Option1", "Option2", "Option3"];
+// const options = ["Option1", "Option2", "Option3"];
+
 const arrayOfStrings = ["Bangladesh", "India", "Pakistan", "Bhutan"];
 const arrayOfObjects = [
   { name: "Bangladesh", language: "Bangla", code: "+880" },
@@ -38,11 +38,57 @@ const playgroundProps = reactive({
   clearable: false,
   disabled: false
 });
+
+const optionsList: any = {
+  arrayOfStrings: ["Bangladesh", "India", "Pakistan", "Bhutan"],
+  arrayOfObjects: [
+    { name: "Bangladesh", language: "Bangla", code: "+880" },
+    { name: "India", language: "Hindi", code: "+91" },
+    { name: "Pakistan", language: "Urdu", code: "+92" },
+    { name: "Srilanka", language: "Tamil", code: "+94" }
+  ]
+};
+
+const optionVariableNames = ["arrayOfStrings", "arrayOfObjects"];
+
+const optionVariableName = ref("arrayOfStrings");
+
+const computedOptionVariableName = computed({
+  get() {
+    return optionVariableName.value;
+  },
+  set(v) {
+    optionVariableName.value = v;
+    resetModelValue();
+  }
+});
+
+const options = computed(() => {
+  return optionsList[optionVariableName.value];
+});
+
+const labelFields = computed(() => {
+  if (
+    !options.value ||
+    options.value.length === 0 ||
+    typeof options.value[0] !== "object"
+  ) {
+    return [];
+  }
+
+  return Object.keys(options.value[0]);
+});
+
+function resetModelValue() {
+  playgroundProps.selected = "";
+}
+
+const labelField = ref("name");
 </script>
 <template>
-  <div class="row">
+  <div class="row gap-0">
     <div class="col-1 col-md-4">
-      <div class="playground__item">
+      <div class="playground__item px-2">
         <!-- <AInput placeholder="Username"> </AInput> <br /> -->
 
         <ASelect
@@ -54,6 +100,7 @@ const playgroundProps = reactive({
           :clearable="playgroundProps.clearable"
           :isDisabled="playgroundProps.disabled"
           :options="options"
+          :labelField="labelField"
         >
         </ASelect>
         <div class="mt-3" style="font-size: 14px">
@@ -77,24 +124,44 @@ const playgroundProps = reactive({
           </div>
         </div>
 
-        <label class="d-block mt-2">Placeholder</label>
+        <label class="d-block mt-2">placeholder</label>
         <AInput v-model="playgroundProps.placeholder" :size="12"> </AInput>
 
-        <label class="d-block mt-1">Floating Label</label>
+        <label class="d-block mt-1">floatingLabel</label>
         <AInput v-model="playgroundProps.floatingLabel" :size="12"> </AInput>
 
         <div class="mt-2">
-          <label class="d-block">Size</label>
+          <label class="d-block">size</label>
           <AInput type="number" v-model="playgroundProps.size" :size="12">
           </AInput>
         </div>
 
         <div class="mt-2">
-          <label class="d-block">Variant</label>
+          <label class="d-block">variant</label>
 
           <select v-model="playgroundProps.variant" class="w-100">
             <option v-for="v in variants" :key="v + ''">
               {{ v }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mt-2">
+          <label class="d-block">options</label>
+
+          <select v-model="computedOptionVariableName" class="w-100">
+            <option v-for="ovn in optionVariableNames" :key="ovn">
+              {{ ovn }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mt-2" v-if="labelFields.length > 0">
+          <label class="d-block">labelField</label>
+
+          <select v-model="labelField" class="w-100">
+            <option v-for="lf in labelFields" :key="lf">
+              {{ lf }}
             </option>
           </select>
         </div>
