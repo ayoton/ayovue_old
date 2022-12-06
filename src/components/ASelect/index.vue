@@ -1,62 +1,73 @@
 <script setup lang="ts">
-//   import { faL } from "@fortawesome/free-solid-svg-icons";
+/**
+ * Props:
+ * labelField, keyField, showSearchField, variant, size,
+ * clearable, isDisabled, floating label, modelValue
+ * placeholder, options, grouped, groupLabelField,
+ * autofocus
+ *
+ * Events:
+ * focus, blur, select, change, clear
+ *
+ *
+ * Methods:
+ * blur, focus, isFocused, clearValue
+ *
+ * Slots:
+ * append, prepend, item, selected
+ *
+ */
+
 import { computed, PropType, ref, useSlots, onMounted, watch } from "vue";
 import {
   sizeProp,
   stringProp,
   variantProp,
   booleanProp,
-  stringOrNumberProp
+  stringOrNumberProp,
+  anyProp,
+  anyArrayProp,
+  labelFieldProp
 } from "../proptypes";
 
 const select = ref<HTMLInputElement | null>(null);
 const filterInput = ref<HTMLInputElement | null>(null);
-const focused = ref(false);
+
+const inputParentEl = ref<HTMLElement>();
+const inputFieldEl = ref<HTMLElement>();
+
+const isFocused = ref(false);
 const isTop = ref(false);
-type sizes = "sm" | "md" | "lg" | "xl" | "xxl" | string;
+
+//  size,
+//
+//  grouped, groupLabelField,
+//  * autofocus
+
 const props = defineProps({
-  modelValue: {
-    type: String,
-    default: ""
-  },
-  label: {
-    type: String,
-    default: ""
-  },
-  value: {
-    type: String,
-    default: ""
-  },
-  state: {
-    type: String,
-    default: null
-  },
+  class: stringProp,
+  variant: variantProp,
+  clearable: booleanProp,
+  keyField: stringProp,
+  showSearchField: booleanProp,
+  floatingLabel: stringProp,
+  modelValue: anyProp,
+  label: stringProp,
+  value: stringProp,
   size: sizeProp,
-  disabled: {
-    type: Boolean,
-    default: false
-  },
+  isDisabled: booleanProp,
   width: {
     type: String,
     default: "auto"
   },
-  options: {
-    type: Array<any>,
-    default: []
-    // default: () => []
-  },
-  optionLabel: {
-    type: String,
-    default: "name"
-  },
+  options: anyArrayProp,
+  labelField: labelFieldProp,
   optionValue: {
     type: String,
     default: "value"
   },
-  placeholder: {
-    type: String,
-    default: "--Select--"
-  }
+  placeholder: stringProp,
+  autofocus: booleanProp
 });
 const emit = defineEmits(["update:modelValue", "update:value", "update:label"]);
 // function handleInput(event: { target: HTMLInputElement }) {
@@ -66,12 +77,18 @@ const emit = defineEmits(["update:modelValue", "update:value", "update:label"]);
 function focusToInput() {
   //   input.value?.focus();
 }
+
+const isFloating = computed(() => props.modelValue || isFocused.value);
+
 const classes = computed(() => {
   return {
+    [props.class]: true,
+    "a-input": true,
+    [`a-${props.variant}`]: true,
+    "a-input-is-floating": isFloating.value,
     select: true,
-    "select--focused": focused.value,
-    "select--disabled": props.disabled,
-    [props.state]: props.state
+    "select--isDisabled": props.isDisabled,
+    "a-select": true
   };
 });
 const filteredOptions = computed(() => {
@@ -83,7 +100,7 @@ const filteredOptions = computed(() => {
       return option.toLowerCase().indexOf(filterText.value.toLowerCase()) > -1;
     } else {
       return (
-        option[props.optionLabel]
+        option[props.labelField]
           .toLowerCase()
           .indexOf(filterText.value.toLowerCase()) > -1
       );
@@ -106,8 +123,8 @@ const optionType = computed(() => {
   return typeof props.options[0] === "object" ? "object" : "string";
 });
 function handleClick() {
-  focused.value = !focused.value;
-  const el: HTMLElement = select.value!!;
+  isFocused.value = !isFocused.value;
+  const el: HTMLElement = inputFieldEl.value!!;
   // console.log(el.getBoundingClientRect());
   const viewportOffset: any = el.getBoundingClientRect();
   // these are relative to the viewport, i.e. the window
@@ -118,11 +135,11 @@ function handleClick() {
   isTop.value = availableBottomSpace < 222;
 }
 function handleBlur(e: Event) {
-  const selectEl: HTMLElement = select.value!!;
+  const inputFieldEl1: HTMLElement = inputFieldEl.value!!;
   setTimeout(() => {
     // console.dir(document.activeElement);
-    if (!selectEl.contains(document.activeElement)) {
-      focused.value = false;
+    if (!inputFieldEl1.contains(document.activeElement)) {
+      isFocused.value = false;
     }
   }, 111);
 }
@@ -130,13 +147,15 @@ function handleDropdownClick(e: Event) {
   e.stopPropagation();
 }
 function updateValue(option: any) {
+  inputParentEl.value?.focus();
+
   if (typeof option === "string") {
     emit("update:modelValue", option);
   } else {
     emit("update:value", option[props.optionValue]);
-    emit("update:label", option[props.optionLabel]);
+    emit("update:label", option[props.labelField]);
   }
-  focused.value = false;
+  isFocused.value = false;
   resetFilter();
 }
 // TODO: Watch filteredText and reset hoverIndex
@@ -176,19 +195,81 @@ watch(filterText, (currentValue: string, oldValue: string) => {
 function resetFilter() {
   filterText.value = "";
 }
+
+function clearValue() {
+  emit("update:modelValue", "");
+}
+
+const floatingStyle = computed(() => {
+  if (!inputFieldEl.value || !inputParentEl.value) {
+    return {};
+  }
+  if (!isFloating.value) {
+    return {
+      top: inputFieldEl.value?.offsetTop! + "px",
+      left: inputFieldEl.value?.offsetLeft! + "px",
+      height: inputFieldEl.value?.clientHeight! + "px"
+    };
+  } else {
+    return {
+      top: `var(--floating-pos-top, -1.5em)`,
+      left: `var(--floating-pos-left, 0.15em)`,
+      zIndex: "1"
+    } as any;
+  }
+});
 </script>
 
 <template>
   <div
     :class="classes"
     :style="{ width: width || 'auto', '--a-font-size': `${size}px` }"
-    ref="select"
-    @click="handleClick"
-    tabindex="-1"
+    ref="inputParentEl"
+    aria-label="Select Box"
+    tabindex="0"
     @blur="handleBlur"
+    @click="handleClick"
     @keydown="handleKeydown"
   >
-    <div class="jc-between ai-center">
+    <span class="a-fl-label" v-if="floatingLabel" :style="floatingStyle">
+      {{ floatingLabel }}
+    </span>
+    <slot name="prepend"></slot>
+    <div ref="inputFieldEl" class="a-input-field a-select-field">
+      <div v-if="modelValue">
+        <slot name="selected" :activeOption="activeOption">
+          {{ modelValue }}
+        </slot>
+      </div>
+
+      <div v-else class="a-placeholder">
+        {{ placeholder }}
+      </div>
+    </div>
+
+    <!-- <input
+      @focus="isFocused = true"
+      @blur="isFocused = false"
+      ref="inputFieldEl"
+      :type="type"
+      class="a-input-field"
+      :placeholder="placeholder"
+      v-model="localValue"
+      :disabled="isDisabled"
+      autocomplete="off"
+      :name="name"
+      v-bind="$attrs"
+    /> -->
+    <slot name="append"></slot>
+
+    <div
+      class="a-icon-close a-action-btn"
+      v-if="clearable && modelValue"
+      @click="clearValue"
+    ></div>
+
+    <div class="a-icon-chevron-down a-action-btn"></div>
+    <!-- <div class="jc-between ai-center flex-1">
       <div v-if="modelValue || label">
         <slot name="selected" :activeOption="activeOption">
           {{ modelValue || label }}
@@ -200,18 +281,15 @@ function resetFilter() {
       </div>
 
       <div class="select__arrow"></div>
-    </div>
+    </div> -->
 
     <div
       class="select__dropdown"
-      v-if="focused"
+      v-if="isFocused"
       :class="{ 'select__dropdown--top': isTop }"
       @click="handleDropdownClick"
     >
-      <div
-        class="select__filter ai-center jc-between px-3 mb-2"
-        v-if="filterText"
-      >
+      <div class="select__filter ai-center jc-between" v-if="filterText">
         <input
           type="text"
           placeholder="Filter..."
@@ -224,7 +302,7 @@ function resetFilter() {
       </div>
 
       <template v-if="optionType === 'string'">
-        <div
+        <button
           v-for="(option, i) in filteredOptions"
           :key="option"
           class="select__option"
@@ -239,7 +317,7 @@ function resetFilter() {
           <slot name="option" :option="option">
             {{ option }}
           </slot>
-        </div>
+        </button>
       </template>
 
       <template v-else>
@@ -258,7 +336,7 @@ function resetFilter() {
           @mouseleave="hoverIndex = -1"
         >
           <slot name="option" :option="option">
-            {{ option[optionLabel] }}
+            {{ option[labelField] }}
           </slot>
         </div>
       </template>
@@ -266,7 +344,7 @@ function resetFilter() {
       <div
         v-if="filteredOptions.length === 0"
         class="text-center"
-        @click="focused = false"
+        @click="isFocused = false"
       >
         No option available
       </div>
@@ -275,18 +353,20 @@ function resetFilter() {
 </template>
 
 <style lang="scss" scoped>
-.select {
-  border: 1px solid rgb(199, 199, 199);
-  padding: 5px 11px;
-  border-radius: 5px;
-  cursor: pointer;
-  position: relative;
-}
-.select:focus,
-.select--focused {
-  outline: 3px solid var(--ac-theme-200);
-  border: 1.2px solid var(--ac-theme-500);
-}
+// .select {
+//   border: 1px solid rgb(199, 199, 199);
+//   // padding: 0.31em 0.687em;
+//   border-radius: 5px;
+//   cursor: pointer;
+//   position: relative;
+//   font-size: var(--a-font-size);
+//   line-height: 1;
+// }
+// .select:focus,
+// .select--focused {
+//   outline: 3px solid var(--a-c-theme-200);
+//   border: 1.2px solid var(--a-c-theme-500);
+// }
 .select__dropdown {
   position: absolute;
   top: calc(100% + 3px);
@@ -300,13 +380,23 @@ function resetFilter() {
   border: 1px solid rgb(199, 199, 199);
   padding: 9px 0;
 }
+
+// .a-input:focus-within:not(:focus) > .select__dropdown {
+//   display: block;
+// }
+
 .select__dropdown--top {
   top: auto;
   bottom: calc(100% + 3px);
   box-shadow: 0px -9px 8px 3px #ebebeb;
 }
 .select__option {
-  padding: 4px 11px;
+  padding: 9px 12px;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
 }
 .select__option--hovered {
   background-color: #f5f5f5;

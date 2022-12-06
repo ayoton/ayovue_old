@@ -23,7 +23,9 @@
   border: none;
 }
 
-.a-input:not(.a-info):not(.a-success):not(.a-warning):not(.a-danger):not(:focus-within) {
+.a-input:not(.a-info):not(.a-success):not(.a-warning):not(.a-danger):not(
+    :focus-within
+  ) {
   border: 1px solid var(--a-c-gray-300);
 }
 .a-input:has(.a-input-field[type="range"]) {
@@ -48,4 +50,8 @@
   transform: scale(0.7);
   backdrop-filter: blur(1em);
   opacity: 1;
+}
+
+.a-placeholder {
+  opacity: 0.6;
 }

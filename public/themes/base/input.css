@@ -12,6 +12,7 @@
   background: transparent;
   width: 100%;
   z-index: 1;
+  line-height: 1;
 }
 
 .a-input-field:disabled {
@@ -33,6 +34,10 @@
   letter-spacing: normal;
   display: flex;
   align-items: center;
+}
+
+.a-placeholder {
+  line-height: 1;
 }
 
 /* .a-input-field::-webkit-slider-thumb,

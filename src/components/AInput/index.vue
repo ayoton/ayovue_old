@@ -10,8 +10,8 @@ import {
   stringOrNumberProp,
   nameProp
 } from "../proptypes";
-const inputParent = ref<HTMLElement>();
-const inputField = ref<HTMLElement>();
+const inputParentEl = ref<HTMLElement>();
+const inputFieldEl = ref<HTMLElement>();
 
 const props = defineProps({
   type: inputTypeProp,
@@ -31,14 +31,14 @@ const emit = defineEmits(["update:modelValue"]);
 const isFocused = ref(false);
 const isFloating = computed(() => props.modelValue || isFocused.value);
 const floatingStyle = computed(() => {
-  if (!inputField.value || !inputParent.value) {
+  if (!inputFieldEl.value || !inputParentEl.value) {
     return {};
   }
   if (!isFloating.value) {
     return {
-      top: inputField.value?.offsetTop! + "px",
-      left: inputField.value?.offsetLeft! + "px",
-      height: inputField.value?.clientHeight! + "px"
+      top: inputFieldEl.value?.offsetTop! + "px",
+      left: inputFieldEl.value?.offsetLeft! + "px",
+      height: inputFieldEl.value?.clientHeight! + "px"
     };
   } else {
     return {
@@ -69,11 +69,26 @@ const localValue = computed({
     emit("update:modelValue", value);
   }
 });
+
+function focus() {
+  inputFieldEl.value?.focus();
+}
+
+function blur() {
+  inputFieldEl.value?.blur();
+}
+
+defineExpose({
+  clearValue,
+  isFocused,
+  focus,
+  blur
+});
 </script>
 <template>
   <div
     :class="classes"
-    ref="inputParent"
+    ref="inputParentEl"
     :style="{ '--a-font-size': `${size}px` }"
   >
     <span class="a-fl-label" v-if="floatingLabel" :style="floatingStyle">
@@ -83,7 +98,7 @@ const localValue = computed({
     <input
       @focus="isFocused = true"
       @blur="isFocused = false"
-      ref="inputField"
+      ref="inputFieldEl"
       :type="type"
       class="a-input-field"
       :placeholder="placeholder"
@@ -95,10 +110,10 @@ const localValue = computed({
     />
     <slot name="append"></slot>
 
-    <div
+    <button
       class="a-icon-close a-action-btn"
       v-if="clearable && modelValue"
       @click="clearValue"
-    ></div>
+    ></button>
   </div>
 </template>
