@@ -86,7 +86,7 @@ const classes = computed(() => {
     [`a-${props.variant}`]: true,
     "a-input-is-floating": isFloating.value,
     select: true,
-    "select--isDisabled": props.isDisabled,
+    "a-input--is-disabled": props.isDisabled,
     "a-select": true
   };
 });
@@ -344,21 +344,21 @@ const floatingStyle = computed(() => {
   </div>
 </template>
 
-<style lang="scss" scoped>
-// .select {
-//   border: 1px solid rgb(199, 199, 199);
-//   // padding: 0.31em 0.687em;
-//   border-radius: 5px;
-//   cursor: pointer;
-//   position: relative;
-//   font-size: var(--a-font-size);
-//   line-height: 1;
-// }
-// .select:focus,
-// .select--focused {
-//   outline: 3px solid var(--a-c-theme-200);
-//   border: 1.2px solid var(--a-c-theme-500);
-// }
+<style scoped>
+/* .select {
+  border: 1px solid rgb(199, 199, 199);
+  // padding: 0.31em 0.687em;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  font-size: var(--a-font-size);
+  line-height: 1;
+}
+.select:focus,
+.select--focused {
+  outline: 3px solid var(--a-c-theme-200);
+  border: 1.2px solid var(--a-c-theme-500);
+} */
 .select__dropdown {
   position: absolute;
   top: calc(100% + 3px);
@@ -373,9 +373,9 @@ const floatingStyle = computed(() => {
   padding: 9px 0;
 }
 
-// .a-input:focus-within:not(:focus) > .select__dropdown {
-//   display: block;
-// }
+/* .a-input:focus-within:not(:focus) > .select__dropdown {
+   display: block;
+ } */
 
 .select__dropdown--top {
   top: auto;
