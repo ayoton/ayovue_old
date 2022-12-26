@@ -36,7 +36,8 @@ const playgroundProps = reactive({
   variant: "primary",
   size: 16,
   clearable: false,
-  disabled: false
+  disabled: false,
+  showSearchField: false
 });
 
 const optionsList: any = {
@@ -99,6 +100,7 @@ const labelField = ref("name");
           :floatingLabel="playgroundProps.floatingLabel"
           :clearable="playgroundProps.clearable"
           :isDisabled="playgroundProps.disabled"
+          :showSearchField="playgroundProps.showSearchField"
           :options="options"
           :labelField="labelField"
         >
@@ -108,7 +110,7 @@ const labelField = ref("name");
         </div>
 
         <h4 class="mt-1">Props</h4>
-        <div class="d-flex fr-wrap">
+        <div class="d-flex fw-wrap">
           <div class="input-state">
             <label class="mr-3 ai-center">
               <input type="checkbox" v-model="playgroundProps.clearable" />
@@ -120,6 +122,16 @@ const labelField = ref("name");
             <label class="mr-3 ai-center">
               <input type="checkbox" v-model="playgroundProps.disabled" />
               <span class="ml-1"> disabled </span>
+            </label>
+          </div>
+
+          <div class="input-state">
+            <label class="mr-3 ai-center">
+              <input
+                type="checkbox"
+                v-model="playgroundProps.showSearchField"
+              />
+              <span class="ml-1"> show-search-field </span>
             </label>
           </div>
         </div>

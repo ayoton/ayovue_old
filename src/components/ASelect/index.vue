@@ -282,7 +282,10 @@ const floatingStyle = computed(() => {
       :class="{ 'select__dropdown--top': isTop }"
       @click="handleDropdownClick"
     >
-      <div class="select__filter ai-center jc-between" v-if="filterText">
+      <div
+        class="select__filter ai-center jc-between"
+        v-if="filterText || showSearchField"
+      >
         <input
           type="text"
           placeholder="Filter..."
@@ -290,6 +293,7 @@ const floatingStyle = computed(() => {
           v-model="filterText"
           @blur="handleBlur"
           ref="filterInput"
+          style="max-width: 90%"
         />
         <div class="select__filter-close pl-2" @click="filterText = ''">X</div>
       </div>
