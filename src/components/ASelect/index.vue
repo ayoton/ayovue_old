@@ -68,11 +68,13 @@ const props = defineProps({
   placeholder: stringProp,
   autofocus: booleanProp
 });
+
 const emit = defineEmits(["update:modelValue", "update:value", "update:label"]);
 // function handleInput(event: { target: HTMLInputElement }) {
 //   // console.log(event.target.value);
 //   emit("update:modelValue", event.target.value);
 // }
+
 function focusToInput() {
   //   input.value?.focus();
 }
@@ -90,6 +92,7 @@ const classes = computed(() => {
     "a-select": true
   };
 });
+
 const filteredOptions = computed(() => {
   if (!filterText.value) {
     return props.options;
@@ -106,6 +109,7 @@ const filteredOptions = computed(() => {
     }
   });
 });
+
 const activeOption = computed(() => {
   let ao = null;
   if (optionType.value === "string") {
@@ -118,9 +122,11 @@ const activeOption = computed(() => {
   // console.log(ao);
   return ao;
 });
+
 const optionType = computed(() => {
   return typeof props.options[0] === "object" ? "object" : "string";
 });
+
 function handleClick() {
   isFocused.value = !isFocused.value;
   const el: HTMLElement = inputFieldEl.value!!;
@@ -133,24 +139,26 @@ function handleClick() {
   // console.log(availableBottomSpace);
   isTop.value = availableBottomSpace < 222;
 }
-function handleBlur(e: Event) {
-  const inputFieldEl1: HTMLElement = inputFieldEl.value!!;
+
+function handleBlur() {
   setTimeout(() => {
-    // console.dir(document.activeElement);
-    if (!inputFieldEl1.contains(document.activeElement)) {
+    if (!inputParentEl.value!!.contains(document.activeElement)) {
       isFocused.value = false;
     }
   }, 111);
 }
+
 function handleDropdownClick(e: Event) {
   e.stopPropagation();
 }
+
 function updateValue(option: any) {
   inputParentEl.value?.focus();
   emit("update:modelValue", option);
   isFocused.value = false;
   resetFilter();
 }
+
 // TODO: Watch filteredText and reset hoverIndex
 function handleKeydown(e: KeyboardEvent) {
   // console.log(e);
@@ -177,14 +185,18 @@ function handleKeydown(e: KeyboardEvent) {
     }, 0);
   }
 }
+
 onMounted(() => {
   // console.log(slots.prepend);
 });
+
 const hoverIndex = ref(-1);
 const filterText = ref("");
+
 watch(filterText, (currentValue: string, oldValue: string) => {
   hoverIndex.value = -1;
 });
+
 function resetFilter() {
   filterText.value = "";
 }
@@ -214,6 +226,7 @@ const floatingStyle = computed(() => {
 </script>
 
 <template>
+  {{ isFocused }}
   <div
     :class="classes"
     :style="{ width: width || 'auto', '--a-font-size': `${size}px` }"
