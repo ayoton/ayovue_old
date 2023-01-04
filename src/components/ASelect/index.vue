@@ -226,7 +226,7 @@ const floatingStyle = computed(() => {
 </script>
 
 <template>
-  {{ isFocused }}
+  <!-- {{ isFocused }} -->
   <div
     :class="classes"
     :style="{ width: width || 'auto', '--a-font-size': `${size}px` }"

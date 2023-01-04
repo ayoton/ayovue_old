@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import VueJsonPretty from "vue-json-pretty";
 import "vue-json-pretty/lib/styles.css";
-
 import { ref, reactive, computed, watch, nextTick, shallowRef } from "vue";
 import ASelect from "../components/ASelect/index.vue";
 import AInput from "../components/AInput/index.vue";
 import { variants, sizes, inputTypes } from "./playgroundData";
+import PlaygroundTab from "./PlaygroundTab.vue";
 
 const placeholder = ref("Enter your name");
 const floatingLabel = ref("");
@@ -29,15 +29,37 @@ const arrayOfObjects = [
   { name: "Srilanka", language: "Tamil", code: "+94" }
 ];
 
-const playgroundProps = reactive({
-  selected: "",
-  placeholder: "Enter your name",
-  floatingLabel: "",
-  variant: "primary",
-  size: 16,
-  clearable: false,
-  disabled: false,
-  showSearchField: false
+const playgroundPropsList = ref({
+  value: [
+    {
+      selected: "",
+      placeholder: "Enter your name",
+      floatingLabel: "",
+      variant: "primary",
+      size: 16,
+      clearable: false,
+      disabled: false,
+      showSearchField: false
+    },
+    {
+      selected: "",
+      placeholder: "Enter your name",
+      floatingLabel: "",
+      variant: "primary",
+      size: 16,
+      clearable: false,
+      disabled: false,
+      showSearchField: false
+    }
+  ]
+});
+
+const example1Props = computed(() => {
+  return playgroundPropsList.value.value[0];
+});
+
+const example2Props = computed(() => {
+  return playgroundPropsList.value.value[1];
 });
 
 const optionsList: any = {
@@ -81,117 +103,169 @@ const labelFields = computed(() => {
 });
 
 function resetModelValue() {
-  playgroundProps.selected = "";
+  example1Props.value.selected = "Example1";
 }
 
 const labelField = ref("name");
+
+const tabItems = ["Example1", "Example2", "Example3"];
+const selectedTab = ref("Example1");
 </script>
 <template>
-  <div class="row gap-0">
-    <div class="col-1 col-md-4">
-      <div class="playground__item px-2">
-        <!-- <AInput placeholder="Username"> </AInput> <br /> -->
+  <div>
+    <PlaygroundTab :items="tabItems" v-model="selectedTab"></PlaygroundTab>
 
-        <ASelect
-          v-model="playgroundProps.selected"
-          :size="playgroundProps.size"
-          :variant="playgroundProps.variant"
-          :placeholder="playgroundProps.placeholder"
-          :floatingLabel="playgroundProps.floatingLabel"
-          :clearable="playgroundProps.clearable"
-          :isDisabled="playgroundProps.disabled"
-          :showSearchField="playgroundProps.showSearchField"
-          :options="options"
-          :labelField="labelField"
-        >
-        </ASelect>
-        <div class="mt-3" style="font-size: 14px">
-          Value: {{ playgroundProps.selected }}
-        </div>
+    <div class="row gap-0 mt-4" v-if="selectedTab === 'Example1'">
+      <div class="col-1 col-md-4">
+        <div class="playground__item px-2">
+          <!-- <AInput placeholder="Username"> </AInput> <br /> -->
 
-        <h4 class="mt-1">Props</h4>
-        <div class="d-flex fw-wrap">
-          <div class="input-state">
-            <label class="mr-3 ai-center">
-              <input type="checkbox" v-model="playgroundProps.clearable" />
-              <span class="ml-1"> clearable </span>
-            </label>
+          <ASelect
+            v-model="example1Props.selected"
+            :size="example1Props.size"
+            :variant="example1Props.variant"
+            :placeholder="example1Props.placeholder"
+            :floatingLabel="example1Props.floatingLabel"
+            :clearable="example1Props.clearable"
+            :isDisabled="example1Props.disabled"
+            :showSearchField="example1Props.showSearchField"
+            :options="options"
+            :labelField="labelField"
+          >
+          </ASelect>
+          <div class="mt-3" style="font-size: 14px">
+            Value: {{ example1Props.selected }}
           </div>
 
-          <div class="input-state">
-            <label class="mr-3 ai-center">
-              <input type="checkbox" v-model="playgroundProps.disabled" />
-              <span class="ml-1"> disabled </span>
-            </label>
+          <h4 class="mt-1">Props</h4>
+          <div class="d-flex fw-wrap">
+            <div class="input-state">
+              <label class="mr-3 ai-center">
+                <input type="checkbox" v-model="example1Props.clearable" />
+                <span class="ml-1"> clearable </span>
+              </label>
+            </div>
+
+            <div class="input-state">
+              <label class="mr-3 ai-center">
+                <input type="checkbox" v-model="example1Props.disabled" />
+                <span class="ml-1"> disabled </span>
+              </label>
+            </div>
+
+            <div class="input-state">
+              <label class="mr-3 ai-center">
+                <input
+                  type="checkbox"
+                  v-model="example1Props.showSearchField"
+                />
+                <span class="ml-1"> show-search-field </span>
+              </label>
+            </div>
           </div>
 
-          <div class="input-state">
-            <label class="mr-3 ai-center">
-              <input
-                type="checkbox"
-                v-model="playgroundProps.showSearchField"
-              />
-              <span class="ml-1"> show-search-field </span>
-            </label>
+          <label class="d-block mt-2">placeholder</label>
+          <AInput v-model="example1Props.placeholder" :size="12"> </AInput>
+
+          <label class="d-block mt-1">floatingLabel</label>
+          <AInput v-model="example1Props.floatingLabel" :size="12"> </AInput>
+
+          <div class="mt-2">
+            <label class="d-block">size</label>
+            <AInput type="number" v-model="example1Props.size" :size="12">
+            </AInput>
+          </div>
+
+          <div class="mt-2">
+            <label class="d-block">variant</label>
+
+            <select v-model="example1Props.variant" class="w-100">
+              <option v-for="v in variants" :key="v + ''">
+                {{ v }}
+              </option>
+            </select>
+          </div>
+
+          <div class="mt-2">
+            <label class="d-block">options</label>
+
+            <select v-model="computedOptionVariableName" class="w-100">
+              <option v-for="ovn in optionVariableNames" :key="ovn">
+                {{ ovn }}
+              </option>
+            </select>
+          </div>
+
+          <div class="mt-2" v-if="labelFields.length > 0">
+            <label class="d-block">labelField</label>
+
+            <select v-model="labelField" class="w-100">
+              <option v-for="lf in labelFields" :key="lf">
+                {{ lf }}
+              </option>
+            </select>
           </div>
         </div>
+      </div>
 
-        <label class="d-block mt-2">placeholder</label>
-        <AInput v-model="playgroundProps.placeholder" :size="12"> </AInput>
+      <div class="col-1 col-md-8">
+        <div class="playground__item">
+          <h2>Variables</h2>
 
-        <label class="d-block mt-1">floatingLabel</label>
-        <AInput v-model="playgroundProps.floatingLabel" :size="12"> </AInput>
-
-        <div class="mt-2">
-          <label class="d-block">size</label>
-          <AInput type="number" v-model="playgroundProps.size" :size="12">
-          </AInput>
-        </div>
-
-        <div class="mt-2">
-          <label class="d-block">variant</label>
-
-          <select v-model="playgroundProps.variant" class="w-100">
-            <option v-for="v in variants" :key="v + ''">
-              {{ v }}
-            </option>
-          </select>
-        </div>
-
-        <div class="mt-2">
-          <label class="d-block">options</label>
-
-          <select v-model="computedOptionVariableName" class="w-100">
-            <option v-for="ovn in optionVariableNames" :key="ovn">
-              {{ ovn }}
-            </option>
-          </select>
-        </div>
-
-        <div class="mt-2" v-if="labelFields.length > 0">
-          <label class="d-block">labelField</label>
-
-          <select v-model="labelField" class="w-100">
-            <option v-for="lf in labelFields" :key="lf">
-              {{ lf }}
-            </option>
-          </select>
+          <div class="row">
+            <div class="col-md-6 mt-2">
+              <strong>arrayOfObjects:</strong>
+              <vue-json-pretty :data="arrayOfObjects" />
+            </div>
+            <div class="col-md-6 mt-2">
+              <strong>arrayOfStrings:</strong>
+              <vue-json-pretty :data="arrayOfStrings" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="col-1 col-md-8">
-      <div class="playground__item">
-        <h2>Variables</h2>
+    <div class="row gap-0 mt-4" v-if="selectedTab === 'Example2'">
+      <div class="col-1 col-md-4">
+        <div class="playground__item px-2">
+          <!-- <AInput placeholder="Username"> </AInput> <br /> -->
 
-        <div class="row">
-          <div class="col-md-6 mt-2">
-            <strong>arrayOfObjects:</strong>
-            <vue-json-pretty :data="arrayOfObjects" />
+          <ASelect
+            v-model="example2Props.selected"
+            :size="example2Props.size"
+            :variant="example2Props.variant"
+            :placeholder="example2Props.placeholder"
+            :floatingLabel="example2Props.floatingLabel"
+            :clearable="example2Props.clearable"
+            :isDisabled="example2Props.disabled"
+            :showSearchField="example2Props.showSearchField"
+            :options="options"
+            :labelField="labelField"
+          >
+          </ASelect>
+          <div class="mt-3" style="font-size: 14px">
+            Value: {{ example2Props.selected }}
           </div>
-          <div class="col-md-6 mt-2">
-            <strong>arrayOfStrings:</strong>
-            <vue-json-pretty :data="arrayOfStrings" />
+
+          <h4 class="mt-1">Props</h4>
+          <div class="d-flex fw-wrap"></div>
+        </div>
+      </div>
+
+      <div class="col-1 col-md-8">
+        <div class="playground__item">
+          <h2>Variables</h2>
+
+          <div class="row">
+            <!-- <div class="col-md-6 mt-2">
+              <strong>arrayOfObjects:</strong>
+              <vue-json-pretty :data="arrayOfObjects" />
+            </div>
+            <div class="col-md-6 mt-2">
+              <strong>arrayOfStrings:</strong>
+              <vue-json-pretty :data="arrayOfStrings" />
+            </div> -->
           </div>
         </div>
       </div>
