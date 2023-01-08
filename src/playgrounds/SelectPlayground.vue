@@ -6,6 +6,7 @@ import ASelect from "../components/ASelect/index.vue";
 import AInput from "../components/AInput/index.vue";
 import { variants, sizes, inputTypes } from "./playgroundData";
 import PlaygroundTab from "./PlaygroundTab.vue";
+import AyoPrism from "./code/AyoPrism.vue";
 
 const placeholder = ref("Enter your name");
 const floatingLabel = ref("");
@@ -29,6 +30,16 @@ const arrayOfObjects = [
   { name: "Srilanka", language: "Tamil", code: "+94" }
 ];
 
+const countries = [
+  { name: "Bangladesh", value: "bn", flag: "https://flagcdn.com/16x12/bd.png" },
+  { name: "India", value: "in", flag: "https://flagcdn.com/16x12/in.png" },
+  { name: "China", value: "cn", flag: "https://flagcdn.com/16x12/cn.png" },
+  { name: "USA", value: "us", flag: "https://flagcdn.com/16x12/us.png" },
+  { name: "UK", value: "uk", flag: "https://flagcdn.com/16x12/gb-eng.png" },
+  { name: "Russia", value: "ru", flag: "https://flagcdn.com/16x12/ru.png" },
+  { name: "Srilanka", value: "sr", flag: "https://flagcdn.com/16x12/sr.png" }
+];
+
 const playgroundPropsList = ref({
   value: [
     {
@@ -43,13 +54,38 @@ const playgroundPropsList = ref({
     },
     {
       selected: "",
-      placeholder: "Enter your name",
+      placeholder: "Select Country",
       floatingLabel: "",
       variant: "primary",
       size: 16,
       clearable: false,
       disabled: false,
-      showSearchField: false
+      showSearchField: false,
+      code: `<ASelect
+  class="mb-2"
+  :options="countries"
+  v-model="selected"
+  placeholder="Select Country"
+  labelField="name"
+>
+  <template #selected>
+    <div class="flex ai-center">
+      <img :src="selected.flag" alt="" />
+      <div class="ml-2">
+        {{ selected.name }}
+      </div>
+    </div>
+  </template>
+
+  <template #option="{ option }">
+    <div class="flex ai-center">
+      <img :src="option.flag" alt="" />
+      <div class="ml-2">
+        {{ option.name }}
+      </div>
+    </div>
+  </template>
+</ASelect>`
     }
   ]
 });
@@ -109,7 +145,7 @@ function resetModelValue() {
 const labelField = ref("name");
 
 const tabItems = ["Example1", "Example2", "Example3"];
-const selectedTab = ref("Example1");
+const selectedTab = ref("Example2");
 </script>
 <template>
   <div>
@@ -227,11 +263,11 @@ const selectedTab = ref("Example1");
     </div>
 
     <div class="row gap-0 mt-4" v-if="selectedTab === 'Example2'">
-      <div class="col-1 col-md-4">
+      <div class="col-1 col-md-5">
         <div class="playground__item px-2">
           <!-- <AInput placeholder="Username"> </AInput> <br /> -->
 
-          <ASelect
+          <!-- <ASelect
             v-model="example2Props.selected"
             :size="example2Props.size"
             :variant="example2Props.variant"
@@ -243,30 +279,50 @@ const selectedTab = ref("Example1");
             :options="options"
             :labelField="labelField"
           >
+          </ASelect> -->
+
+          <ASelect
+            class="mb-2"
+            :options="countries"
+            v-model="example2Props.selected"
+            placeholder="Select Country"
+            labelField="name"
+          >
+            <template #selected>
+              <div class="flex ai-center">
+                <img :src="example2Props.selected.flag" alt="" />
+                <div class="ml-2">
+                  {{ example2Props.selected.name }}
+                </div>
+              </div>
+            </template>
+
+            <template #option="{ option }">
+              <div class="flex ai-center">
+                <img :src="option.flag" alt="" />
+                <div class="ml-2">
+                  {{ option.name }}
+                </div>
+              </div>
+            </template>
           </ASelect>
+
           <div class="mt-3" style="font-size: 14px">
             Value: {{ example2Props.selected }}
           </div>
 
-          <h4 class="mt-1">Props</h4>
-          <div class="d-flex fw-wrap"></div>
+          <h2 class="mt-2">Code</h2>
+
+          <AyoPrism :code="example2Props.code" :fixed="true"></AyoPrism>
         </div>
       </div>
 
-      <div class="col-1 col-md-8">
+      <div class="col-1 col-md-7">
         <div class="playground__item">
-          <h2>Variables</h2>
+          <h4 class="mt-1">Variables</h4>
 
-          <div class="row">
-            <!-- <div class="col-md-6 mt-2">
-              <strong>arrayOfObjects:</strong>
-              <vue-json-pretty :data="arrayOfObjects" />
-            </div>
-            <div class="col-md-6 mt-2">
-              <strong>arrayOfStrings:</strong>
-              <vue-json-pretty :data="arrayOfStrings" />
-            </div> -->
-          </div>
+          <h4>countries:</h4>
+          <vue-json-pretty :data="countries" />
         </div>
       </div>
     </div>

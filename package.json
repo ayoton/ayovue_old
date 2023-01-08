@@ -10,6 +10,7 @@
     "unbuild": "unbuild"
   },
   "dependencies": {
+    "prismjs": "^1.29.0",
     "vue": "^3.2.41",
     "vue-json-pretty": "^2.2.3"
   },
