@@ -2,11 +2,11 @@
 import VueJsonPretty from "vue-json-pretty";
 import "vue-json-pretty/lib/styles.css";
 import { ref, reactive, computed, watch, nextTick, shallowRef } from "vue";
-import ASelect from "../components/ASelect/index.vue";
-import AInput from "../components/AInput/index.vue";
-import { variants, sizes, inputTypes } from "./playgroundData";
-import PlaygroundTab from "./PlaygroundTab.vue";
-import AyoPrism from "./code/AyoPrism.vue";
+import ASelect from "../../components/ASelect/index.vue";
+import AInput from "../../components/AInput/index.vue";
+import { variants, sizes, inputTypes } from "../playgroundData";
+import PlaygroundTab from "../PlaygroundTab.vue";
+import AyoPrism from "../code/AyoPrism.vue";
 
 const placeholder = ref("Enter your name");
 const floatingLabel = ref("");
@@ -145,7 +145,7 @@ function resetModelValue() {
 const labelField = ref("name");
 
 const tabItems = ["Example1", "Example2", "Example3"];
-const selectedTab = ref("Example2");
+const selectedTab = ref("Example1");
 </script>
 <template>
   <div>
@@ -280,9 +280,10 @@ const selectedTab = ref("Example2");
             :labelField="labelField"
           >
           </ASelect> -->
+          <h2>Example with custom slots</h2>
 
           <ASelect
-            class="mb-2"
+            class="mt-3 mb-2"
             :options="countries"
             v-model="example2Props.selected"
             placeholder="Select Country"

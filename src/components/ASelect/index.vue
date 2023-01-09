@@ -1,14 +1,13 @@
 <script setup lang="ts">
 /**
  * Props:
- * labelField, showSearchField, variant, size,
- * clearable, isDisabled, floating label, modelValue
+ * labelField, valueField, showSearchField, variant, size,
+ * clearable, isDisabled, floating label, modelValue, raw(v-model:raw),
  * placeholder, options, grouped, groupLabelField,
  * autofocus
  *
  * Events:
  * focus, blur, select, change, clear
- *
  *
  * Methods:
  * blur, focus, isFocused, clearValue
@@ -18,7 +17,7 @@
  *
  */
 
-import { computed, PropType, ref, useSlots, onMounted, watch } from "vue";
+import { computed, ref, onMounted, watch } from "vue";
 import {
   sizeProp,
   stringProp,
@@ -27,7 +26,8 @@ import {
   stringOrNumberProp,
   anyProp,
   anyArrayProp,
-  labelFieldProp
+  labelFieldProp,
+  valueFieldProp
 } from "../proptypes";
 
 const select = ref<HTMLInputElement | null>(null);
@@ -49,9 +49,11 @@ const props = defineProps({
   variant: variantProp,
   clearable: booleanProp,
   labelField: labelFieldProp,
+  valueField: valueFieldProp,
   showSearchField: booleanProp,
   floatingLabel: stringProp,
   modelValue: anyProp,
+  raw: anyProp,
   label: stringProp,
   value: stringProp,
   size: sizeProp,
@@ -69,7 +71,7 @@ const props = defineProps({
   autofocus: booleanProp
 });
 
-const emit = defineEmits(["update:modelValue", "update:value", "update:label"]);
+const emit = defineEmits(["update:modelValue", "update:raw"]);
 // function handleInput(event: { target: HTMLInputElement }) {
 //   // console.log(event.target.value);
 //   emit("update:modelValue", event.target.value);
@@ -154,7 +156,12 @@ function handleDropdownClick(e: Event) {
 
 function updateValue(option: any) {
   inputParentEl.value?.focus();
-  emit("update:modelValue", option);
+
+  emit(
+    "update:modelValue",
+    optionType.value === "string" ? option : option[props.valueField]
+  );
+  emit("update:raw", option);
   isFocused.value = false;
   resetFilter();
 }
@@ -223,6 +230,19 @@ const floatingStyle = computed(() => {
     } as any;
   }
 });
+
+const rawValue = computed(() => {
+  if (optionType.value === "string" || !props.modelValue) {
+    return props.modelValue;
+  }
+  const filteredOptions = props.options.filter((option) => {
+    return option[props.valueField] === props.modelValue;
+  });
+
+  console.log(filteredOptions);
+
+  return filteredOptions[0];
+});
 </script>
 
 <template>
@@ -242,9 +262,9 @@ const floatingStyle = computed(() => {
     </span>
     <slot name="prepend"></slot>
     <div ref="inputFieldEl" class="a-input-field a-select-field">
-      <div v-if="modelValue">
+      <div v-if="modelValue && rawValue">
         <slot name="selected" :activeOption="activeOption">
-          {{ optionType === "string" ? modelValue : modelValue[labelField] }}
+          {{ optionType === "string" ? rawValue : rawValue[labelField] }}
         </slot>
       </div>
 

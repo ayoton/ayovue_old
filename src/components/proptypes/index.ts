@@ -1,4 +1,4 @@
-import { PropType } from "vue";
+import type { PropType } from "vue";
 
 type allowedInputTypes =
   | "text"
@@ -71,6 +71,11 @@ export const anyArrayProp = {
 export const labelFieldProp = {
   type: String,
   default: "name"
+};
+
+export const valueFieldProp = {
+  type: String,
+  default: "value"
 };
 
 type allowedStates = "info" | "success" | "warning" | "danger" | "";
