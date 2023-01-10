@@ -5,6 +5,7 @@ import { ref, reactive, computed, watch, nextTick, shallowRef } from "vue";
 import ASelect from "../../components/ASelect/index.vue";
 import AInput from "../../components/AInput/index.vue";
 import { variants, sizes, inputTypes } from "../playgroundData";
+import { generateBooleanCode, generateStringCode } from "../functions.js";
 import AyoPrism from "../code/AyoPrism.vue";
 
 // const options = ["Option1", "Option2", "Option3"];
@@ -16,33 +17,60 @@ const playgroundProps = reactive({
   variant: "primary",
   size: 16,
   clearable: false,
-  disabled: false,
-  showSearchField: false
+  isDisabled: false,
+  showSearchField: false,
+  autofocus: false
 });
+
+const selectComponent = ref(ASelect);
 
 const options = ["Bangladesh", "India", "Pakistan", "Bhutan"];
 
 const code = computed(() => {
-  return `<ASelect
+  let codeString = `<ASelect
+  :options="options"
   v-model="selected"
   size="${playgroundProps.size}"
   variant="${playgroundProps.variant}"
-  placeholder="${playgroundProps.placeholder}"
-  floatingLabel="${playgroundProps.floatingLabel}"
-  :clearable="${playgroundProps.clearable}"
-  :isDisabled="${playgroundProps.disabled}"
-  :showSearchField="${playgroundProps.showSearchField}"
-  :options="options"
->
+`;
+
+  codeString += generateStringCode(`placeholder`, playgroundProps.placeholder);
+  codeString += generateStringCode(
+    `floatingLabel`,
+    playgroundProps.floatingLabel
+  );
+
+  codeString += generateBooleanCode(`clearable`, playgroundProps.clearable);
+  codeString += generateBooleanCode(`isDisabled`, playgroundProps.isDisabled);
+  codeString += generateBooleanCode(
+    `showSearchField`,
+    playgroundProps.showSearchField
+  );
+  codeString += generateBooleanCode(`autofocus`, playgroundProps.autofocus);
+
+  codeString += `>
 </ASelect>
 `;
+
+  return codeString;
 });
+
+watch(
+  () => playgroundProps.autofocus,
+  (newValue) => {
+    // console.log(newValue);
+    if (newValue) {
+      selectComponent.value?.focus();
+    }
+  }
+);
 </script>
 <template>
   <div>
     <div class="row gap-0 mt-4">
       <div class="col-1 col-md-5">
-        <div class="playground__item">
+        <h2>Example 1 with string options</h2>
+        <div class="playground__item mt-3">
           <!-- <AInput placeholder="Username"> </AInput> <br /> -->
 
           <ASelect
@@ -52,9 +80,11 @@ const code = computed(() => {
             :placeholder="playgroundProps.placeholder"
             :floatingLabel="playgroundProps.floatingLabel"
             :clearable="playgroundProps.clearable"
-            :isDisabled="playgroundProps.disabled"
+            :isDisabled="playgroundProps.isDisabled"
             :showSearchField="playgroundProps.showSearchField"
             :options="options"
+            :autofocus="playgroundProps.autofocus"
+            ref="selectComponent"
           >
           </ASelect>
           <div class="mt-3" style="font-size: 14px">
@@ -83,8 +113,11 @@ const code = computed(() => {
 
                 <div class="input-state">
                   <label class="mr-3 ai-center">
-                    <input type="checkbox" v-model="playgroundProps.disabled" />
-                    <span class="ml-1"> disabled </span>
+                    <input
+                      type="checkbox"
+                      v-model="playgroundProps.isDisabled"
+                    />
+                    <span class="ml-1"> isDisabled </span>
                   </label>
                 </div>
 
@@ -95,6 +128,16 @@ const code = computed(() => {
                       v-model="playgroundProps.showSearchField"
                     />
                     <span class="ml-1"> show-search-field </span>
+                  </label>
+                </div>
+
+                <div class="input-state">
+                  <label class="mr-3 ai-center">
+                    <input
+                      type="checkbox"
+                      v-model="playgroundProps.autofocus"
+                    />
+                    <span class="ml-1"> autofocus </span>
                   </label>
                 </div>
               </div>

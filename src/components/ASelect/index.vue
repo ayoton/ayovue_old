@@ -77,8 +77,9 @@ const emit = defineEmits(["update:modelValue", "update:raw"]);
 //   emit("update:modelValue", event.target.value);
 // }
 
-function focusToInput() {
-  //   input.value?.focus();
+function focus() {
+  inputParentEl.value?.focus();
+  handleClick();
 }
 
 const isFloating = computed(() => props.modelValue || isFocused.value);
@@ -195,6 +196,9 @@ function handleKeydown(e: KeyboardEvent) {
 
 onMounted(() => {
   // console.log(slots.prepend);
+  if (props.autofocus) {
+    focus();
+  }
 });
 
 const hoverIndex = ref(-1);
@@ -243,10 +247,18 @@ const rawValue = computed(() => {
 
   return filteredOptions[0];
 });
+
+defineExpose({
+  clearValue,
+  isFocused,
+  focus,
+  blur
+});
 </script>
 
 <template>
-  <!-- {{ isFocused }} -->
+  <!-- {{ isFocused }}
+  {{ autofocus }} -->
   <div
     :class="classes"
     :style="{ width: width || 'auto', '--a-font-size': `${size}px` }"
