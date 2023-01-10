@@ -5,29 +5,46 @@ import { ref, reactive, computed, watch, nextTick, shallowRef } from "vue";
 import ASelect from "../../components/ASelect/index.vue";
 import AInput from "../../components/AInput/index.vue";
 import { variants, sizes, inputTypes } from "../playgroundData";
-import {
-  generateBooleanCode,
-  generateStringCode,
-  generatePropsCode
-} from "../functions.js";
+import { generatePropsCode } from "../functions.js";
 import AyoPrism from "../code/AyoPrism.vue";
 
 // const options = ["Option1", "Option2", "Option3"];
 
+// const playgroundPropsOld = reactive({
+//   selected: "",
+//   placeholder: "Enter your name",
+//   floatingLabel: "",
+//   variant: "",
+//   size: "",
+//   clearable: false,
+//   isDisabled: false,
+//   showSearchField: false,
+//   autofocus: false
+// });
+
 const playgroundProps = reactive({
-  selected: "",
-  placeholder: "Enter your name",
-  floatingLabel: "",
-  variant: "",
-  size: "",
-  clearable: false,
-  isDisabled: false,
-  showSearchField: false,
-  autofocus: false
+  vModel: "",
+  vModelRaw: "",
+  booleans: {
+    clearable: false,
+    isDisabled: false,
+    showSearchField: false,
+    autofocus: false
+  },
+  strings: {
+    placeholder: "Enter your name",
+    floatingLabel: "",
+    size: ""
+  },
+  dropdowns: {
+    variant: {
+      vModel: "",
+      options: variants
+    }
+  }
 });
 
 const selectComponent = ref(ASelect);
-
 const options = ["Bangladesh", "India", "Pakistan", "Bhutan"];
 
 const code = computed(() => {
@@ -36,7 +53,10 @@ const code = computed(() => {
   v-model="selected"
 `;
 
-  codeString += generatePropsCode(playgroundProps);
+  codeString += generatePropsCode({
+    ...playgroundProps.booleans,
+    ...playgroundProps.strings
+  });
 
   codeString += `>
 </ASelect>
@@ -46,7 +66,7 @@ const code = computed(() => {
 });
 
 watch(
-  () => playgroundProps.autofocus,
+  () => playgroundProps.booleans.autofocus,
   (newValue) => {
     // console.log(newValue);
     if (newValue) {
@@ -64,21 +84,21 @@ watch(
           <!-- <AInput placeholder="Username"> </AInput> <br /> -->
 
           <ASelect
-            v-model="playgroundProps.selected"
-            :size="playgroundProps.size"
-            :variant="playgroundProps.variant"
-            :placeholder="playgroundProps.placeholder"
-            :floatingLabel="playgroundProps.floatingLabel"
-            :clearable="playgroundProps.clearable"
-            :isDisabled="playgroundProps.isDisabled"
-            :showSearchField="playgroundProps.showSearchField"
             :options="options"
-            :autofocus="playgroundProps.autofocus"
+            v-model="playgroundProps.vModel"
+            :size="playgroundProps.strings.size"
+            :variant="playgroundProps.dropdowns.variant.vModel"
+            :placeholder="playgroundProps.strings.placeholder"
+            :floatingLabel="playgroundProps.strings.floatingLabel"
+            :clearable="playgroundProps.booleans.clearable"
+            :isDisabled="playgroundProps.booleans.isDisabled"
+            :showSearchField="playgroundProps.booleans.showSearchField"
+            :autofocus="playgroundProps.booleans.autofocus"
             ref="selectComponent"
           >
           </ASelect>
           <div class="mt-3" style="font-size: 14px">
-            v-model: {{ playgroundProps.selected }} <br />
+            v-model: {{ playgroundProps.vModel }} <br />
           </div>
 
           <AyoPrism :code="code" :fixed="true"></AyoPrism>
@@ -91,21 +111,24 @@ watch(
             <div class="col-md-6">
               <h4>Props</h4>
               <div class="d-flex fw-wrap">
-                <div class="input-state">
+                <div
+                  class="input-state"
+                  v-for="(value, key) in playgroundProps.booleans"
+                >
                   <label class="mr-3 ai-center">
                     <input
                       type="checkbox"
-                      v-model="playgroundProps.clearable"
+                      v-model="playgroundProps.booleans[key]"
                     />
-                    <span class="ml-1"> clearable </span>
+                    <span class="ml-1"> {{ key }} </span>
                   </label>
                 </div>
 
-                <div class="input-state">
+                <!-- <div class="input-state">
                   <label class="mr-3 ai-center">
                     <input
                       type="checkbox"
-                      v-model="playgroundProps.isDisabled"
+                      v-model="playgroundPropsOld.isDisabled"
                     />
                     <span class="ml-1"> isDisabled </span>
                   </label>
@@ -115,7 +138,7 @@ watch(
                   <label class="mr-3 ai-center">
                     <input
                       type="checkbox"
-                      v-model="playgroundProps.showSearchField"
+                      v-model="playgroundPropsOld.showSearchField"
                     />
                     <span class="ml-1"> show-search-field </span>
                   </label>
@@ -125,32 +148,45 @@ watch(
                   <label class="mr-3 ai-center">
                     <input
                       type="checkbox"
-                      v-model="playgroundProps.autofocus"
+                      v-model="playgroundPropsOld.autofocus"
                     />
                     <span class="ml-1"> autofocus </span>
                   </label>
-                </div>
+                </div> -->
               </div>
 
               <label class="d-block mt-2">placeholder</label>
-              <AInput v-model="playgroundProps.placeholder" :size="12">
+              <AInput v-model="playgroundProps.strings.placeholder" :size="12">
               </AInput>
 
               <label class="d-block mt-1">floatingLabel</label>
-              <AInput v-model="playgroundProps.floatingLabel" :size="12">
+              <AInput
+                v-model="playgroundProps.strings.floatingLabel"
+                :size="12"
+              >
               </AInput>
 
               <div class="mt-2">
                 <label class="d-block">size</label>
-                <AInput type="number" v-model="playgroundProps.size" :size="12">
+                <AInput
+                  type="number"
+                  v-model="playgroundProps.strings.size"
+                  :size="12"
+                >
                 </AInput>
               </div>
 
               <div class="mt-2">
                 <label class="d-block">variant</label>
 
-                <select v-model="playgroundProps.variant" class="w-100">
-                  <option v-for="v in variants" :key="v + ''">
+                <select
+                  v-model="playgroundProps.dropdowns.variant.vModel"
+                  class="w-100"
+                >
+                  <option
+                    v-for="v in playgroundProps.dropdowns.variant.options"
+                    :key="v + ''"
+                  >
                     {{ v }}
                   </option>
                 </select>

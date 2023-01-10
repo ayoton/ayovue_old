@@ -1,4 +1,4 @@
-import { reactive } from "vue"
+import { reactive } from "vue";
 
 export const variants = [
   "",
@@ -7,13 +7,13 @@ export const variants = [
   "danger",
   "warning",
   "info",
-  "success",
-]
+  "success"
+];
 
-export const sizes = ["", "sm", "md", "lg", "xl", "xxl"]
+export const sizes = ["", "sm", "md", "lg", "xl", "xxl"];
 
 interface AT {
-  [key: string]: boolean
+  [key: string]: boolean;
 }
 
 export const buttonStates = reactive<AT>({
@@ -25,8 +25,8 @@ export const buttonStates = reactive<AT>({
   icon: false,
   loading: false,
   block: false,
-  disabled: false,
-})
+  disabled: false
+});
 
 export const inputTypes = reactive([
   { type: "text", vModel: "" },
@@ -39,20 +39,20 @@ export const inputTypes = reactive([
   { type: "date", vModel: "" },
   { type: "time", vModel: "" },
   { type: "range", vModel: "" },
-  { type: "color", vModel: "" },
-])
+  { type: "color", vModel: "" }
+]);
 
 export const inputStates = [
   { name: "No State", value: null },
   {
     name: "Info State",
     value: "info",
-    stateText: "Must include at least 3 characters",
+    stateText: "Must include at least 3 characters"
   },
   { name: "Warning State", value: "warning" },
   { name: "Success State", value: "success" },
   {
     name: "Danger State",
-    value: "danger",
-  },
-]
+    value: "danger"
+  }
+];
