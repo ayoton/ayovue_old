@@ -5,7 +5,11 @@ import { ref, reactive, computed, watch, nextTick, shallowRef } from "vue";
 import ASelect from "../../components/ASelect/index.vue";
 import AInput from "../../components/AInput/index.vue";
 import { variants, sizes, inputTypes } from "../playgroundData";
-import { generateBooleanCode, generateStringCode } from "../functions.js";
+import {
+  generateBooleanCode,
+  generateStringCode,
+  generatePropsCode
+} from "../functions.js";
 import AyoPrism from "../code/AyoPrism.vue";
 
 // const options = ["Option1", "Option2", "Option3"];
@@ -30,23 +34,9 @@ const code = computed(() => {
   let codeString = `<ASelect
   :options="options"
   v-model="selected"
-  size="${playgroundProps.size}"
-  variant="${playgroundProps.variant}"
 `;
 
-  codeString += generateStringCode(`placeholder`, playgroundProps.placeholder);
-  codeString += generateStringCode(
-    `floatingLabel`,
-    playgroundProps.floatingLabel
-  );
-
-  codeString += generateBooleanCode(`clearable`, playgroundProps.clearable);
-  codeString += generateBooleanCode(`isDisabled`, playgroundProps.isDisabled);
-  codeString += generateBooleanCode(
-    `showSearchField`,
-    playgroundProps.showSearchField
-  );
-  codeString += generateBooleanCode(`autofocus`, playgroundProps.autofocus);
+  codeString += generatePropsCode(playgroundProps);
 
   codeString += `>
 </ASelect>
