@@ -56,7 +56,7 @@ const props = defineProps({
   raw: anyProp,
   label: stringProp,
   value: stringProp,
-  size: sizeProp,
+  size: stringOrNumberProp,
   isDisabled: booleanProp,
   width: {
     type: String,
