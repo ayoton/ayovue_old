@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const ButtonPlayground = () => import("../ButtonPlayground.vue");
 const InputPlayground = () => import("../InputPlayground.vue");
-const SelectPlayground = () => import("../select/SelectPlayground.vue");
+const SelectPlayground = () =>
+  import("../select-playground/SelectPlayground.vue");
 const SwitchPlayground = () => import("../SwitchPlayground.vue");
 const DropdownPlayground = () => import("../DropdownPlayground.vue");
 

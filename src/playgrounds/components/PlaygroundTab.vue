@@ -1,10 +1,10 @@
-<script setup>
+<script lang="ts" setup>
 const props = defineProps({
   modelValue: {
     type: String
   },
   items: {
-    type: Array,
+    type: Array<any>,
     default: () => []
   }
 });

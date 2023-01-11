@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import AButton from "../components/AButton/index.vue";
 import AInput from "../components/AInput/index.vue";
-import { variants, sizes, buttonStates } from "./playgroundData";
+import { variants, sizes, buttonStates } from "./utils/playgroundData";
 const variant = ref("");
 const size = ref(16);
 </script>

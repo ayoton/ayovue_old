@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { ref } from "vue"
-import ASwitch from "../components/ASwitch/index.vue"
-import AInput from "../components/AInput/index.vue"
-import { variants, sizes, buttonStates } from "./playgroundData"
-const variant = ref("")
-const value = ref(true)
-const size = ref(16)
+import { ref } from "vue";
+import ASwitch from "../components/ASwitch/index.vue";
+import AInput from "../components/AInput/index.vue";
+import { variants, sizes, buttonStates } from "./utils/playgroundData";
+const variant = ref("");
+const value = ref(true);
+const size = ref(16);
 </script>
 <template>
   <div class="main__container">

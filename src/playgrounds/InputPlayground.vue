@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import AInput from "../components/AInput/index.vue";
-import { variants, sizes, inputTypes } from "./playgroundData";
+import { variants, sizes, inputTypes } from "./utils/playgroundData";
 
 interface AT {
   [key: string]: boolean;

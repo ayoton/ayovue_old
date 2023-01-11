@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { ref } from "vue"
+import { ref } from "vue";
 // import AButton from "../components/AButton/index.vue";
-import ADropdown from "../components/ADropdown/index.vue"
-import AInput from "../components/AInput/index.vue"
-import { variants, sizes, buttonStates } from "./playgroundData"
-const variant = ref("")
-const size = ref(16)
-const isOpen = ref(false)
+import ADropdown from "../components/ADropdown/index.vue";
+import AInput from "../components/AInput/index.vue";
+import { variants, sizes, buttonStates } from "./utils/playgroundData";
+const variant = ref("");
+const size = ref(16);
+const isOpen = ref(false);
 </script>
 <template>
   <div class="main__container">
