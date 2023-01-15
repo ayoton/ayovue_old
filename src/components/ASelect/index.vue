@@ -56,7 +56,7 @@ const props = defineProps({
   raw: anyProp,
   label: stringProp,
   value: stringProp,
-  size: stringOrNumberProp,
+  size: sizeProp,
   isDisabled: booleanProp,
   width: {
     type: String,
@@ -261,7 +261,7 @@ defineExpose({
   {{ autofocus }} -->
   <div
     :class="classes"
-    :style="{ width: width || 'auto', '--a-font-size': `${size}px` }"
+    :style="{ width: width || 'auto', '--a-font-size': `${size || 16}px` }"
     ref="inputParentEl"
     aria-label="Select Box"
     tabindex="0"
