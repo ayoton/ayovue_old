@@ -326,13 +326,13 @@ defineExpose({
         {{ placeholder }}
       </div>
 
-      <div class="select__arrow"></div>
+      <div class="a-select__arrow"></div>
     </div> -->
 
     <div
-      class="select__dropdown"
+      class="a-select__dropdown"
       v-if="isFocused"
-      :class="{ 'select__dropdown--top': isTop }"
+      :class="{ 'a-select__dropdown--top': isTop }"
       @click="handleDropdownClick"
     >
       <div
@@ -342,7 +342,7 @@ defineExpose({
         <input
           type="text"
           placeholder="Filter..."
-          class="select__filter-input flex-1"
+          class="a-select__filter-input flex-1"
           v-model="filterText"
           @blur="handleBlur"
           ref="filterInput"
@@ -355,10 +355,10 @@ defineExpose({
         <button
           v-for="(option, i) in filteredOptions"
           :key="option"
-          class="select__option"
+          class="a-select__option"
           :class="{
-            'select__option--active': modelValue === option,
-            'select__option--hovered': hoverIndex === i
+            'a-select__option--active': modelValue === option,
+            'a-select__option--hovered': hoverIndex === i
           }"
           @mouseover="hoverIndex = i"
           @mouseleave="hoverIndex = -1"
@@ -374,10 +374,11 @@ defineExpose({
         <div
           v-for="(option, i) in filteredOptions"
           :key="option"
-          class="select__option"
+          class="a-select__option"
           :class="{
-            'select__option--active': option[valueField] === valueOfModelValue,
-            'select__option--hovered': hoverIndex === i
+            'a-select__option--active':
+              option[valueField] === valueOfModelValue,
+            'a-select__option--hovered': hoverIndex === i
           }"
           @click="updateValue(option)"
           @mouseover="hoverIndex = i"
@@ -399,78 +400,3 @@ defineExpose({
     </div>
   </div>
 </template>
-
-<style scoped>
-/* .select {
-  border: 1px solid rgb(199, 199, 199);
-  // padding: 0.31em 0.687em;
-  border-radius: 5px;
-  cursor: pointer;
-  position: relative;
-  font-size: var(--a-font-size);
-  line-height: 1;
-}
-.select:focus,
-.select--focused {
-  outline: 3px solid var(--a-c-theme-200);
-  border: 1.2px solid var(--a-c-theme-500);
-} */
-.select__dropdown {
-  position: absolute;
-  top: calc(100% + 3px);
-  left: 0;
-  right: 0;
-  max-height: 222px;
-  overflow-y: auto;
-  background-color: #fff;
-  box-shadow: 0px 9px 8px 3px #ebebeb;
-  z-index: 9;
-  border: 1px solid rgb(199, 199, 199);
-  padding: 9px 0;
-}
-
-/* .a-input:focus-within:not(:focus) > .select__dropdown {
-   display: block;
- } */
-
-.select__dropdown--top {
-  top: auto;
-  bottom: calc(100% + 3px);
-  box-shadow: 0px -9px 8px 3px #ebebeb;
-}
-.select__option {
-  padding: 9px 12px;
-  display: block;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
-}
-.select__option--hovered {
-  background-color: #f5f5f5;
-}
-.select__option--active {
-  background-color: #f1f1f1;
-  border-bottom: 1px solid #fff;
-  border-top: 1px solid #fff;
-  font-weight: bold;
-}
-.select__option--active:hover {
-  background-color: #f1f1f1;
-}
-.select__arrow {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 8px 7.5px 0 7.5px;
-  border-color: #8f8f8f transparent transparent transparent;
-}
-.select__filter-input,
-.select__filter-input:focus {
-  padding: 4px 7px;
-  border-radius: 3px;
-  border: 1px solid #e1e1e1;
-  box-shadow: none;
-  outline: none;
-}
-</style>
