@@ -24,6 +24,13 @@ export const generateComponentCode = (componentData: any) => {
     }
   }
 
+  for (const key in componentData.dropdownProps) {
+    if (componentData.dropdownProps[key].vModel) {
+      code += `  ${key}="${componentData.dropdownProps[key].vModel}"
+`;
+    }
+  }
+
   code += `>
 </${componentData.name}>`;
   return code;

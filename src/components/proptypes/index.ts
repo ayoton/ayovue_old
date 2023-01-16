@@ -35,7 +35,7 @@ export const inputTypeProp = {
 };
 
 export const sizeProp = {
-  type: Number as PropType<number>,
+  type: [String, Number],
   default: 16
 };
 
