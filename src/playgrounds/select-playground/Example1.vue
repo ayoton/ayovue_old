@@ -31,7 +31,17 @@ const componentData = reactive({
     }
   },
   variableProps: {
-    options: ["Bangladesh", "India", "Pakistan", "Bhutan"]
+    options: [
+      "Bangladesh",
+      "India",
+      "Pakistan",
+      "Bhutan",
+      "Nepal",
+      "USA",
+      "China",
+      "Japan",
+      "Russia"
+    ]
   }
 });
 

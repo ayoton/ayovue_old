@@ -2,12 +2,21 @@
   background-color: #fff;
   box-shadow: 0px 9px 8px 3px #ebebeb;
   border: 1px solid rgb(199, 199, 199);
-  max-height: 222px;
-  padding: 9px 0;
+  padding: 3px 0;
 }
 
 .a-select__dropdown--top {
   box-shadow: 0px -9px 8px 3px #ebebeb;
+}
+
+.a-select__filter {
+  padding: 0.3em 0.6em;
+  padding-top: 0;
+  box-shadow: 0px 2px 2px 0px #e5e5e5;
+}
+
+.a-select__filter-input {
+  border: none;
 }
 
 .a-select__option {
@@ -39,5 +48,5 @@
   border-radius: 3px;
   box-shadow: none;
   outline: none;
-  border: 1px solid #e1e1e1;
+  border: none;
 }

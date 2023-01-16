@@ -30,3 +30,8 @@
   width: 0;
   height: 0;
 }
+
+.a-select__dropdown-fixed {
+  max-height: 188px;
+  overflow-y: auto;
+}
