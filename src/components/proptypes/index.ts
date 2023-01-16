@@ -60,6 +60,7 @@ export const booleanProp = {
 };
 
 export const anyProp = {
+  type: [String, Array, Object, Number, Date, Boolean],
   default: ""
 };
 

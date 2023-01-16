@@ -243,9 +243,17 @@ const rawValue = computed(() => {
     return option[props.valueField] === props.modelValue;
   });
 
-  console.log(filteredOptions);
-
+  // console.log(filteredOptions);
   return filteredOptions[0];
+});
+
+const valueOfModelValue = computed(() => {
+  if (optionType.value === "string") {
+    return props.modelValue;
+  } else {
+    const mv = props.modelValue as any;
+    return mv[props.valueField];
+  }
 });
 
 defineExpose({
@@ -368,8 +376,7 @@ defineExpose({
           :key="option"
           class="select__option"
           :class="{
-            'select__option--active':
-              option[labelField] === modelValue[labelField],
+            'select__option--active': option[valueField] === valueOfModelValue,
             'select__option--hovered': hoverIndex === i
           }"
           @click="updateValue(option)"
