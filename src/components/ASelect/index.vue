@@ -30,20 +30,6 @@ import {
   valueFieldProp
 } from "../proptypes";
 
-const select = ref<HTMLInputElement | null>(null);
-const filterInput = ref<HTMLInputElement | null>(null);
-
-const inputParentEl = ref<HTMLElement>();
-const inputFieldEl = ref<HTMLElement>();
-
-const isFocused = ref(false);
-const isTop = ref(false);
-
-//  size,
-//
-//  grouped, groupLabelField,
-//  * autofocus
-
 const props = defineProps({
   class: stringProp,
   variant: variantProp,
@@ -71,19 +57,6 @@ const props = defineProps({
   autofocus: booleanProp
 });
 
-const emit = defineEmits(["update:modelValue", "update:raw"]);
-// function handleInput(event: { target: HTMLInputElement }) {
-//   // console.log(event.target.value);
-//   emit("update:modelValue", event.target.value);
-// }
-
-function focus() {
-  inputParentEl.value?.focus();
-  handleClick();
-}
-
-const isFloating = computed(() => props.modelValue || isFocused.value);
-
 const classes = computed(() => {
   return {
     [props.class]: true,
@@ -95,6 +68,28 @@ const classes = computed(() => {
     "a-select": true
   };
 });
+
+const emit = defineEmits(["update:modelValue", "update:raw"]);
+
+// const select = ref<HTMLInputElement | null>(null);
+const filterInputEl = ref<HTMLInputElement | null>(null);
+const inputParentEl = ref<HTMLElement>();
+const inputFieldEl = ref<HTMLElement>();
+
+const isFocused = ref(false);
+const isTop = ref(false);
+
+//  size,
+//
+//  grouped, groupLabelField,
+//  * autofocus
+
+function focus() {
+  inputParentEl.value?.focus();
+  handleClick();
+}
+
+const isFloating = computed(() => props.modelValue || isFocused.value);
 
 const filteredOptions = computed(() => {
   if (!filterText.value) {
@@ -185,11 +180,13 @@ function handleKeydown(e: KeyboardEvent) {
   } else if (e.key === "Enter" && hoverIndex.value > -1) {
     updateValue(filteredOptions.value[hoverIndex.value]);
   } else if (e.key !== "Backspace") {
-    if (!filterText.value) {
-      filterText.value = e.key;
-    }
     setTimeout(() => {
-      filterInput.value?.focus();
+      if (!filterText.value) {
+        filterText.value = e.key;
+      }
+    }, 0);
+    setTimeout(() => {
+      filterInputEl.value?.focus();
     }, 0);
   }
 }
@@ -339,13 +336,14 @@ defineExpose({
         class="a-select__filter ai-center jc-between"
         v-if="filterText || showSearchField"
       >
+        <div class="a-icon-search"></div>
         <input
           type="text"
           placeholder="Filter..."
           class="a-select__filter-input flex-1"
           v-model="filterText"
           @blur="handleBlur"
-          ref="filterInput"
+          ref="filterInputEl"
           style="max-width: 90%"
         />
         <div class="select__filter-close pl-2" @click="filterText = ''">X</div>
