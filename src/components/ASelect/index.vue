@@ -59,13 +59,13 @@ const props = defineProps({
 
 const classes = computed(() => {
   return {
-    [props.class]: true,
     "a-input": true,
+    "a-select": true,
+    [props.class]: true,
     [`a-${props.variant}`]: true,
     "a-input-is-floating": isFloating.value,
     select: true,
-    "a-input--is-disabled": props.isDisabled,
-    "a-select": true
+    "a-input--is-disabled": props.isDisabled
   };
 });
 
@@ -311,7 +311,10 @@ defineExpose({
       @click="clearValue"
     ></div>
 
-    <div class="a-icon-chevron-down a-action-btn"></div>
+    <div
+      class="a-icon-chevron-down a-action-btn"
+      :class="{ 'a-rotated-180': isFocused }"
+    ></div>
     <!-- <div class="jc-between ai-center flex-1">
       <div v-if="modelValue || label">
         <slot name="selected" :activeOption="activeOption">
@@ -326,77 +329,80 @@ defineExpose({
       <div class="a-select__arrow"></div>
     </div> -->
 
-    <div
-      class="a-select__dropdown"
-      v-if="isFocused"
-      :class="{ 'a-select__dropdown--top': isTop }"
-      @click="handleDropdownClick"
-    >
+    <Transition name="dropdown">
       <div
-        class="a-select__filter ai-center jc-between"
-        v-if="filterText || showSearchField"
+        class="a-select__dropdown"
+        v-show="isFocused"
+        :class="{ 'a-select__dropdown--top': isTop }"
+        @click="handleDropdownClick"
       >
-        <div class="a-icon-search"></div>
-        <input
-          type="text"
-          placeholder="Filter..."
-          class="a-select__filter-input flex-1"
-          v-model="filterText"
-          @blur="handleBlur"
-          ref="filterInputEl"
-          style="max-width: 90%"
-        />
-        <div class="select__filter-close pl-2" @click="filterText = ''">X</div>
-      </div>
-
-      <div class="a-select__dropdown-fixed">
-        <template v-if="optionType === 'string'">
-          <button
-            v-for="(option, i) in filteredOptions"
-            :key="option"
-            class="a-select__option"
-            :class="{
-              'a-select__option--active': modelValue === option,
-              'a-select__option--hovered': hoverIndex === i
-            }"
-            @mouseover="hoverIndex = i"
-            @mouseleave="hoverIndex = -1"
-            @click="updateValue(option)"
-          >
-            <slot name="option" :option="option">
-              {{ option }}
-            </slot>
-          </button>
-        </template>
-
-        <template v-else>
-          <div
-            v-for="(option, i) in filteredOptions"
-            :key="option"
-            class="a-select__option"
-            :class="{
-              'a-select__option--active':
-                option[valueField] === valueOfModelValue,
-              'a-select__option--hovered': hoverIndex === i
-            }"
-            @click="updateValue(option)"
-            @mouseover="hoverIndex = i"
-            @mouseleave="hoverIndex = -1"
-          >
-            <slot name="option" :option="option">
-              {{ option[labelField] }}
-            </slot>
-          </div>
-        </template>
-
         <div
-          v-if="filteredOptions.length === 0"
-          class="text-center"
-          @click="isFocused = false"
+          class="a-select__filter d-flex ai-center jc-between"
+          v-if="filterText || showSearchField"
         >
-          No option available
+          <div class="a-icon-search"></div>
+          <input
+            type="text"
+            placeholder="Filter..."
+            class="a-select__filter-input flex-1"
+            v-model="filterText"
+            @blur="handleBlur"
+            ref="filterInputEl"
+          />
+          <!-- <div class="select__filter-close pl-2" @click="filterText = ''">
+            X
+          </div> -->
+        </div>
+
+        <div class="a-select__dropdown-fixed">
+          <template v-if="optionType === 'string'">
+            <button
+              v-for="(option, i) in filteredOptions"
+              :key="option"
+              class="a-select__option"
+              :class="{
+                'a-select__option--active': modelValue === option,
+                'a-select__option--hovered': hoverIndex === i
+              }"
+              @mouseover="hoverIndex = i"
+              @mouseleave="hoverIndex = -1"
+              @click="updateValue(option)"
+            >
+              <slot name="option" :option="option">
+                {{ option }}
+              </slot>
+            </button>
+          </template>
+
+          <template v-else>
+            <div
+              v-for="(option, i) in filteredOptions"
+              :key="option"
+              class="a-select__option"
+              :class="{
+                'a-select__option--active':
+                  option[valueField] === valueOfModelValue,
+                'a-select__option--hovered': hoverIndex === i
+              }"
+              @click="updateValue(option)"
+              @mouseover="hoverIndex = i"
+              @mouseleave="hoverIndex = -1"
+            >
+              <slot name="option" :option="option">
+                {{ option[labelField] }}
+              </slot>
+            </div>
+          </template>
+
+          <div
+            v-if="filteredOptions.length === 0"
+            class="text-center"
+            @click="isFocused = false"
+          >
+            No option available
+          </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>

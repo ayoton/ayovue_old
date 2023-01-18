@@ -1,3 +1,7 @@
+.a-select {
+  cursor: pointer;
+}
+
 .a-select:focus {
 }
 .a-select-field {
@@ -33,5 +37,6 @@
 
 .a-select__dropdown-fixed {
   max-height: 188px;
+  padding: 4px 0;
   overflow-y: auto;
 }

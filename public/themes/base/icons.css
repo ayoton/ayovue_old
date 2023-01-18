@@ -10,7 +10,7 @@
   animation: rotate-spin 1.5s linear infinite;
 }
 .a-icon-chevron-down {
-  --un-icon: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 24 24' width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='currentColor' d='M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z'/%3E%3C/svg%3E");
+  --un-icon: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 16 16' width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='currentColor' d='M7.2929 12.0619L1.21968 5.98867C0.926773 5.69577 0.926773 5.22089 1.21968 4.92802L1.92802 4.21967C2.22043 3.92727 2.69434 3.9267 2.98743 4.21842L7.82324 9.03158L12.659 4.21842C12.9521 3.9267 13.426 3.92727 13.7184 4.21967L14.4268 4.92802C14.7197 5.22092 14.7197 5.6958 14.4268 5.98867L8.35359 12.0619C8.06068 12.3548 7.5858 12.3548 7.2929 12.0619Z'/%3E%3C/svg%3E");
   mask: var(--un-icon) no-repeat;
   mask-size: 100% 100%;
   -webkit-mask: var(--un-icon) no-repeat;

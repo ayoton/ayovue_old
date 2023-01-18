@@ -2,10 +2,37 @@
   cursor: pointer;
   font-size: var(--font-size);
   opacity: 0.6;
-  transition: opacity 0.3s linear;
+  transition: all 0.2s linear;
   z-index: 1;
 }
 
 .a-action-btn:hover {
   opacity: 1;
+}
+
+.a-rotated-180 {
+  transform: rotate(180deg);
+}
+
+/* Transition animations */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2 linear;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.dropdown-enter-active,
+.dropdown-leave-active {
+  transform-origin: top left;
+  transition: transform 0.2s linear;
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+  /* opacity: 0; */
+  transform: scaleY(0.9);
 }
