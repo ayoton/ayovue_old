@@ -11,7 +11,7 @@ import VariableProps from "../components/VariableProps.vue";
 
 const componentData = reactive({
   name: "ASelect",
-  vModel: "",
+  vModel: "Nepal",
   vModelRaw: "",
   booleanProps: {
     clearable: false,
@@ -25,7 +25,8 @@ const componentData = reactive({
   },
 
   numberProps: {
-    size: ""
+    size: "",
+    maxHeight: ""
   },
   dropdownProps: {
     variant: {
@@ -81,6 +82,7 @@ watch(
             :isDisabled="componentData.booleanProps.isDisabled"
             :showSearchField="componentData.booleanProps.showSearchField"
             :autofocus="componentData.booleanProps.autofocus"
+            :max-height="componentData.numberProps.maxHeight"
             ref="selectComponent"
           >
           </ASelect>

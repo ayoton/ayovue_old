@@ -4,7 +4,7 @@
  * labelField, valueField, showSearchField, variant, size,
  * clearable, isDisabled, floating label, modelValue, raw(v-model:raw),
  * placeholder, options, grouped, groupLabelField,
- * autofocus
+ * autofocus, maxHeight
  *
  * Events:
  * focus, blur, select, change, clear
@@ -20,14 +20,15 @@
 import { computed, ref, onMounted, watch } from "vue";
 import {
   sizeProp,
+  maxHeightProp,
   stringProp,
   variantProp,
   booleanProp,
-  stringOrNumberProp,
   anyProp,
   anyArrayProp,
   labelFieldProp,
-  valueFieldProp
+  valueFieldProp,
+  stringOrNumberProp
 } from "../proptypes";
 
 const props = defineProps({
@@ -54,7 +55,8 @@ const props = defineProps({
     default: "value"
   },
   placeholder: stringProp,
-  autofocus: booleanProp
+  autofocus: booleanProp,
+  maxHeight: maxHeightProp
 });
 
 const classes = computed(() => {
@@ -75,9 +77,14 @@ const emit = defineEmits(["update:modelValue", "update:raw"]);
 const filterInputEl = ref<HTMLInputElement | null>(null);
 const inputParentEl = ref<HTMLElement>();
 const inputFieldEl = ref<HTMLElement>();
+const scrollElement = ref<HTMLElement>();
 
 const isFocused = ref(false);
 const isTop = ref(false);
+
+const computedMaxHeight = computed(() => {
+  return Number(props.maxHeight || 188);
+});
 
 //  size,
 //
@@ -171,12 +178,14 @@ function handleKeydown(e: KeyboardEvent) {
       hoverIndex.value < filteredOptions.value.length - 1
         ? hoverIndex.value + 1
         : 0;
+    scrollIntoView();
   } else if (e.key === "ArrowUp") {
     e.preventDefault();
     hoverIndex.value =
       hoverIndex.value > 0
         ? hoverIndex.value - 1
         : filteredOptions.value.length - 1;
+    scrollIntoView();
   } else if (e.key === "Enter" && hoverIndex.value > -1) {
     updateValue(filteredOptions.value[hoverIndex.value]);
   } else if (e.key !== "Backspace") {
@@ -189,6 +198,24 @@ function handleKeydown(e: KeyboardEvent) {
       filterInputEl.value?.focus();
     }, 0);
   }
+}
+
+function scrollIntoView() {
+  setTimeout(() => {
+    const hoveredElement: HTMLElement | null = document.querySelector(
+      `#option${hoverIndex.value}`
+    );
+
+    const st = computedMaxHeight.value + (scrollElement.value?.scrollTop || 0);
+    const hoveredElementTop = hoveredElement?.offsetTop || 0;
+
+    if (
+      st < hoveredElementTop ||
+      st > hoveredElementTop + computedMaxHeight.value
+    ) {
+      hoveredElement?.scrollIntoView();
+    }
+  }, 111);
 }
 
 onMounted(() => {
@@ -355,10 +382,15 @@ defineExpose({
           </div> -->
         </div>
 
-        <div class="a-select__dropdown-fixed">
+        <div
+          class="a-select__dropdown-fixed"
+          ref="scrollElement"
+          :style="{ maxHeight: computedMaxHeight + `px` }"
+        >
           <template v-if="optionType === 'string'">
             <button
               v-for="(option, i) in filteredOptions"
+              :id="`option` + i"
               :key="option"
               class="a-select__option"
               :class="{
@@ -378,6 +410,7 @@ defineExpose({
           <template v-else>
             <div
               v-for="(option, i) in filteredOptions"
+              :id="`option` + i"
               :key="option"
               class="a-select__option"
               :class="{

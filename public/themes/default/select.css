@@ -26,16 +26,16 @@
 .a-select__filter-input {
   border: none;
   color: var(--a-c-gray-600);
+  font-size: 1em;
+  width: 0;
 }
 
 .a-select__option {
-  padding: 9px 12px;
+  padding: 0.5em 1em;
   color: var(--a-c-gray-600);
+  font-size: 1em;
 }
 
-.a-select__option--hovered {
-  background-color: var(--a-c-gray-100);
-}
 .a-select__option--active {
   background-color: var(--a-c-primary-100);
   /* border-bottom: 1px solid #fff;
@@ -44,6 +44,10 @@
 }
 .a-select__option--active:hover {
   background-color: #f1f1f1;
+}
+
+.a-select__option--hovered {
+  background-color: var(--a-c-gray-100);
 }
 
 .a-select__arrow {

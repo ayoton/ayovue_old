@@ -39,6 +39,11 @@ export const sizeProp = {
   default: 16
 };
 
+export const maxHeightProp = {
+  type: [String, Number],
+  default: 188
+};
+
 export const stringProp = {
   type: String,
   default: ""

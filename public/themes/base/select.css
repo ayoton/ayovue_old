@@ -36,7 +36,7 @@
 }
 
 .a-select__dropdown-fixed {
-  max-height: 188px;
   padding: 4px 0;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }

@@ -10,16 +10,16 @@ export const generateComponentCode = (componentData: any) => {
     }
   }
 
-  for (const key in componentData.stringProps) {
-    if (componentData.stringProps[key]) {
-      code += `  ${key}="${componentData.stringProps[key]}"
+  for (const key in componentData.numberProps) {
+    if (componentData.numberProps[key]) {
+      code += `  :${key}="${componentData.numberProps[key]}"
 `;
     }
   }
 
-  for (const key in componentData.numberProps) {
-    if (componentData.numberProps[key]) {
-      code += `  :${key}="${componentData.numberProps[key]}"
+  for (const key in componentData.stringProps) {
+    if (componentData.stringProps[key]) {
+      code += `  ${key}="${componentData.stringProps[key]}"
 `;
     }
   }
