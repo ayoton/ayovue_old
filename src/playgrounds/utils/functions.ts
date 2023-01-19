@@ -17,6 +17,13 @@ export const generateComponentCode = (componentData: any) => {
     }
   }
 
+  for (const key in componentData.numberProps) {
+    if (componentData.numberProps[key]) {
+      code += `  :${key}="${componentData.numberProps[key]}"
+`;
+    }
+  }
+
   for (const key in componentData.booleanProps) {
     if (componentData.booleanProps[key]) {
       code += `  ${key}

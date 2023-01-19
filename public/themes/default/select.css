@@ -18,13 +18,14 @@
 }
 
 .a-select__filter {
-  padding: 0.3em 0.6em;
+  padding: 0.5em 1em;
   /* box-shadow: 0px 2px 2px 0px #e5e5e5; */
   border-bottom: 1px solid rgb(233, 233, 233);
 }
 
 .a-select__filter-input {
   border: none;
+  color: var(--a-c-gray-600);
 }
 
 .a-select__option {
@@ -58,4 +59,8 @@
   box-shadow: none;
   outline: none;
   border: none;
+}
+
+.a-select__search-icon {
+  color: var(--a-c-gray-600);
 }

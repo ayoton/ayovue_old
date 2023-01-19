@@ -209,7 +209,8 @@ function resetFilter() {
   filterText.value = "";
 }
 
-function clearValue() {
+function clearValue(e: Event) {
+  e.stopPropagation();
   emit("update:modelValue", "");
 }
 
@@ -285,7 +286,7 @@ defineExpose({
         </slot>
       </div>
 
-      <div v-else class="a-placeholder">
+      <div v-else-if="!floatingLabel" class="a-placeholder">
         {{ placeholder }}
       </div>
     </div>
@@ -306,9 +307,9 @@ defineExpose({
     <slot name="append"></slot>
 
     <div
-      class="a-icon-close a-action-btn"
+      class="a-close-circle-outline a-action-btn"
       v-if="clearable && modelValue"
-      @click="clearValue"
+      @click.prevent="clearValue"
     ></div>
 
     <div
@@ -340,10 +341,10 @@ defineExpose({
           class="a-select__filter d-flex ai-center jc-between"
           v-if="filterText || showSearchField"
         >
-          <div class="a-icon-search"></div>
+          <div class="a-icon-search a-select__search-icon"></div>
           <input
             type="text"
-            placeholder="Filter..."
+            placeholder="Search"
             class="a-select__filter-input flex-1"
             v-model="filterText"
             @blur="handleBlur"

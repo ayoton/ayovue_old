@@ -21,7 +21,10 @@ const componentData = reactive({
   },
   stringProps: {
     placeholder: "Enter your name",
-    floatingLabel: "",
+    floatingLabel: ""
+  },
+
+  numberProps: {
     size: ""
   },
   dropdownProps: {
@@ -70,7 +73,7 @@ watch(
           <ASelect
             :options="componentData.variableProps.options"
             v-model="componentData.vModel"
-            :size="componentData.stringProps.size"
+            :size="componentData.numberProps.size"
             :variant="componentData.dropdownProps.variant.vModel"
             :placeholder="componentData.stringProps.placeholder"
             :floatingLabel="componentData.stringProps.floatingLabel"
@@ -94,6 +97,10 @@ watch(
             <h4>Props</h4>
             <BooleanProps :items="componentData.booleanProps"></BooleanProps>
             <StringProps :items="componentData.stringProps"></StringProps>
+            <StringProps
+              :items="componentData.numberProps"
+              type="number"
+            ></StringProps>
             <DropdownProps :items="componentData.dropdownProps"></DropdownProps>
           </div>
 
