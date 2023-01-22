@@ -334,7 +334,7 @@ defineExpose({
     <slot name="append"></slot>
 
     <div
-      class="a-close-circle-outline a-action-btn"
+      class="a-icon-close a-action-btn"
       v-if="clearable && modelValue"
       @click.prevent="clearValue"
     ></div>

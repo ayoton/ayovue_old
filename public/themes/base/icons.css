@@ -20,7 +20,7 @@
   height: 1em;
 }
 .a-icon-close {
-  --un-icon: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 24 24' width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='currentColor' d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'/%3E%3C/svg%3E");
+  --un-icon: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 16 16' width='1em' height='1em' xmlns='http://www.w3.org/2000/svg' %3E%3Cpath fill='currentColor' d='M5.05765 13.6602L3.49829 12.0842L7.2308 8.33513L3.49829 4.58603L5.05765 2.9935L8.80674 6.74259L12.5558 2.9935L14.1152 4.58603L10.3827 8.33513L14.1152 12.0842L12.5558 13.6602L8.80674 9.91107L5.05765 13.6602Z'/%3E%3C/svg%3E");
   mask: var(--un-icon) no-repeat;
   mask-size: 100% 100%;
   -webkit-mask: var(--un-icon) no-repeat;

@@ -1,7 +1,12 @@
-export const generateComponentCode = (componentData: any) => {
+export const generateComponentCode = (componentData: any, withRaw = false) => {
   let code = `<${componentData.name}
-  v-model='vModel'
+  v-model="vModel"
 `;
+
+  if (withRaw) {
+    code += `  v-model:raw="vModelRaw"
+`;
+  }
 
   for (const key in componentData.variableProps) {
     if (componentData.variableProps[key]) {

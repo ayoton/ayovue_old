@@ -7,6 +7,7 @@
   outline: 0 solid var(--a-c-theme-300);
   transition: all 0.3s linear;
   line-height: 1.15;
+  color: var(--a-c-gray-600);
 }
 
 .a-input:not(.a-info):not(.a-success):not(.a-warning):not(.a-danger):not(
@@ -33,7 +34,7 @@
 
 .a-input-field {
   accent-color: var(--a-c-theme-500);
-  color: var(--a-c-gray-600);
+  /* color: var(--a-c-gray-600); */
 }
 
 .a-input-field[type="color"] {
@@ -72,4 +73,5 @@
   /* opacity: 0.5; */
   pointer-events: none;
   background-color: var(--a-c-gray-50);
+  color: var(--a-c-gray-300);
 }
