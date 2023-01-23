@@ -3,7 +3,7 @@
  * Props:
  * labelField, valueField, showSearchField, variant, size,
  * clearable, isDisabled, floating label, modelValue, raw(v-model:raw),
- * placeholder, options, grouped, groupLabelField,
+ * placeholder, options, grouped, groupedLabelField, groupedOptionsField
  * autofocus, maxHeight
  *
  * Events:
@@ -28,7 +28,8 @@ import {
   anyArrayProp,
   labelFieldProp,
   valueFieldProp,
-  stringOrNumberProp
+  groupedOptionsFieldProp,
+  groupedLabelFieldProp
 } from "../proptypes";
 
 const props = defineProps({
@@ -56,7 +57,10 @@ const props = defineProps({
   },
   placeholder: stringProp,
   autofocus: booleanProp,
-  maxHeight: maxHeightProp
+  maxHeight: maxHeightProp,
+  grouped: booleanProp,
+  groupedLabelField: groupedLabelFieldProp,
+  groupedOptionsField: groupedOptionsFieldProp
 });
 
 const classes = computed(() => {
@@ -300,7 +304,7 @@ defineExpose({
     <slot name="prepend"></slot>
     <div ref="inputFieldEl" class="a-input-field a-select-field">
       <div v-if="modelValue && rawValue">
-        <slot name="selected" :activeOption="raw">
+        <slot name="selected" :selectedOption="raw">
           {{ optionType === "string" ? rawValue : rawValue[labelField] }}
         </slot>
       </div>

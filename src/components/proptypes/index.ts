@@ -84,6 +84,16 @@ export const valueFieldProp = {
   default: "value"
 };
 
+export const groupedLabelFieldProp = {
+  type: String,
+  default: "name"
+};
+
+export const groupedOptionsFieldProp = {
+  type: String,
+  default: "items"
+};
+
 type allowedStates = "info" | "success" | "warning" | "danger" | "";
 export const stateProp = {
   type: String as PropType<allowedStates>,

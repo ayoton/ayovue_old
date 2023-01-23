@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
 import ASelect from "../../components/ASelect/index.vue";
+import { generateComponentCode } from "../utils/functions";
 import AyoPrism from "../code/AyoPrism.vue";
+import StringProps from "../components/StringProps.vue";
+import DropdownProps from "../components/DropdownProps.vue";
 import VariableProps from "../components/VariableProps.vue";
-import { objectCountries as options } from "./data";
+import { groupedCountries as options } from "./data";
 
 const labelOptions = computed(() => {
   return Object.keys(options[0]);
@@ -64,7 +67,7 @@ const code = computed(() => {
   <div>
     <div class="row gap-0 mt-4">
       <div class="col-1 col-md-5">
-        <h2>Example 3 with slots</h2>
+        <h2>Example 4 with grouped options</h2>
         <div class="playground__item mt-3">
           <ASelect
             :options="componentData.variableProps.options"
