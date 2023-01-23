@@ -102,7 +102,7 @@ const filteredOptions = computed(() => {
   if (!filterText.value) {
     return props.options;
   }
-  return props.options.filter((option: any) => {
+  return props.options.filter((option) => {
     if (optionType.value === "string") {
       return option.toLowerCase().indexOf(filterText.value.toLowerCase()) > -1;
     } else {
@@ -113,19 +113,6 @@ const filteredOptions = computed(() => {
       );
     }
   });
-});
-
-const activeOption = computed(() => {
-  let ao = null;
-  if (optionType.value === "string") {
-    ao = props.options.filter((option) => option === props.modelValue)[0];
-  } else {
-    ao = props.options.filter(
-      (option: any) => option[props.optionValue] === props.value
-    )[0];
-  }
-  // console.log(ao);
-  return ao;
 });
 
 const optionType = computed(() => {
@@ -147,7 +134,7 @@ function handleClick() {
 
 function handleBlur() {
   setTimeout(() => {
-    if (!inputParentEl.value!!.contains(document.activeElement)) {
+    if (!inputParentEl.value?.contains(document.activeElement)) {
       isFocused.value = false;
     }
   }, 111);
@@ -188,7 +175,12 @@ function handleKeydown(e: KeyboardEvent) {
     scrollIntoView();
   } else if (e.key === "Enter" && hoverIndex.value > -1) {
     updateValue(filteredOptions.value[hoverIndex.value]);
-  } else if (e.key !== "Backspace") {
+  } else if (
+    e.key !== "Backspace" &&
+    e.key !== "Alt" &&
+    e.key !== "Control" &&
+    e.key !== "Tab"
+  ) {
     setTimeout(() => {
       if (!filterText.value) {
         filterText.value = e.key;
@@ -276,7 +268,7 @@ const valueOfModelValue = computed(() => {
   if (optionType.value === "string") {
     return props.modelValue;
   } else {
-    const mv = props.modelValue as any;
+    const mv = props.raw;
     return mv[props.valueField];
   }
 });
@@ -308,7 +300,7 @@ defineExpose({
     <slot name="prepend"></slot>
     <div ref="inputFieldEl" class="a-input-field a-select-field">
       <div v-if="modelValue && rawValue">
-        <slot name="selected" :activeOption="activeOption">
+        <slot name="selected" :activeOption="raw">
           {{ optionType === "string" ? rawValue : rawValue[labelField] }}
         </slot>
       </div>
@@ -318,19 +310,6 @@ defineExpose({
       </div>
     </div>
 
-    <!-- <input
-      @focus="isFocused = true"
-      @blur="isFocused = false"
-      ref="inputFieldEl"
-      :type="type"
-      class="a-input-field"
-      :placeholder="placeholder"
-      v-model="localValue"
-      :disabled="isDisabled"
-      autocomplete="off"
-      :name="name"
-      v-bind="$attrs"
-    /> -->
     <slot name="append"></slot>
 
     <div
@@ -343,19 +322,6 @@ defineExpose({
       class="a-icon-chevron-down a-action-btn"
       :class="{ 'a-rotated-180': isFocused }"
     ></div>
-    <!-- <div class="jc-between ai-center flex-1">
-      <div v-if="modelValue || label">
-        <slot name="selected" :activeOption="activeOption">
-          {{ modelValue || label }}
-        </slot>
-      </div>
-
-      <div v-else>
-        {{ placeholder }}
-      </div>
-
-      <div class="a-select__arrow"></div>
-    </div> -->
 
     <Transition name="dropdown">
       <div
@@ -377,9 +343,6 @@ defineExpose({
             @blur="handleBlur"
             ref="filterInputEl"
           />
-          <!-- <div class="select__filter-close pl-2" @click="filterText = ''">
-            X
-          </div> -->
         </div>
 
         <div

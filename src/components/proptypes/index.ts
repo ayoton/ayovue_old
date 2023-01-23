@@ -65,7 +65,7 @@ export const booleanProp = {
 };
 
 export const anyProp = {
-  type: [String, Array, Object, Number, Date, Boolean],
+  type: [String, Array, Object, Number, Date, Boolean] as any,
   default: ""
 };
 

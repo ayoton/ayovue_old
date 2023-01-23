@@ -39,14 +39,35 @@ const componentData = reactive({
 const selectComponent = ref(ASelect);
 
 const code = computed(() => {
-  return generateComponentCode(componentData, true);
+  return `<ASelect
+  v-model="vModel"
+  :options="options"
+  placeholder="Select Country"
+  labelField="name"
+  valueField="value"
+>
+  <template #selected="{ activeOption }">
+    <div class="d-flex ai-center" v-if="activeOption">
+      <img :src="activeOption.flag" alt="" />
+      <div class="ml-2">{{ activeOption.name }}</div>
+    </div>
+  </template>
+
+  <template #option="{ option }">
+    <div class="d-flex ai-center">
+      <img :src="option.flag" alt="" />
+      <div class="ml-2">{{ option.name }}</div>
+    </div>
+  </template>
+</ASelect>
+  `;
 });
 </script>
 <template>
   <div>
     <div class="row gap-0 mt-4">
       <div class="col-1 col-md-5">
-        <h2>Example 2 with object options</h2>
+        <h2>Example 3 with slots</h2>
         <div class="playground__item mt-3">
           <ASelect
             :options="componentData.variableProps.options"
@@ -57,28 +78,29 @@ const code = computed(() => {
             :placeholder="componentData.stringProps.placeholder"
             ref="selectComponent"
           >
+            <template #option="{ option }">
+              <div class="d-flex ai-center">
+                <img :src="option.flag" alt="" />
+                <div class="ml-2">{{ option.name }}</div>
+              </div>
+            </template>
+
+            <template #selected="{ activeOption }">
+              <div class="d-flex ai-center" v-if="activeOption">
+                <img :src="activeOption.flag" alt="" />
+                <div class="ml-2">{{ activeOption.name }}</div>
+              </div>
+            </template>
           </ASelect>
           <div class="mt-3" style="font-size: 14px">
             vModel: {{ componentData.vModel }} <br />
-            vModelRaw: {{ componentData.vModelRaw }} <br />
           </div>
-          <AyoPrism :code="code" :fixed="true"></AyoPrism>
+          <VariableProps :items="componentData.variableProps"></VariableProps>
         </div>
       </div>
 
       <div class="col-1 col-md-7">
-        <div class="row gap-7">
-          <div class="col-md-5">
-            <h4>Props</h4>
-            <StringProps :items="componentData.stringProps"></StringProps>
-
-            <DropdownProps :items="componentData.dropdownProps"></DropdownProps>
-          </div>
-
-          <div class="col-md-7">
-            <VariableProps :items="componentData.variableProps"></VariableProps>
-          </div>
-        </div>
+        <AyoPrism :code="code" :fixed="true"></AyoPrism>
       </div>
     </div>
   </div>

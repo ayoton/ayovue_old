@@ -8,6 +8,7 @@ import BooleanProps from "../components/BooleanProps.vue";
 import StringProps from "../components/StringProps.vue";
 import DropdownProps from "../components/DropdownProps.vue";
 import VariableProps from "../components/VariableProps.vue";
+import { stringContries as options } from "./data";
 
 const componentData = reactive({
   name: "ASelect",
@@ -35,17 +36,7 @@ const componentData = reactive({
     }
   },
   variableProps: {
-    options: [
-      "Bangladesh",
-      "India",
-      "Pakistan",
-      "Bhutan",
-      "Nepal",
-      "USA",
-      "China",
-      "Japan",
-      "Russia"
-    ]
+    options: options
   }
 });
 

@@ -28,11 +28,11 @@
 .dropdown-enter-active,
 .dropdown-leave-active {
   transform-origin: top left;
-  transition: transform 0.2s linear;
+  transition: all 0.2s linear;
 }
 
 .dropdown-enter-from,
 .dropdown-leave-to {
-  /* opacity: 0; */
-  transform: scaleY(0.9);
+  opacity: 0;
+  transform: scaleY(0.7);
 }

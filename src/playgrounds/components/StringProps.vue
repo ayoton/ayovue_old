@@ -9,6 +9,10 @@ defineProps({
   items: {
     type: Object,
     default: () => ({})
+  },
+  isDisabled: {
+    type: Boolean,
+    default: false
   }
 });
 </script>
@@ -17,7 +21,13 @@ defineProps({
   <div>
     <div v-for="(value, key) in items">
       <label class="d-block mt-2">{{ key }}</label>
-      <AInput v-model="items[key]" :size="12" :type="type"> </AInput>
+      <AInput
+        v-model="items[key]"
+        :size="12"
+        :type="type"
+        :is-disabled="isDisabled"
+      >
+      </AInput>
     </div>
   </div>
 </template>

@@ -4,10 +4,10 @@ import { variants, sizes, inputTypes } from "../utils/playgroundData";
 import PlaygroundTab from "../components/PlaygroundTab.vue";
 import Example1 from "./Example1.vue";
 import Example2 from "./Example2.vue";
-import Example3 from "./Example2.vue";
+import Example3 from "./Example3.vue";
 
 const tabItems = ["Example1", "Example2", "Example3"];
-const selectedTab = ref("Example2");
+const selectedTab = ref("Example3");
 
 const components: any = {
   Example1: Example1,
