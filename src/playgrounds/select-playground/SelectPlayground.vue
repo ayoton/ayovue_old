@@ -6,15 +6,17 @@ import Example1 from "./Example1.vue";
 import Example2 from "./Example2.vue";
 import Example3 from "./Example3.vue";
 import Example4 from "./Example4.vue";
+import Example5 from "./Example5.vue";
 
-const tabItems = ["Example1", "Example2", "Example3", "Example4"];
-const selectedTab = ref("Example4");
+const tabItems = ["Example1", "Example2", "Example3", "Example4", "Example5"];
+const selectedTab = ref("Example5");
 
 const components: any = {
   Example1: Example1,
   Example2: Example2,
   Example3: Example3,
-  Example4: Example4
+  Example4: Example4,
+  Example5: Example5
 };
 
 const is = computed(() => {

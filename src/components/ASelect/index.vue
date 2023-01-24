@@ -3,8 +3,8 @@
  * Props:
  * labelField, valueField, showSearchField, variant, size,
  * clearable, isDisabled, floating label, modelValue, raw(v-model:raw),
- * placeholder, options, grouped, groupedLabelField, groupedOptionsField
- * autofocus, maxHeight
+ * placeholder, options, grouped, groupedLabelField, groupedOptionsField,
+ * groupByField, autofocus, maxHeight
  *
  * Events:
  * focus, blur, select, change, clear
@@ -60,7 +60,8 @@ const props = defineProps({
   maxHeight: maxHeightProp,
   grouped: booleanProp,
   groupedLabelField: groupedLabelFieldProp,
-  groupedOptionsField: groupedOptionsFieldProp
+  groupedOptionsField: groupedOptionsFieldProp,
+  groupByField: stringProp
 });
 
 const classes = computed(() => {
@@ -103,9 +104,32 @@ function focus() {
 const isFloating = computed(() => props.modelValue || isFocused.value);
 
 const groupedOptions = computed(() => {
-  let tempOptions: any[] = [];
-  if (props.grouped) {
+  let rawOptions = props.options;
+
+  if (props.groupByField) {
+    // TODO: create groupByOptions
+
+    let groups: any = {};
+
     props.options.forEach((item) => {
+      if (groups[item[props.groupByField]]) {
+        groups[item[props.groupByField]].push(item);
+      } else {
+        groups[item[props.groupByField]] = [item];
+      }
+    });
+
+    rawOptions = Object.keys(groups).map((key) => {
+      return {
+        name: key,
+        options: groups[key]
+      };
+    });
+  }
+
+  let tempOptions: any[] = [];
+  if (props.grouped || props.groupByField) {
+    rawOptions.forEach((item) => {
       tempOptions = tempOptions.concat({
         [props.labelField]: item[props.groupedLabelField],
         type: "group-title"
@@ -113,7 +137,7 @@ const groupedOptions = computed(() => {
       tempOptions = tempOptions.concat(item[props.groupedOptionsField]);
     });
   } else {
-    tempOptions = props.options;
+    tempOptions = rawOptions;
   }
 
   return tempOptions;
