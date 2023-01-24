@@ -102,11 +102,29 @@ function focus() {
 
 const isFloating = computed(() => props.modelValue || isFocused.value);
 
+const groupedOptions = computed(() => {
+  let tempOptions: any[] = [];
+  if (props.grouped) {
+    props.options.forEach((item) => {
+      tempOptions = tempOptions.concat({
+        [props.labelField]: item[props.groupedLabelField],
+        type: "group-title"
+      });
+      tempOptions = tempOptions.concat(item[props.groupedOptionsField]);
+    });
+  } else {
+    tempOptions = props.options;
+  }
+
+  return tempOptions;
+});
+
 const filteredOptions = computed(() => {
   if (!filterText.value) {
-    return props.options;
+    return groupedOptions.value;
   }
-  return props.options.filter((option) => {
+
+  return groupedOptions.value.filter((option) => {
     if (optionType.value === "string") {
       return option.toLowerCase().indexOf(filterText.value.toLowerCase()) > -1;
     } else {
@@ -120,6 +138,9 @@ const filteredOptions = computed(() => {
 });
 
 const optionType = computed(() => {
+  if (props.grouped) {
+    return "object";
+  }
   return typeof props.options[0] === "object" ? "object" : "string";
 });
 
@@ -149,6 +170,10 @@ function handleDropdownClick(e: Event) {
 }
 
 function updateValue(option: any) {
+  if (option.type === "group-title") {
+    return;
+  }
+
   inputParentEl.value?.focus();
 
   emit(
@@ -260,7 +285,7 @@ const rawValue = computed(() => {
   if (optionType.value === "string" || !props.modelValue) {
     return props.modelValue;
   }
-  const filteredOptions = props.options.filter((option) => {
+  const filteredOptions = groupedOptions.value.filter((option) => {
     return option[props.valueField] === props.modelValue;
   });
 
@@ -272,8 +297,7 @@ const valueOfModelValue = computed(() => {
   if (optionType.value === "string") {
     return props.modelValue;
   } else {
-    const mv = props.raw;
-    return mv[props.valueField];
+    return rawValue.value[props.valueField];
   }
 });
 
@@ -288,6 +312,7 @@ defineExpose({
 <template>
   <!-- {{ isFocused }}
   {{ autofocus }} -->
+  <!-- -- {{ rawValue }} -- -->
   <div
     :class="classes"
     :style="{ width: width || 'auto', '--a-font-size': `${size || 16}px` }"
@@ -304,7 +329,7 @@ defineExpose({
     <slot name="prepend"></slot>
     <div ref="inputFieldEl" class="a-input-field a-select-field">
       <div v-if="modelValue && rawValue">
-        <slot name="selected" :selectedOption="raw">
+        <slot name="selected" :selectedOption="rawValue">
           {{ optionType === "string" ? rawValue : rawValue[labelField] }}
         </slot>
       </div>
@@ -383,13 +408,19 @@ defineExpose({
               :class="{
                 'a-select__option--active':
                   option[valueField] === valueOfModelValue,
-                'a-select__option--hovered': hoverIndex === i
+                'a-select__option--hovered': hoverIndex === i,
+                'a-select__option--grouped':
+                  props.grouped && option.type !== `group-title`,
+                'a-select__option--grouped-title': option.type === `group-title`
               }"
               @click="updateValue(option)"
               @mouseover="hoverIndex = i"
               @mouseleave="hoverIndex = -1"
             >
-              <slot name="option" :option="option">
+              <div v-if="option.type === `group-title`">
+                {{ option[labelField] }}
+              </div>
+              <slot name="option" :option="option" v-else>
                 {{ option[labelField] }}
               </slot>
             </div>

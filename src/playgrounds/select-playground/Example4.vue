@@ -45,20 +45,10 @@ const code = computed(() => {
   placeholder="Select Country"
   labelField="name"
   valueField="value"
+  grouped
+  grouped-label-field="name"
+  grouped-options-field="options"
 >
-  <template #selected="{ selectedOption }">
-    <div class="d-flex ai-center" v-if="selectedOption">
-      <img :src="selectedOption.flag" alt="" />
-      <div class="ml-2">{{ selectedOption.name }}</div>
-    </div>
-  </template>
-
-  <template #option="{ option }">
-    <div class="d-flex ai-center">
-      <img :src="option.flag" alt="" />
-      <div class="ml-2">{{ option.name }}</div>
-    </div>
-  </template>
 </ASelect>
   `;
 });
@@ -74,23 +64,12 @@ const code = computed(() => {
             :label-field="componentData.dropdownProps.labelField.vModel"
             :value-field="componentData.dropdownProps.valueField.vModel"
             v-model="componentData.vModel"
-            v-model:raw="componentData.vModelRaw"
             :placeholder="componentData.stringProps.placeholder"
             ref="selectComponent"
+            grouped
+            grouped-label-field="name"
+            grouped-options-field="options"
           >
-            <template #option="{ option }">
-              <div class="d-flex ai-center">
-                <img :src="option.flag" alt="" />
-                <div class="ml-2">{{ option.name }}</div>
-              </div>
-            </template>
-
-            <template #selected="{ selectedOption }">
-              <div class="d-flex ai-center" v-if="selectedOption">
-                <img :src="selectedOption.flag" alt="" />
-                <div class="ml-2">{{ selectedOption.name }}</div>
-              </div>
-            </template>
           </ASelect>
           <div class="mt-3" style="font-size: 14px">
             vModel: {{ componentData.vModel }} <br />

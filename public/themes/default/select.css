@@ -68,3 +68,13 @@
 .a-select__search-icon {
   color: var(--a-c-gray-600);
 }
+
+.a-select__option--grouped {
+  padding-left: 2em;
+}
+
+.a-select__option--grouped-title,
+.a-select__option--grouped-title:hover {
+  background: #fff;
+  color: var(--a-c-gray-400);
+}
