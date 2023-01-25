@@ -45,9 +45,7 @@ const code = computed(() => {
   placeholder="Select Country"
   labelField="name"
   valueField="value"
-  grouped
-  grouped-label-field="name"
-  grouped-options-field="options"
+  groupByField="continent"
 >
 </ASelect>
   `;

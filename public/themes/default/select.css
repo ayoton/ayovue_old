@@ -36,14 +36,9 @@
   font-size: 1em;
 }
 
-.a-select__option--active {
-  background-color: var(--a-c-primary-100);
-  /* border-bottom: 1px solid #fff;
-  border-top: 1px solid #fff; */
-  /* font-weight: bold; */
-}
+.a-select__option--active,
 .a-select__option--active:hover {
-  background-color: #f1f1f1;
+  background-color: var(--a-c-primary-100);
 }
 
 .a-select__option--hovered {

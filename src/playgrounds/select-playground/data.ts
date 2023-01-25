@@ -30,8 +30,8 @@ export const objectCountries = [
 
 export const groupedCountries = [
   {
-    name: "Asia",
-    options: [
+    continent: "Asia",
+    countries: [
       {
         name: "Bangladesh",
         value: "bn",
@@ -49,8 +49,8 @@ export const groupedCountries = [
   },
 
   {
-    name: "Europe",
-    options: [
+    continent: "Europe",
+    countries: [
       {
         name: "UK",
         value: "uk",
@@ -70,8 +70,8 @@ export const groupedCountries = [
   },
 
   {
-    name: "North America",
-    options: [
+    continent: "North America",
+    countries: [
       { name: "USA", value: "us", flag: "https://flagcdn.com/16x12/us.png" }
     ]
   }
@@ -133,6 +133,6 @@ export const groupedCountries1 = [
     name: "USA",
     value: "us",
     flag: "https://flagcdn.com/16x12/us.png",
-    continent: "South America"
+    continent: "North America"
   }
 ];

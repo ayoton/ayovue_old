@@ -46,8 +46,8 @@ const code = computed(() => {
   labelField="name"
   valueField="value"
   grouped
-  grouped-label-field="name"
-  grouped-options-field="options"
+  groupedLabelField="continent"
+  groupedOptionsField="countries"
 >
 </ASelect>
   `;
@@ -67,8 +67,8 @@ const code = computed(() => {
             :placeholder="componentData.stringProps.placeholder"
             ref="selectComponent"
             grouped
-            grouped-label-field="name"
-            grouped-options-field="options"
+            groupedLabelField="continent"
+            groupedOptionsField="countries"
           >
           </ASelect>
           <div class="mt-3" style="font-size: 14px">

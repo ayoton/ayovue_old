@@ -91,7 +91,7 @@ export const groupedLabelFieldProp = {
 
 export const groupedOptionsFieldProp = {
   type: String,
-  default: "items"
+  default: "options"
 };
 
 type allowedStates = "info" | "success" | "warning" | "danger" | "";

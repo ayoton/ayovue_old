@@ -155,7 +155,8 @@ const filteredOptions = computed(() => {
       return (
         option[props.labelField]
           .toLowerCase()
-          .indexOf(filterText.value.toLowerCase()) > -1
+          .indexOf(filterText.value.toLowerCase()) > -1 ||
+        option.type === "group-title"
       );
     }
   });
@@ -434,7 +435,8 @@ defineExpose({
                   option[valueField] === valueOfModelValue,
                 'a-select__option--hovered': hoverIndex === i,
                 'a-select__option--grouped':
-                  props.grouped && option.type !== `group-title`,
+                  (props.grouped || props.groupByField) &&
+                  option.type !== `group-title`,
                 'a-select__option--grouped-title': option.type === `group-title`
               }"
               @click="updateValue(option)"
