@@ -206,7 +206,7 @@ function updateValue(option: any) {
     optionType.value === "string" ? option : option[props.valueField]
   );
   emit("update:raw", option);
-  isFocused.value = false;
+  isFocused.value = !isFocused.value;
   resetFilter();
 }
 
@@ -219,6 +219,13 @@ function handleKeydown(e: KeyboardEvent) {
       hoverIndex.value < filteredOptions.value.length - 1
         ? hoverIndex.value + 1
         : 0;
+    if (filteredOptions.value[hoverIndex.value].type === "group-title") {
+      hoverIndex.value =
+        hoverIndex.value < filteredOptions.value.length - 1
+          ? hoverIndex.value + 1
+          : 0;
+    }
+
     scrollIntoView();
   } else if (e.key === "ArrowUp") {
     e.preventDefault();
@@ -226,9 +233,20 @@ function handleKeydown(e: KeyboardEvent) {
       hoverIndex.value > 0
         ? hoverIndex.value - 1
         : filteredOptions.value.length - 1;
+    if (filteredOptions.value[hoverIndex.value].type === "group-title") {
+      hoverIndex.value =
+        hoverIndex.value > 0
+          ? hoverIndex.value - 1
+          : filteredOptions.value.length - 1;
+    }
+
     scrollIntoView();
-  } else if (e.key === "Enter" && hoverIndex.value > -1) {
-    updateValue(filteredOptions.value[hoverIndex.value]);
+  } else if (e.key === "Enter") {
+    if (hoverIndex.value > -1) {
+      updateValue(filteredOptions.value[hoverIndex.value]);
+    } else {
+      isFocused.value = !isFocused.value;
+    }
   } else if (
     e.key !== "Backspace" &&
     e.key !== "Alt" &&
@@ -252,14 +270,32 @@ function scrollIntoView() {
       `#option${hoverIndex.value}`
     );
 
-    const st = computedMaxHeight.value + (scrollElement.value?.scrollTop || 0);
-    const hoveredElementTop = hoveredElement?.offsetTop || 0;
+    var parentRect: any = scrollElement.value?.getBoundingClientRect();
+    // What can you see?
+    var parentViewableArea = {
+      height: scrollElement.value?.clientHeight,
+      width: scrollElement.value?.clientWidth
+    };
 
-    if (
-      st < hoveredElementTop ||
-      st > hoveredElementTop + computedMaxHeight.value
-    ) {
-      hoveredElement?.scrollIntoView();
+    // Where is the child
+    var childRect: any = hoveredElement?.getBoundingClientRect();
+    // Is the child viewable?
+    var isViewable =
+      childRect.top >= parentRect.top &&
+      childRect.bottom <= parentRect.top + parentViewableArea.height;
+
+    // if you can't see the child try to scroll parent
+    if (!isViewable) {
+      // Should we scroll using top or bottom? Find the smaller ABS adjustment
+      const scrollTop = childRect.top - parentRect.top;
+      const scrollBot = childRect.bottom - parentRect.bottom;
+      if (Math.abs(scrollTop) < Math.abs(scrollBot)) {
+        // we're near the top of the list
+        scrollElement.value!!.scrollTop += scrollTop;
+      } else {
+        // we're near the bottom of the list
+        scrollElement.value!!.scrollTop += scrollBot;
+      }
     }
   }, 111);
 }
