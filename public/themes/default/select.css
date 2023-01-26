@@ -38,7 +38,7 @@
 
 .a-select__option--active,
 .a-select__option--active:hover {
-  background-color: var(--a-c-primary-100);
+  background-color: var(--a-c-theme-100);
 }
 
 .a-select__option--hovered {

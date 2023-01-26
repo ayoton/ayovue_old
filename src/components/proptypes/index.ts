@@ -39,7 +39,7 @@ export const sizeProp = {
   default: 16
 };
 
-export const maxHeightProp = {
+export const scrollHeightProp = {
   type: [String, Number],
   default: 188
 };

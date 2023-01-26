@@ -4,23 +4,23 @@
  * labelField, valueField, showSearchField, variant, size,
  * clearable, isDisabled, floating label, modelValue, raw(v-model:raw),
  * placeholder, options, grouped, groupedLabelField, groupedOptionsField,
- * groupByField, autofocus, maxHeight
+ * groupByField, autofocus, scrollHeight, loading
  *
  * Events:
- * focus, blur, select, change, clear
+ * focus, blur
  *
  * Methods:
- * blur, focus, isFocused, clearValue
+ * blur, focus, clearValue
  *
  * Slots:
- * append, prepend, item, selected
+ * option, selected
  *
  */
 
 import { computed, ref, onMounted, watch } from "vue";
 import {
   sizeProp,
-  maxHeightProp,
+  scrollHeightProp,
   stringProp,
   variantProp,
   booleanProp,
@@ -57,11 +57,12 @@ const props = defineProps({
   },
   placeholder: stringProp,
   autofocus: booleanProp,
-  maxHeight: maxHeightProp,
+  scrollHeight: scrollHeightProp,
   grouped: booleanProp,
   groupedLabelField: groupedLabelFieldProp,
   groupedOptionsField: groupedOptionsFieldProp,
-  groupByField: stringProp
+  groupByField: stringProp,
+  loading: booleanProp
 });
 
 const classes = computed(() => {
@@ -72,11 +73,12 @@ const classes = computed(() => {
     [`a-${props.variant}`]: true,
     "a-input-is-floating": isFloating.value,
     select: true,
-    "a-input--is-disabled": props.isDisabled
+    "a-input--is-disabled": props.isDisabled || props.loading,
+    "a-loading": props.loading
   };
 });
 
-const emit = defineEmits(["update:modelValue", "update:raw"]);
+const emit = defineEmits(["update:modelValue", "update:raw", "blur", "focus"]);
 
 // const select = ref<HTMLInputElement | null>(null);
 const filterInputEl = ref<HTMLInputElement | null>(null);
@@ -87,8 +89,8 @@ const scrollElement = ref<HTMLElement>();
 const isFocused = ref(false);
 const isTop = ref(false);
 
-const computedMaxHeight = computed(() => {
-  return Number(props.maxHeight || 188);
+const computedScrollHeight = computed(() => {
+  return Number(props.scrollHeight || 188);
 });
 
 //  size,
@@ -99,6 +101,7 @@ const computedMaxHeight = computed(() => {
 function focus() {
   inputParentEl.value?.focus();
   handleClick();
+  emit("focus");
 }
 
 const isFloating = computed(() => props.modelValue || isFocused.value);
@@ -187,6 +190,7 @@ function handleBlur() {
     if (!inputParentEl.value?.contains(document.activeElement)) {
       isFocused.value = false;
     }
+    emit("blur");
   }, 111);
 }
 
@@ -366,7 +370,7 @@ defineExpose({
   clearValue,
   isFocused,
   focus,
-  blur
+  blur: handleBlur
 });
 </script>
 
@@ -438,7 +442,7 @@ defineExpose({
         <div
           class="a-select__dropdown-fixed"
           ref="scrollElement"
-          :style="{ maxHeight: computedMaxHeight + `px` }"
+          :style="{ maxHeight: computedScrollHeight + `px` }"
         >
           <template v-if="optionType === 'string'">
             <button

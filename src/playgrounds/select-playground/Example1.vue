@@ -18,7 +18,8 @@ const componentData = reactive({
     clearable: false,
     isDisabled: false,
     showSearchField: false,
-    autofocus: false
+    autofocus: false,
+    loading: false
   },
   stringProps: {
     placeholder: "Select Country",
@@ -27,7 +28,7 @@ const componentData = reactive({
 
   numberProps: {
     size: "",
-    maxHeight: ""
+    scrollHeight: ""
   },
   dropdownProps: {
     variant: {
@@ -73,7 +74,8 @@ watch(
             :isDisabled="componentData.booleanProps.isDisabled"
             :showSearchField="componentData.booleanProps.showSearchField"
             :autofocus="componentData.booleanProps.autofocus"
-            :max-height="componentData.numberProps.maxHeight"
+            :scroll-height="componentData.numberProps.scrollHeight"
+            :loading="componentData.booleanProps.loading"
             ref="selectComponent"
           >
           </ASelect>

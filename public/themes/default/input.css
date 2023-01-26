@@ -4,7 +4,7 @@
   border: 1px solid var(--a-c-theme-500);
   border-radius: 0.25em;
   padding: 0.75em 1em;
-  outline: 0 solid var(--a-c-theme-300);
+  outline: 0 solid var(--a-c-theme-200);
   transition: all 0.3s linear;
   line-height: 1.15;
   color: var(--a-c-gray-600);
