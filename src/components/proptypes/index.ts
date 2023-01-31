@@ -108,6 +108,11 @@ export const widthProp = {
   default: "100%"
 };
 
+export const widthAutoProp = {
+  type: String,
+  default: "auto"
+};
+
 type allowedColors =
   | "primary"
   | "secondary"
@@ -131,4 +136,9 @@ export const variantProp = {
       "info"
     ].includes(value);
   }
+};
+
+export const optionValueProp = {
+  type: String,
+  default: "value"
 };

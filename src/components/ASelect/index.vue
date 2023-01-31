@@ -29,7 +29,9 @@ import {
   labelFieldProp,
   valueFieldProp,
   groupedOptionsFieldProp,
-  groupedLabelFieldProp
+  groupedLabelFieldProp,
+  widthAutoProp,
+  optionValueProp
 } from "../proptypes";
 
 const props = defineProps({
@@ -46,15 +48,9 @@ const props = defineProps({
   value: stringProp,
   size: sizeProp,
   isDisabled: booleanProp,
-  width: {
-    type: String,
-    default: "auto"
-  },
+  width: widthAutoProp,
   options: anyArrayProp,
-  optionValue: {
-    type: String,
-    default: "value"
-  },
+  optionValue: optionValueProp,
   placeholder: stringProp,
   autofocus: booleanProp,
   scrollHeight: scrollHeightProp,
@@ -72,7 +68,6 @@ const classes = computed(() => {
     [props.class]: true,
     [`a-${props.variant}`]: true,
     "a-input-is-floating": isFloating.value,
-    select: true,
     "a-input--is-disabled": props.isDisabled || props.loading,
     "a-loading": props.loading
   };
@@ -80,23 +75,17 @@ const classes = computed(() => {
 
 const emit = defineEmits(["update:modelValue", "update:raw", "blur", "focus"]);
 
-// const select = ref<HTMLInputElement | null>(null);
 const filterInputEl = ref<HTMLInputElement | null>(null);
-const inputParentEl = ref<HTMLElement>();
-const inputFieldEl = ref<HTMLElement>();
-const scrollElement = ref<HTMLElement>();
+const inputParentEl = ref<HTMLInputElement | null>(null);
+const inputFieldEl = ref<HTMLInputElement | null>(null);
+const scrollEl = ref<HTMLInputElement | null>(null);
 
 const isFocused = ref(false);
-const isTop = ref(false);
+const isPlacedTop = ref(false);
 
 const computedScrollHeight = computed(() => {
   return Number(props.scrollHeight || 188);
 });
-
-//  size,
-//
-//  grouped, groupLabelField,
-//  * autofocus
 
 function focus() {
   inputParentEl.value?.focus();
@@ -106,12 +95,17 @@ function focus() {
 
 const isFloating = computed(() => props.modelValue || isFocused.value);
 
-const groupedOptions = computed(() => {
+const optionType = computed(() => {
+  if (props.grouped) {
+    return "object";
+  }
+  return typeof props.options[0] === "object" ? "object" : "string";
+});
+
+const modifiedOptions = computed(() => {
   let rawOptions = props.options;
 
   if (props.groupByField) {
-    // TODO: create groupByOptions
-
     let groups: any = {};
 
     props.options.forEach((item) => {
@@ -130,28 +124,28 @@ const groupedOptions = computed(() => {
     });
   }
 
-  let tempOptions: any[] = [];
+  let finalOptions: any[] = [];
   if (props.grouped || props.groupByField) {
     rawOptions.forEach((item) => {
-      tempOptions = tempOptions.concat({
+      finalOptions = finalOptions.concat({
         [props.labelField]: item[props.groupedLabelField],
         type: "group-title"
       });
-      tempOptions = tempOptions.concat(item[props.groupedOptionsField]);
+      finalOptions = finalOptions.concat(item[props.groupedOptionsField]);
     });
   } else {
-    tempOptions = rawOptions;
+    finalOptions = rawOptions;
   }
 
-  return tempOptions;
+  return finalOptions;
 });
 
 const filteredOptions = computed(() => {
   if (!filterText.value) {
-    return groupedOptions.value;
+    return modifiedOptions.value;
   }
 
-  return groupedOptions.value.filter((option) => {
+  return modifiedOptions.value.filter((option) => {
     if (optionType.value === "string") {
       return option.toLowerCase().indexOf(filterText.value.toLowerCase()) > -1;
     } else {
@@ -165,24 +159,14 @@ const filteredOptions = computed(() => {
   });
 });
 
-const optionType = computed(() => {
-  if (props.grouped) {
-    return "object";
-  }
-  return typeof props.options[0] === "object" ? "object" : "string";
-});
-
 function handleClick() {
   isFocused.value = !isFocused.value;
   const el: HTMLElement = inputFieldEl.value!!;
-  // console.log(el.getBoundingClientRect());
-  const viewportOffset: any = el.getBoundingClientRect();
-  // these are relative to the viewport, i.e. the window
-  var top = viewportOffset.top;
-  // var left = viewportOffset.left;
+  const viewportOffset: any = inputFieldEl.value?.getBoundingClientRect();
+  const top = viewportOffset.top;
   const availableBottomSpace = innerHeight - top - el.offsetHeight;
   // console.log(availableBottomSpace);
-  isTop.value = availableBottomSpace < 222;
+  isPlacedTop.value = availableBottomSpace < props.scrollHeight;
 }
 
 function handleBlur() {
@@ -214,9 +198,7 @@ function updateValue(option: any) {
   resetFilter();
 }
 
-// TODO: Watch filteredText and reset hoverIndex
 function handleKeydown(e: KeyboardEvent) {
-  // console.log(e);
   if (e.key === "ArrowDown") {
     e.preventDefault();
     hoverIndex.value =
@@ -251,12 +233,7 @@ function handleKeydown(e: KeyboardEvent) {
     } else {
       isFocused.value = !isFocused.value;
     }
-  } else if (
-    e.key !== "Backspace" &&
-    e.key !== "Alt" &&
-    e.key !== "Control" &&
-    e.key !== "Tab"
-  ) {
+  } else if (e.code.startsWith("Key") || e.code.startsWith("Digit")) {
     setTimeout(() => {
       if (!filterText.value) {
         filterText.value = e.key;
@@ -274,11 +251,11 @@ function scrollIntoView() {
       `#option${hoverIndex.value}`
     );
 
-    var parentRect: any = scrollElement.value?.getBoundingClientRect();
+    var parentRect: any = scrollEl.value?.getBoundingClientRect();
     // What can you see?
     var parentViewableArea = {
-      height: scrollElement.value?.clientHeight,
-      width: scrollElement.value?.clientWidth
+      height: scrollEl.value?.clientHeight,
+      width: scrollEl.value?.clientWidth
     };
 
     // Where is the child
@@ -295,10 +272,10 @@ function scrollIntoView() {
       const scrollBot = childRect.bottom - parentRect.bottom;
       if (Math.abs(scrollTop) < Math.abs(scrollBot)) {
         // we're near the top of the list
-        scrollElement.value!!.scrollTop += scrollTop;
+        scrollEl.value!!.scrollTop += scrollTop;
       } else {
         // we're near the bottom of the list
-        scrollElement.value!!.scrollTop += scrollBot;
+        scrollEl.value!!.scrollTop += scrollBot;
       }
     }
   }, 111);
@@ -325,6 +302,7 @@ function resetFilter() {
 function clearValue(e: Event) {
   e.stopPropagation();
   emit("update:modelValue", "");
+  emit("update:raw", {});
 }
 
 const floatingStyle = computed(() => {
@@ -350,7 +328,7 @@ const rawValue = computed(() => {
   if (optionType.value === "string" || !props.modelValue) {
     return props.modelValue;
   }
-  const filteredOptions = groupedOptions.value.filter((option) => {
+  const filteredOptions = modifiedOptions.value.filter((option) => {
     return option[props.valueField] === props.modelValue;
   });
 
@@ -383,7 +361,8 @@ defineExpose({
     :style="{ width: width || 'auto', '--a-font-size': `${size || 16}px` }"
     ref="inputParentEl"
     aria-label="Select Box"
-    tabindex="0"
+    tabindex="-1"
+    role="listbox"
     @blur="handleBlur"
     @click="handleClick"
     @keydown="handleKeydown"
@@ -421,7 +400,7 @@ defineExpose({
       <div
         class="a-select__dropdown"
         v-show="isFocused"
-        :class="{ 'a-select__dropdown--top': isTop }"
+        :class="{ 'a-select__dropdown--top': isPlacedTop }"
         @click="handleDropdownClick"
       >
         <div
@@ -441,11 +420,11 @@ defineExpose({
 
         <div
           class="a-select__dropdown-fixed"
-          ref="scrollElement"
+          ref="scrollEl"
           :style="{ maxHeight: computedScrollHeight + `px` }"
         >
           <template v-if="optionType === 'string'">
-            <button
+            <div
               v-for="(option, i) in filteredOptions"
               :id="`option` + i"
               :key="option"
@@ -457,11 +436,13 @@ defineExpose({
               @mouseover="hoverIndex = i"
               @mouseleave="hoverIndex = -1"
               @click="updateValue(option)"
+              role="option"
+              tabindex="0"
             >
               <slot name="option" :option="option">
                 {{ option }}
               </slot>
-            </button>
+            </div>
           </template>
 
           <template v-else>
@@ -481,7 +462,9 @@ defineExpose({
               }"
               @click="updateValue(option)"
               @mouseover="hoverIndex = i"
+              tabindex="0"
               @mouseleave="hoverIndex = -1"
+              role="option"
             >
               <div v-if="option.type === `group-title`">
                 {{ option[labelField] }}
