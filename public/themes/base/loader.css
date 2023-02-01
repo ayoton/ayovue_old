@@ -3,7 +3,7 @@
   --loader-size: 1.3em;
   --loader-border: var(--a-c-theme-400);
   --loader-border-top: var(--a-c-theme-50);
-  --loader-background: var(--a-c-theme-500);
+  /* --loader-background: var(--a-c-theme-500); */
 }
 
 .a-loading.a-text,

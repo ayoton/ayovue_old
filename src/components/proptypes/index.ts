@@ -1,4 +1,4 @@
-import { PropType } from "vue";
+import type { PropType } from "vue";
 
 type allowedInputTypes =
   | "text"
@@ -35,8 +35,13 @@ export const inputTypeProp = {
 };
 
 export const sizeProp = {
-  type: Number as PropType<number>,
+  type: [String, Number],
   default: 16
+};
+
+export const scrollHeightProp = {
+  type: [String, Number],
+  default: 188
 };
 
 export const stringProp = {
@@ -60,6 +65,7 @@ export const booleanProp = {
 };
 
 export const anyProp = {
+  type: [String, Array, Object, Number, Date, Boolean] as any,
   default: ""
 };
 
@@ -71,6 +77,21 @@ export const anyArrayProp = {
 export const labelFieldProp = {
   type: String,
   default: "name"
+};
+
+export const valueFieldProp = {
+  type: String,
+  default: "value"
+};
+
+export const groupedLabelFieldProp = {
+  type: String,
+  default: "name"
+};
+
+export const groupedOptionsFieldProp = {
+  type: String,
+  default: "options"
 };
 
 type allowedStates = "info" | "success" | "warning" | "danger" | "";
@@ -85,6 +106,11 @@ export const stateProp = {
 export const widthProp = {
   type: String,
   default: "100%"
+};
+
+export const widthAutoProp = {
+  type: String,
+  default: "auto"
 };
 
 type allowedColors =
@@ -110,4 +136,9 @@ export const variantProp = {
       "info"
     ].includes(value);
   }
+};
+
+export const optionValueProp = {
+  type: String,
+  default: "value"
 };

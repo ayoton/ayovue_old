@@ -70,7 +70,6 @@ const addDay = () => {
 .playground__item {
   border-right: 1px solid rgb(221, 221, 221);
   padding-right: 44px;
-  padding-left: 44px;
 }
 
 div:last-child .playground__item {
@@ -142,5 +141,9 @@ div:last-child .playground__item {
   border: 1px solid #cdcdcd;
   background: #fff;
   border-radius: 3px;
+}
+
+.playground h2 {
+  color: #555;
 }
 </style>
