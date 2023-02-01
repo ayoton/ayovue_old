@@ -169,13 +169,17 @@ function handleClick() {
   isPlacedTop.value = availableBottomSpace < props.scrollHeight;
 }
 
-function handleBlur() {
+function handleBlur(e: Event) {
   setTimeout(() => {
     if (!inputParentEl.value?.contains(document.activeElement)) {
       isFocused.value = false;
     }
     emit("blur");
   }, 111);
+}
+
+function handleFilterBlur() {
+  inputParentEl.value?.focus();
 }
 
 function handleDropdownClick(e: Event) {
@@ -353,6 +357,7 @@ defineExpose({
 </script>
 
 <template>
+  {{ isFocused }}
   <!-- {{ isFocused }}
   {{ autofocus }} -->
   <!-- -- {{ rawValue }} -- -->
@@ -413,7 +418,7 @@ defineExpose({
             placeholder="Search"
             class="a-select__filter-input flex-1"
             v-model="filterText"
-            @blur="handleBlur"
+            @blur="handleFilterBlur"
             ref="filterInputEl"
           />
         </div>
