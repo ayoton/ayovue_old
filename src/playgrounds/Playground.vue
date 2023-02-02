@@ -15,6 +15,7 @@ const addDay = () => {
         <RouterLink to="/button">Button</RouterLink>
         <RouterLink to="/input">Input Text</RouterLink>
         <RouterLink to="/select">Select</RouterLink>
+        <RouterLink to="/multi-select">MultiSelect</RouterLink>
         <RouterLink to="/switch">Switch</RouterLink>
       </div>
     </div>
