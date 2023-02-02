@@ -357,7 +357,6 @@ defineExpose({
 </script>
 
 <template>
-  {{ isFocused }}
   <!-- {{ isFocused }}
   {{ autofocus }} -->
   <!-- -- {{ rawValue }} -- -->

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from "vue";
-import ASelectMulti from "../../components/ASelectMulti/index.vue";
+import AMultiSelect from "../../components/AMultiSelect/index.vue";
 import { variants } from "../utils/playgroundData";
 import { generateComponentCode } from "../utils/functions";
 import AyoPrism from "../code/AyoPrism.vue";
@@ -11,7 +11,7 @@ import VariableProps from "../components/VariableProps.vue";
 import { stringContries as options } from "./data";
 
 const componentData = reactive({
-  name: "ASelectMulti",
+  name: "AMultiSelect",
   vModel: "Nepal",
   vModelRaw: "",
   booleanProps: {
@@ -41,7 +41,7 @@ const componentData = reactive({
   }
 });
 
-const selectComponent = ref(ASelectMulti);
+const selectComponent = ref(AMultiSelect);
 
 const code = computed(() => {
   return generateComponentCode(componentData);
@@ -63,7 +63,7 @@ watch(
       <div class="col-1 col-md-5">
         <h2>Example 1 with string options</h2>
         <div class="playground__item mt-3">
-          <ASelectMulti
+          <AMultiSelect
             :options="componentData.variableProps.options"
             v-model="componentData.vModel"
             :size="componentData.numberProps.size"
@@ -78,7 +78,7 @@ watch(
             :loading="componentData.booleanProps.loading"
             ref="selectComponent"
           >
-          </ASelectMulti>
+          </AMultiSelect>
           <div class="mt-3" style="font-size: 14px">
             vModel: {{ componentData.vModel }} <br />
           </div>

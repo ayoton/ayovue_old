@@ -361,7 +361,7 @@ defineExpose({
 </script>
 
 <template>
-  {{ isFocused }}
+  <!-- {{ isFocused }} -->
   <!-- {{ isFocused }}
   {{ autofocus }} -->
   <!-- -- {{ rawValue }} -- -->
@@ -433,7 +433,7 @@ defineExpose({
           :style="{ maxHeight: computedScrollHeight + `px` }"
         >
           <template v-if="optionType === 'string'">
-            <div
+            <label
               v-for="(option, i) in filteredOptions"
               :id="`option` + i"
               :key="option"
@@ -448,10 +448,12 @@ defineExpose({
               role="option"
               tabindex="0"
             >
-              <slot name="option" :option="option">
-                {{ option }}
-              </slot>
-            </div>
+              <!-- <slot name="option" :option="option"> -->
+
+              <input type="checkbox" />
+              {{ option }}
+              <!-- </slot> -->
+            </label>
           </template>
 
           <template v-else>
