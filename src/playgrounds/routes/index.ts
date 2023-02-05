@@ -6,6 +6,7 @@ const SelectPlayground = () => import("../select/SelectPlayground.vue");
 const MultiSelectPlayground = () => import("../multiselect/Playground.vue");
 const SwitchPlayground = () => import("../SwitchPlayground.vue");
 const DropdownPlayground = () => import("../DropdownPlayground.vue");
+const DialogPlayground = () => import("../dialog/DialogPlayground.vue");
 
 const routes = <any>[
   { path: "/dropdown", component: DropdownPlayground },
@@ -14,6 +15,7 @@ const routes = <any>[
   { path: "/input", component: InputPlayground },
   { path: "/select", component: SelectPlayground },
   { path: "/multi-select", component: MultiSelectPlayground },
+  { path: "/dialog", component: DialogPlayground },
   { path: "/", component: ``, redirect: "/button" }
 ];
 
