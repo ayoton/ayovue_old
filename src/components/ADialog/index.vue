@@ -21,6 +21,10 @@ const props = defineProps({
   hideHeader: {
     type: Boolean,
     default: false
+  },
+  hideFooter: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -29,7 +33,7 @@ const dialogEl = ref<HTMLDialogElement | null>(null);
 function handleOutsideClick(e: MouseEvent) {
   if (props.closeOnOutsideClick) {
     const rect: any = dialogEl.value?.getBoundingClientRect();
-    var isInDialog =
+    const isInDialog =
       rect.top <= e.clientY &&
       e.clientY <= rect.top + rect.height &&
       rect.left <= e.clientX &&
@@ -72,7 +76,7 @@ function close() {
       ref="dialogEl"
       v-show="modelValue"
       @click="handleOutsideClick"
-      :style="{ width: width }"
+      :style="{ width: width || '600px' }"
     >
       <slot></slot>
     </dialog>

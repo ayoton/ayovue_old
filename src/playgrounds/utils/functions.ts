@@ -1,4 +1,8 @@
-export const generateComponentCode = (componentData: any, withRaw = false) => {
+export const generateComponentCode = (
+  componentData: any,
+  withRaw = false,
+  slotData = ``
+) => {
   let code = `<${componentData.name}
   v-model="vModel"
 `;
@@ -43,7 +47,14 @@ export const generateComponentCode = (componentData: any, withRaw = false) => {
     }
   }
 
-  code += `>
+  code += `>`;
+  if (slotData) {
+    code +=
+      `
+  ` + slotData;
+  }
+
+  code += `
 </${componentData.name}>`;
   return code;
 };
