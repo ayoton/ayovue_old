@@ -26,14 +26,18 @@ const props = defineProps({
 
 const dialogEl = ref<HTMLDialogElement | null>(null);
 
-function handleOutsideClick() {
+function handleOutsideClick(e: MouseEvent) {
   if (props.closeOnOutsideClick) {
-    closeModal();
+    const rect: any = dialogEl.value?.getBoundingClientRect();
+    var isInDialog =
+      rect.top <= e.clientY &&
+      e.clientY <= rect.top + rect.height &&
+      rect.left <= e.clientX &&
+      e.clientX <= rect.left + rect.width;
+    if (!isInDialog) {
+      close();
+    }
   }
-}
-
-function closeModal() {
-  emit("update:modelValue", false);
 }
 
 onMounted(() => {
@@ -52,18 +56,6 @@ watch(
   }
 );
 
-function handleClick(e: MouseEvent) {
-  const rect: any = dialogEl.value?.getBoundingClientRect();
-  var isInDialog =
-    rect.top <= e.clientY &&
-    e.clientY <= rect.top + rect.height &&
-    rect.left <= e.clientX &&
-    e.clientX <= rect.left + rect.width;
-  if (!isInDialog) {
-    close();
-  }
-}
-
 function close() {
   emit("update:modelValue", false);
   setTimeout(() => {
@@ -73,13 +65,14 @@ function close() {
 </script>
 
 <template>
-  <Transition name="zoom">
+  <Transition name="dialog">
     <!-- <p v-show="modelValue">Hello</p> -->
     <dialog
       class="a-dialog"
       ref="dialogEl"
       v-show="modelValue"
-      @click="handleClick"
+      @click="handleOutsideClick"
+      :style="{ width: width }"
     >
       <slot></slot>
     </dialog>
@@ -98,7 +91,7 @@ function close() {
               <slot name="header">
                 <div class="modal__header d-flex jc-between">
                   <div class="modal__heading">{{ heading }}</div>
-                  <div class="modal__close" @click="closeModal">&times;</div>
+                  <div class="modal__close" @click="close">&times;</div>
                 </div>
               </slot>
             </div>
@@ -116,6 +109,10 @@ function close() {
 <style>
 .a-dialog {
   margin: auto;
+  border: none;
+  box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.2);
+  padding: 22px;
+  border-radius: 8px;
 }
 
 .a-dialog::backdrop {
@@ -123,25 +120,25 @@ function close() {
   backdrop-filter: blur(1px);
 }
 
-/* .fade-enter-active,
-.fade-leave-active {
-  transition: all 0.25s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-} */
-
-.zoom-enter-active,
-.zoom-leave-active {
+.dialog-enter-active,
+.dialog-leave-active {
   transition: all 0.25s ease;
   transform: scale(1);
 }
 
-.zoom-enter-from,
-.zoom-leave-to {
+.dialog-enter-active::backdrop,
+.dialog-leave-active::backdrop {
+  transition: all 0.25s ease;
+}
+
+.dialog-enter-from,
+.dialog-leave-to {
   transform: scale(0.75);
+  opacity: 0;
+}
+
+.dialog-enter-from::backdrop,
+.dialog-leave-to::backdrop {
   opacity: 0;
 }
 </style>

@@ -4,6 +4,7 @@ import AButton from "../../components/AButton/index.vue";
 import ADialog from "../../components/ADialog/index.vue";
 
 const showDialog = ref(false);
+const anotherModal = ref(false);
 </script>
 
 <template>
@@ -16,6 +17,29 @@ const showDialog = ref(false);
         quo hic quia dolorem est itaque, cum quas qui facere magni inventore
         cupiditate quae expedita mollitia?
       </p>
+
+      <AButton @click="anotherModal = true">Modal in Modal</AButton>
+
+      <ADialog
+        v-model="anotherModal"
+        heading="This is modal title"
+        width="900px"
+      >
+        <p>
+          This is modal content Lorem ipsum dolor sit, amet consectetur
+          adipisicing elit. Voluptatem molestias nulla assumenda laudantium amet
+          quo hic quia dolorem est itaque, cum quas qui facere magni inventore
+          cupiditate quae expedita mollitia?
+        </p>
+
+        <div class="mt-3">
+          <AButton class="primary" @click="anotherModal = false">Yes</AButton>
+          <AButton class="secondary ml-3" @click="anotherModal = false"
+            >No</AButton
+          >
+        </div>
+      </ADialog>
+
       <div class="mt-3">
         <AButton class="primary" @click="showDialog = false">Yes</AButton>
         <AButton class="secondary ml-3" @click="showDialog = false">No</AButton>
