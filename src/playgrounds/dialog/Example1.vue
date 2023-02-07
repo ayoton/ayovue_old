@@ -18,12 +18,11 @@ const componentData = reactive({
   vModelRaw: "",
   booleanProps: {
     closeOnOutsideClick: false,
-    hideHeader: false,
-    hideFooter: false
+    hideHeader: false
   },
   stringProps: {
     width: "",
-    heading: "Modal Heading"
+    title: "Modal Heading"
   },
 
   numberProps: {},
@@ -35,12 +34,15 @@ const code = computed(() => {
   const slotData = `<p>
     This is modal content Lorem ...
   </p>
-  <div class="mt-3">
-    <AButton class="primary" @click="vModel = false">
+  <div class="py-3 d-flex jc-end">
+    <AButton class="primary" @click="componentData.vModel = false">
       Yes
     </AButton>
-
-    <AButton class="secondary ml-3" @click="vModel = false">
+    <AButton
+      class="secondary ml-3"
+      @click="componentData.vModel = false"
+      variant="danger"
+    >
       No
     </AButton>
   </div>`;
@@ -52,14 +54,13 @@ const code = computed(() => {
   <div>
     <div class="row gap-0 mt-4">
       <div class="col-md-4">
-        <h2>Example 1</h2>
+        <h2>Example 1 with default dialog</h2>
         <div class="playground__item mt-3">
           <AButton @click="componentData.vModel = true">Show Dialog</AButton>
           <ADialog
             v-model="componentData.vModel"
-            :heading="componentData.stringProps.heading"
+            :title="componentData.stringProps.title"
             :hide-header="componentData.booleanProps.hideHeader"
-            :hide-footer="componentData.booleanProps.hideFooter"
             :close-on-outside-click="
               componentData.booleanProps.closeOnOutsideClick
             "
@@ -72,16 +73,17 @@ const code = computed(() => {
               inventore cupiditate quae expedita mollitia?
             </p>
 
-            <div class="mt-3">
-              <AButton class="primary" @click="componentData.vModel = false"
-                >Yes</AButton
-              >
+            <div class="py-3 d-flex jc-end">
+              <AButton class="primary" @click="componentData.vModel = false">
+                Yes
+              </AButton>
               <AButton
                 class="secondary ml-3"
                 @click="componentData.vModel = false"
+                variant="danger"
               >
-                No</AButton
-              >
+                No
+              </AButton>
             </div>
           </ADialog>
 

@@ -1,31 +1,24 @@
 <script lang="ts" setup>
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, useSlots } from "vue";
+import { stringProp, booleanProp } from "../proptypes";
+
+/***
+ * Props: modelValue, title, width, closeOnOutsideClick, hideHeader
+ * Slots: header, footer
+ */
 
 const emit = defineEmits(["update:modelValue"]);
+const slots = useSlots();
 
 const props = defineProps({
-  modelValue: {
-    default: false
-  },
-  heading: {
-    default: "Modal Heading"
-  },
+  modelValue: booleanProp,
+  title: stringProp,
   width: {
     type: String,
     default: "800px"
   },
-  closeOnOutsideClick: {
-    type: Boolean,
-    default: false
-  },
-  hideHeader: {
-    type: Boolean,
-    default: false
-  },
-  hideFooter: {
-    type: Boolean,
-    default: false
-  }
+  closeOnOutsideClick: booleanProp,
+  hideHeader: booleanProp
 });
 
 const dialogEl = ref<HTMLDialogElement | null>(null);
@@ -51,7 +44,6 @@ onMounted(() => {
 watch(
   () => props.modelValue,
   (newValue) => {
-    // console.log(newValue);
     if (newValue) {
       dialogEl.value?.showModal();
     } else {
@@ -62,23 +54,40 @@ watch(
 
 function close() {
   emit("update:modelValue", false);
-  setTimeout(() => {
-    dialogEl.value?.close();
-  }, 250);
 }
+
+function open() {
+  emit("update:modelValue", true);
+}
+
+defineExpose({ close, open });
 </script>
 
 <template>
-  <Transition name="dialog">
-    <!-- <p v-show="modelValue">Hello</p> -->
+  <Transition name="dialog" @after-leave="dialogEl?.close()">
     <dialog
       class="a-dialog"
       ref="dialogEl"
       v-show="modelValue"
       @click="handleOutsideClick"
-      :style="{ width: width || '600px' }"
+      :style="{ width: width || '500px' }"
     >
-      <slot></slot>
+      <slot name="header" :close="close">
+        <div class="a-dialog__header d-flex ai-center" v-if="!hideHeader">
+          <div class="a-dialog__title flex-1">
+            {{ title }}
+          </div>
+          <div class="a-dialog__close">
+            <div class="a-icon-close a-action-btn" @click="close()"></div>
+          </div>
+        </div>
+      </slot>
+      <div class="a-dialog__body">
+        <slot></slot>
+      </div>
+      <div class="a-dialog__footer" v-if="slots['footer']">
+        <slot name="footer" :close="close"> </slot>
+      </div>
     </dialog>
   </Transition>
 
@@ -114,14 +123,41 @@ function close() {
 .a-dialog {
   margin: auto;
   border: none;
-  box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.2);
-  padding: 22px;
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 2px 50px 2px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
 }
 
 .a-dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(1px);
+}
+
+.a-dialog__header {
+  height: 40px;
+  background-color: var(--a-c-gray-50);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--a-c-gray-700);
+}
+
+.a-dialog__title {
+  padding: 0 1em;
+}
+
+.a-dialog__close {
+  padding: 0.75em 1em;
+}
+
+.a-dialog__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5em 1em;
+}
+
+.a-dialog__footer {
+  height: 40px;
 }
 
 .dialog-enter-active,
