@@ -37,10 +37,6 @@ function handleOutsideClick(e: MouseEvent) {
   }
 }
 
-onMounted(() => {
-  //   dialogEl.value?.showModal();
-});
-
 watch(
   () => props.modelValue,
   (newValue) => {
@@ -93,33 +89,6 @@ defineExpose({ close, open });
       </div>
     </dialog>
   </Transition>
-
-  <!-- <teleport to="body">
-    <Transition name="fade">
-      <div class="modal" v-show="modelValue" @click="handleOutsideClick">
-        <Transition name="zoom">
-          <div
-            class="modal__container"
-            :style="{ width: width }"
-            v-show="modelValue"
-          >
-            <div v-if="!hideHeader" @click.stop>
-              <slot name="header">
-                <div class="modal__header d-flex jc-between">
-                  <div class="modal__heading">{{ heading }}</div>
-                  <div class="modal__close" @click="close">&times;</div>
-                </div>
-              </slot>
-            </div>
-
-            <div class="modal__body" @click.stop>
-              <slot></slot>
-            </div>
-          </div>
-        </Transition>
-      </div>
-    </Transition>
-  </teleport> -->
 </template>
 
 <style>
@@ -157,31 +126,5 @@ defineExpose({ close, open });
   flex: 1;
   overflow-y: auto;
   padding: 0.5em 1em;
-}
-
-.a-dialog__footer {
-  /* height: 40px; */
-}
-
-.dialog-enter-active,
-.dialog-leave-active {
-  transition: all 0.25s ease;
-  transform: scale(1);
-}
-
-.dialog-enter-active::backdrop,
-.dialog-leave-active::backdrop {
-  transition: all 0.25s ease;
-}
-
-.dialog-enter-from,
-.dialog-leave-to {
-  transform: scale(0.75);
-  opacity: 0;
-}
-
-.dialog-enter-from::backdrop,
-.dialog-leave-to::backdrop {
-  opacity: 0;
 }
 </style>
