@@ -157,7 +157,7 @@ defineExpose({ close, open });
 }
 
 .a-dialog__footer {
-  height: 40px;
+  /* height: 40px; */
 }
 
 .dialog-enter-active,
