@@ -7,7 +7,7 @@ import Example3 from "./Example3.vue";
 import Example4 from "./Example4.vue";
 
 const tabItems = ["Example1", "Example2", "Example3", "Example4"];
-const selectedTab = ref(tabItems[3]);
+const selectedTab = ref(tabItems[0]);
 
 const components: any = {
   Example1: Example1,

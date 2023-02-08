@@ -1,0 +1,11 @@
+.a-dialog {
+  margin: auto;
+  border: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.a-dialog__body {
+  flex: 1;
+  overflow-y: auto;
+}

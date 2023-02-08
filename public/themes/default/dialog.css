@@ -1,0 +1,28 @@
+.a-dialog {
+  box-shadow: 0px 2px 50px 2px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+}
+
+.a-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(1px);
+}
+
+.a-dialog__header {
+  height: 40px;
+  background-color: var(--a-c-gray-50);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--a-c-gray-700);
+}
+.a-dialog__title {
+  padding: 0 1em;
+}
+
+.a-dialog__close {
+  padding: 0.75em 1em;
+}
+
+.a-dialog__body {
+  padding: 0.5em 1em;
+}

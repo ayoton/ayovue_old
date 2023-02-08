@@ -20,20 +20,25 @@ const componentData = reactive({
 });
 
 const code = computed(() => {
-  const slotData = `<template #default>
-    <p v-for="i in 40">
-      Lorem ipsum dolor sit amet ...
+  const slotData = `<p>First dialog content</p>
+  <AButton
+    @click="dialogTwoVModel = true"
+    variant="success"
+    class="my-3"
+  >
+    Show another dialog
+  </AButton>
+
+  <ADialog
+    v-model="dialogTwoVModel"
+    width="200px"
+    title="Second Dialog"
+  >
+    <p>
+      This is second dialog content. You can open as many dialog as
+      you want recursively
     </p>
-  </template>
-  <template #footer="{ close }">
-    <div
-      class="p-3 text-right d-flex jc-between"
-      style="background: #f5f5f5"
-    >
-      <AButton @click="close" variant="success"> I Agree </AButton>
-      <AButton @click="close" variant="danger"> Cancel </AButton>
-    </div>
-  </template>`;
+  </ADialog>`;
   return generateComponentCode(componentData, false, slotData);
 });
 
@@ -68,7 +73,7 @@ const dialogTwoVModel = ref(false);
             >
               <p>
                 This is second dialog content. You can open as many dialog as
-                you want with recursively
+                you want recursively
               </p>
             </ADialog>
           </ADialog>

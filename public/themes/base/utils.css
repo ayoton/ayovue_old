@@ -14,7 +14,7 @@
   transform: rotate(180deg);
 }
 
-/* Transition animations */
+/* Fade Transition animations */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2 linear;
@@ -35,4 +35,27 @@
 .dropdown-leave-to {
   opacity: 0;
   transform: scaleY(0.7);
+}
+
+/* Dialog transition animations */
+.dialog-enter-active,
+.dialog-leave-active {
+  transition: all 0.25s ease;
+  transform: scale(1);
+}
+
+.dialog-enter-active::backdrop,
+.dialog-leave-active::backdrop {
+  transition: all 0.25s ease;
+}
+
+.dialog-enter-from,
+.dialog-leave-to {
+  transform: scale(0.75);
+  opacity: 0;
+}
+
+.dialog-enter-from::backdrop,
+.dialog-leave-to::backdrop {
+  opacity: 0;
 }
