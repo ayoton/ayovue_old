@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import { generateComponentCode } from "../utils/functions";
 import AButton from "../../components/AButton/index.vue";
 import ADialog from "../../components/ADialog/index.vue";
@@ -36,37 +36,41 @@ const code = computed(() => {
   </template>`;
   return generateComponentCode(componentData, false, slotData);
 });
+
+const dialogTwoVModel = ref(false);
 </script>
 
 <template>
   <div>
     <div class="row gap-0 mt-4">
       <div class="col-md-5">
-        <h2>Footer slot</h2>
+        <h2>Dialog in Dialog</h2>
         <div class="playground__item mt-3">
           <AButton @click="componentData.vModel = true">Show Dialog</AButton>
           <ADialog
             v-model="componentData.vModel"
             :width="componentData.stringProps.width"
-            title="License Agreement"
+            title="First Dialog"
           >
-            <template #default>
-              <p v-for="i in 40">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-                alias, amet esse doloribus dolore aperiam dolorem dolor omnis
-                earum illo nemo debitis quidem saepe repudiandae error deleniti
-                eveniet quod enim?
+            <p>First dialog content</p>
+            <AButton
+              @click="dialogTwoVModel = true"
+              variant="success"
+              class="my-3"
+            >
+              Show another dialog
+            </AButton>
+
+            <ADialog
+              v-model="dialogTwoVModel"
+              width="200px"
+              title="Second Dialog"
+            >
+              <p>
+                This is second dialog content. You can open as many dialog as
+                you want with recursively
               </p>
-            </template>
-            <template #footer="{ close }">
-              <div
-                class="p-3 text-right d-flex jc-between"
-                style="background: #f5f5f5"
-              >
-                <AButton @click="close" variant="success"> I Agree </AButton>
-                <AButton @click="close" variant="danger"> Cancel </AButton>
-              </div>
-            </template>
+            </ADialog>
           </ADialog>
         </div>
       </div>

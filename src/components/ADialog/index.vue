@@ -53,7 +53,9 @@ watch(
 );
 
 function close() {
-  emit("update:modelValue", false);
+  if (props.modelValue) {
+    emit("update:modelValue", false);
+  }
 }
 
 function open() {
@@ -69,8 +71,9 @@ defineExpose({ close, open });
       class="a-dialog"
       ref="dialogEl"
       v-show="modelValue"
-      @click="handleOutsideClick"
+      @click.stop="handleOutsideClick"
       :style="{ width: width || '500px' }"
+      @cancel.prevent="close"
     >
       <slot name="header" :close="close">
         <div class="a-dialog__header d-flex ai-center" v-if="!hideHeader">

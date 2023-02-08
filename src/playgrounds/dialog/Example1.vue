@@ -54,7 +54,7 @@ const code = computed(() => {
   <div>
     <div class="row gap-0 mt-4">
       <div class="col-md-4">
-        <h2>Example 1 with default dialog</h2>
+        <h2>Default dialog</h2>
         <div class="playground__item mt-3">
           <AButton @click="componentData.vModel = true">Show Dialog</AButton>
           <ADialog
