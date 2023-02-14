@@ -9,5 +9,5 @@ export {
   useThrottleFn,
   unrefElement,
   useScroll,
-  useOffsetPagination,
-} from "@vueuse/core"
+  useOffsetPagination
+} from "@vueuse/core";
