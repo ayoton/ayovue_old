@@ -5,6 +5,7 @@ export interface ToastItem {
   summary?: string;
   detail?: string;
   duration?: number;
+  group?: string;
   $when?: number;
 }
 

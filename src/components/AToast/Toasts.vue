@@ -1,7 +1,7 @@
 <template>
   <teleport to="body">
     <TransitionGroup :name="transitionName" tag="div" :class="classes">
-      <div v-for="toast in toasts" :key="toast.$when">
+      <div v-for="toast in groupedToasts" :key="toast.$when">
         <Toast :toast="toast" @close="removeToast"> </Toast>
       </div>
     </TransitionGroup>
@@ -18,7 +18,19 @@ const props = defineProps({
   position: {
     type: String,
     default: ""
+  },
+  group: {
+    type: String,
+    default: "default"
   }
+});
+
+const groupedToasts = computed(() => {
+  return [...toasts].filter((toast) => {
+    return (
+      toast.group === props.group || (props.group === "default" && !toast.group)
+    );
+  });
 });
 
 const classes = computed(() => {

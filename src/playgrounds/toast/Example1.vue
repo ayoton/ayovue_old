@@ -13,9 +13,6 @@ import { useToast } from "../../components/composables/useToasts";
 
 const { showToast } = useToast();
 
-const showDialog = ref(false);
-const anotherModal = ref(false);
-
 const componentData = reactive({
   name: "ADialog",
   vModel: false,
@@ -38,12 +35,13 @@ const code = computed(() => {
   return generateComponentCode(componentData);
 });
 
-function generateToast() {
+function generateToast(group?: string) {
   showToast({
     type: "success",
     detail: "Done successfully",
     summary: "Success",
-    duration: 2222
+    duration: 2222,
+    group
   });
 }
 </script>
@@ -54,7 +52,26 @@ function generateToast() {
       <div class="col-md-4">
         <h2>Default toast</h2>
         <div class="playground__item mt-3">
-          <AButton @click="generateToast">Show Toast</AButton>
+          <AButton @click="generateToast()">Default Toast</AButton> <br />
+          <AButton @click="generateToast('tl')" class="mt-2">
+            Top Left Toast
+          </AButton>
+          <br />
+          <AButton @click="generateToast('tc')" class="mt-2">
+            Top Center Toast
+          </AButton>
+          <br />
+          <AButton @click="generateToast('bl')" class="mt-2">
+            Bottom Left
+          </AButton>
+          <br />
+          <AButton @click="generateToast('br')" class="mt-2">
+            Bottom Right
+          </AButton>
+          <br />
+          <AButton @click="generateToast('bc')" class="mt-2">
+            Bottom Center
+          </AButton>
 
           <h4 class="mt-4">Props</h4>
           <BooleanProps :items="componentData.booleanProps"></BooleanProps>
