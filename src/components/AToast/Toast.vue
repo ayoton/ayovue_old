@@ -17,8 +17,8 @@ const props = defineProps({
 
 const classes = computed(() => {
   return {
-    toast: true,
-    [props.toast.type]: true
+    "a-toast": true,
+    [`a-${props.toast.type}`]: true
   };
 });
 
@@ -40,7 +40,7 @@ function endAnimation() {
     @mouseleave="playingAnimation = true"
   >
     <slot>
-      <div class="toast__icon">
+      <div class="a-toast__icon">
         <div class="gg-check" v-if="toast.type === 'success'"></div>
         <div
           class="gg-danger"
@@ -48,24 +48,24 @@ function endAnimation() {
         ></div>
         <div class="gg-info" v-if="toast.type === 'info'"></div>
       </div>
-      <div class="toast__content">
-        <div class="toast__heading">
+      <div class="a-toast__content">
+        <div class="a-toast__heading">
           {{ toast.summary }}
         </div>
 
-        <div class="toast__body" @click.stop>
+        <div class="a-toast__body" @click.stop>
           <slot>
             {{ toast.detail }}
           </slot>
         </div>
       </div>
-      <div class="toast__close" @click="closeToast">&times;</div>
+      <div class="a-toast__close" @click="closeToast">&times;</div>
     </slot>
 
     <div
       id="progress"
       ref="progress"
-      class="toast__progress"
+      class="a-toast__progress"
       :style="{
         animation: `toastprogress ${toast.duration!! / 1000}s`,
         animationTimingFunction: 'linear',
@@ -79,7 +79,7 @@ function endAnimation() {
 </template>
 
 <style>
-.toast {
+.a-toast {
   color: var(--a-c-theme-600);
   background-color: var(--a-c-theme-50);
   border-left: 4px solid var(--a-c-theme-600);
@@ -93,28 +93,28 @@ function endAnimation() {
   position: relative;
 }
 
-.toast__icon {
+.a-toast__icon {
   padding: 13px 2px 9px 9px;
 }
 
-.toast__content {
+.a-toast__content {
   flex: 1;
 }
 
-.toast__heading {
+.a-toast__heading {
   font-size: 16px;
   font-weight: bold;
   padding: 9px 11px 0 11px;
 }
-.toast__close {
+.a-toast__close {
   cursor: pointer;
   padding: 9px;
   font-size: 27px;
 }
-.toast__close:hover {
+.a-toast__close:hover {
   color: red;
 }
-.toast__body {
+.a-toast__body {
   padding: 0 11px 11px 11px;
   border-radius: 9px;
 }
@@ -216,7 +216,7 @@ function endAnimation() {
   transform: rotate(45deg);
 }
 
-.toast__progress {
+.a-toast__progress {
   min-height: 1px;
   background-color: var(--a-c-theme-600);
   position: absolute;
@@ -230,7 +230,7 @@ function endAnimation() {
   /* animation-play-state: paused; */
 }
 
-.toast__progress:hover {
+.a-toast__progress:hover {
   animation-play-state: paused;
 }
 

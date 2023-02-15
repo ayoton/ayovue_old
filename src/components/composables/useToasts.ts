@@ -11,14 +11,14 @@ export interface ToastItem {
 
 const toasts = reactive(new Set<ToastItem>());
 
-toasts.add({
-  type: "success",
-  detail: "Done successfully",
-  summary: "Success",
-  duration: 88888,
-  group: "",
-  $when: 1234578
-});
+// toasts.add({
+//   type: "success",
+//   detail: "Done successfully",
+//   summary: "Success",
+//   duration: 88888,
+//   group: "",
+//   $when: 1234578
+// });
 
 export function useToast() {
   function showToast(toastItem: ToastItem) {

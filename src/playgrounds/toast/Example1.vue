@@ -13,26 +13,35 @@ import { useToast } from "../../components/composables/useToasts";
 
 const { showToast } = useToast();
 
-const componentData = reactive({
-  name: "ADialog",
-  vModel: false,
-  vModelRaw: "",
-  booleanProps: {
-    closeOnOutsideClick: false,
-    hideHeader: false
-  },
-  stringProps: {
-    width: "",
-    title: "Modal Heading"
-  },
+// const componentData = reactive({
+//   name: "ADialog",
+//   vModel: false,
+//   vModelRaw: "",
+//   booleanProps: {
+//     closeOnOutsideClick: false,
+//     hideHeader: false
+//   },
+//   stringProps: {
+//     width: "",
+//     title: "Modal Heading"
+//   },
 
-  numberProps: {},
-  dropdownProps: {},
-  variableProps: {}
-});
+//   numberProps: {},
+//   dropdownProps: {},
+//   variableProps: {}
+// });
 
 const code = computed(() => {
-  return generateComponentCode(componentData);
+  // return generateComponentCode(componentData);
+  return `function showInfoToast() {
+  showToast({
+    type: "info",
+    detail: "Account will be verified soon",
+    summary: "Information",
+    duration: 3333,
+    group: "br"
+  });
+}`;
 });
 
 function generateToast(group?: string) {
@@ -44,6 +53,45 @@ function generateToast(group?: string) {
     group
   });
 }
+
+function showSuccessToast() {
+  showToast({
+    type: "success",
+    detail: "Done successfully",
+    summary: "Success",
+    duration: 3333
+  });
+}
+
+function showDangerToast() {
+  showToast({
+    type: "danger",
+    detail: "Something went wrong!",
+    summary: "Error",
+    duration: 3333,
+    group: "tl"
+  });
+}
+
+function showWarningToast() {
+  showToast({
+    type: "warning",
+    detail: "This might cause error!",
+    summary: "Warning",
+    duration: 3333,
+    group: "tc"
+  });
+}
+
+function showInfoToast() {
+  showToast({
+    type: "info",
+    detail: "Account will be verified soon",
+    summary: "Information",
+    duration: 3333,
+    group: "br"
+  });
+}
 </script>
 
 <template>
@@ -52,35 +100,26 @@ function generateToast(group?: string) {
       <div class="col-md-4">
         <h2>Default toast</h2>
         <div class="playground__item mt-3">
-          <AButton @click="generateToast()">Default Toast</AButton> <br />
-          <AButton @click="generateToast('tl')" class="mt-2">
-            Top Left Toast
+          <AButton @click="showSuccessToast()">Success Toast</AButton> <br />
+          <AButton @click="showDangerToast" class="mt-2" variant="danger">
+            Top Left Danger
           </AButton>
           <br />
-          <AButton @click="generateToast('tc')" class="mt-2">
-            Top Center Toast
+          <AButton @click="showWarningToast" class="mt-2" variant="warning">
+            Top Center Warning
+          </AButton>
+          <br />
+          <AButton @click="showInfoToast" class="mt-2" variant="info">
+            Bottom Right Info
           </AButton>
           <br />
           <AButton @click="generateToast('bl')" class="mt-2">
-            Bottom Left
-          </AButton>
-          <br />
-          <AButton @click="generateToast('br')" class="mt-2">
-            Bottom Right
+            Bottom Left Success
           </AButton>
           <br />
           <AButton @click="generateToast('bc')" class="mt-2">
-            Bottom Center
+            Bottom Center Success
           </AButton>
-
-          <h4 class="mt-4">Props</h4>
-          <BooleanProps :items="componentData.booleanProps"></BooleanProps>
-          <StringProps :items="componentData.stringProps"></StringProps>
-          <StringProps
-            :items="componentData.numberProps"
-            type="number"
-          ></StringProps>
-          <DropdownProps :items="componentData.dropdownProps"></DropdownProps>
         </div>
       </div>
 
