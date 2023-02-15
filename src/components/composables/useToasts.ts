@@ -11,14 +11,23 @@ export interface ToastItem {
 
 const toasts = reactive(new Set<ToastItem>());
 
+toasts.add({
+  type: "success",
+  detail: "Done successfully",
+  summary: "Success",
+  duration: 88888,
+  group: "",
+  $when: 1234578
+});
+
 export function useToast() {
   function showToast(toastItem: ToastItem) {
     const toast_item = { ...toastItem, $when: Date.now() + Math.random() };
     toasts.add(toast_item);
 
-    setTimeout(() => {
-      removeToast(toast_item);
-    }, toastItem.duration || 2222);
+    // setTimeout(() => {
+    //   removeToast(toast_item);
+    // }, toastItem.duration || 2222);
   }
 
   function removeToast(toast: ToastItem) {

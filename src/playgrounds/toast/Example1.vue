@@ -40,7 +40,7 @@ function generateToast(group?: string) {
     type: "success",
     detail: "Done successfully",
     summary: "Success",
-    duration: 2222,
+    duration: 3333,
     group
   });
 }

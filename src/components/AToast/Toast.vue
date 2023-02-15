@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import type { PropType } from "vue";
 import type { ToastItem } from "../composables/useToasts";
+import { useToast } from "../composables/useToasts";
+
+const { removeToast } = useToast();
 
 const emit = defineEmits(["close"]);
 
@@ -22,10 +25,20 @@ const classes = computed(() => {
 function closeToast() {
   emit("close", props.toast);
 }
+
+const playingAnimation = ref(true);
+
+function endAnimation() {
+  removeToast(props.toast);
+}
 </script>
 
 <template>
-  <div :class="classes">
+  <div
+    :class="classes"
+    @mouseover="playingAnimation = false"
+    @mouseleave="playingAnimation = true"
+  >
     <slot>
       <div class="toast__icon">
         <div class="gg-check" v-if="toast.type === 'success'"></div>
@@ -48,6 +61,20 @@ function closeToast() {
       </div>
       <div class="toast__close" @click="closeToast">&times;</div>
     </slot>
+
+    <div
+      id="progress"
+      ref="progress"
+      class="toast__progress"
+      :style="{
+        animation: `toastprogress ${toast.duration!! / 1000}s`,
+        animationTimingFunction: 'linear',
+        animationPlayState: playingAnimation ? 'running' : 'paused'
+      }"
+      @animationend="endAnimation"
+    >
+      <!-- {{ playingAnimation }} -->
+    </div>
   </div>
 </template>
 
@@ -57,11 +84,13 @@ function closeToast() {
   background-color: var(--a-c-theme-50);
   border-left: 4px solid var(--a-c-theme-600);
   margin: 16px 11px;
-  box-shadow: 0 0 7px 3px rgb(0 0 0 / 8%);
+  /* box-shadow: 0 0 7px 3px rgb(0 0 0 / 8%); */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   display: flex;
   align-items: flex-start;
   width: 333px;
+  position: relative;
 }
 
 .toast__icon {
@@ -185,5 +214,32 @@ function closeToast() {
   border-style: solid;
   transform-origin: bottom left;
   transform: rotate(45deg);
+}
+
+.toast__progress {
+  min-height: 1px;
+  background-color: var(--a-c-theme-600);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  color: #fff;
+  /* animation: toastprogress 5s infinite; */
+  /* animation-timing-function: linear; */
+  /* animation-play-state: running; */
+  /* animation-play-state: paused; */
+}
+
+.toast__progress:hover {
+  animation-play-state: paused;
+}
+
+@keyframes toastprogress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
 }
 </style>
