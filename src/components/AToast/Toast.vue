@@ -17,8 +17,7 @@ const props = defineProps({
 
 const classes = computed(() => {
   return {
-    "a-toast": true,
-    [`a-${props.toast.type}`]: true
+    "a-toast": true
   };
 });
 
@@ -26,55 +25,43 @@ function closeToast() {
   emit("close", props.toast);
 }
 
-const playingAnimation = ref(true);
-
 function endAnimation() {
   removeToast(props.toast);
 }
 </script>
 
 <template>
-  <div
-    :class="classes"
-    @mouseover="playingAnimation = false"
-    @mouseleave="playingAnimation = true"
-  >
-    <slot>
-      <div class="a-toast__icon">
-        <div class="gg-check" v-if="toast.type === 'success'"></div>
-        <div
-          class="gg-danger"
-          v-if="toast.type === 'danger' || toast.type === 'warning'"
-        ></div>
-        <div class="gg-info" v-if="toast.type === 'info'"></div>
+  <div :class="classes">
+    <div class="a-toast__icon">
+      <div class="gg-check" v-if="toast.type === 'success'"></div>
+      <div
+        class="gg-danger"
+        v-if="toast.type === 'danger' || toast.type === 'warning'"
+      ></div>
+      <div class="gg-info" v-if="toast.type === 'info'"></div>
+    </div>
+    <div class="a-toast__content">
+      <div class="a-toast__heading">
+        {{ toast.summary }}
       </div>
-      <div class="a-toast__content">
-        <div class="a-toast__heading">
-          {{ toast.summary }}
-        </div>
 
-        <div class="a-toast__body" @click.stop>
-          <slot>
-            {{ toast.detail }}
-          </slot>
-        </div>
+      <div class="a-toast__body" @click.stop>
+        <slot>
+          {{ toast.detail }}
+        </slot>
       </div>
-      <div class="a-toast__close" @click="closeToast">&times;</div>
-    </slot>
+    </div>
+    <div class="a-toast__close" @click="closeToast">&times;</div>
 
-    <div
+    <!-- <div
       id="progress"
       ref="progress"
       class="a-toast__progress"
       :style="{
-        animation: `toastprogress ${toast.duration!! / 1000}s`,
-        animationTimingFunction: 'linear',
-        animationPlayState: playingAnimation ? 'running' : 'paused'
+        '--animation': `toastprogress ${toast.duration!! / 1000}s`
       }"
       @animationend="endAnimation"
-    >
-      <!-- {{ playingAnimation }} -->
-    </div>
+    ></div> -->
   </div>
 </template>
 
@@ -83,8 +70,6 @@ function endAnimation() {
   color: var(--a-c-theme-600);
   background-color: var(--a-c-theme-50);
   border-left: 4px solid var(--a-c-theme-600);
-  margin: 16px 11px;
-  /* box-shadow: 0 0 7px 3px rgb(0 0 0 / 8%); */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   display: flex;
@@ -216,7 +201,7 @@ function endAnimation() {
   transform: rotate(45deg);
 }
 
-.a-toast__progress {
+/* .a-toast__progress {
   min-height: 1px;
   background-color: var(--a-c-theme-600);
   position: absolute;
@@ -224,13 +209,12 @@ function endAnimation() {
   left: 0;
   width: 0%;
   color: #fff;
-  /* animation: toastprogress 5s infinite; */
-  /* animation-timing-function: linear; */
-  /* animation-play-state: running; */
-  /* animation-play-state: paused; */
+  animation: var(--animation);
+  animation-timing-function: linear;
+  animation-play-state: running;
 }
 
-.a-toast__progress:hover {
+.a-toast:hover .a-toast__progress {
   animation-play-state: paused;
 }
 
@@ -241,5 +225,5 @@ function endAnimation() {
   to {
     width: 0%;
   }
-}
+} */
 </style>

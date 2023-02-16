@@ -49,7 +49,7 @@ function generateToast(group?: string) {
     type: "success",
     detail: "Done successfully",
     summary: "Success",
-    duration: 3333,
+    duration: 4444,
     group
   });
 }
@@ -119,6 +119,10 @@ function showInfoToast() {
           <br />
           <AButton @click="generateToast('bc')" class="mt-2">
             Bottom Center Success
+          </AButton>
+
+          <AButton @click="generateToast('tr')" class="mt-2">
+            Top Right Custom Slot
           </AButton>
         </div>
       </div>

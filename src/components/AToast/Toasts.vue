@@ -1,13 +1,3 @@
-<template>
-  <teleport to="body">
-    <TransitionGroup :name="transitionName" tag="div" :class="classes">
-      <div v-for="toast in groupedToasts" :key="toast.$when">
-        <Toast :toast="toast" @close="removeToast"> </Toast>
-      </div>
-    </TransitionGroup>
-  </teleport>
-</template>
-
 <script setup lang="ts">
 import { ref, reactive, computed } from "vue";
 import Toast from "./Toast.vue";
@@ -50,9 +40,46 @@ const transitionNames: any = {
 const transitionName = computed(() => {
   return transitionNames[props.position] || "slide-left";
 });
+
+function endAnimation(toast: any) {
+  removeToast(toast);
+}
 </script>
 
-<style scoped>
+<template>
+  <teleport to="body">
+    <div class="a-toasts-container">
+      <TransitionGroup :name="transitionName" tag="div" :class="classes">
+        <div
+          v-for="toast in groupedToasts"
+          :key="toast.$when"
+          class="p-relative"
+        >
+          <div
+            style="margin: 16px 11px; position: relative"
+            :class="{ [`a-${toast.type}`]: true }"
+          >
+            <slot :toast="toast" :close="removeToast">
+              <Toast :toast="toast" @close="removeToast"> </Toast>
+            </slot>
+
+            <div
+              id="progress"
+              ref="progress"
+              class="a-toast-progress"
+              :style="{
+                '--animation': `toastprogress ${toast.duration!! / 1000}s`
+              }"
+              @animationend="endAnimation(toast)"
+            ></div>
+          </div>
+        </div>
+      </TransitionGroup>
+    </div>
+  </teleport>
+</template>
+
+<style>
 .toasts,
 .toasts--top-right {
   position: fixed;
@@ -139,5 +166,33 @@ const transitionName = computed(() => {
 .slide-top-leave-to {
   opacity: 0;
   transform: translateY(70px);
+}
+
+.a-toast-progress {
+  min-height: 1px;
+  background-color: var(--a-c-theme-600);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  color: #fff;
+  animation: var(--animation);
+  animation-timing-function: linear;
+  animation-play-state: running;
+
+  z-index: 9999;
+}
+
+/* .a-toasts-container .a-toast-progress {
+  animation-play-state: paused;
+} */
+
+@keyframes toastprogress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
 }
 </style>

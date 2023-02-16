@@ -1,89 +1,53 @@
 <script lang="ts" setup>
 import { reactive, computed, ref } from "vue";
-import { generateComponentCode } from "../utils/functions";
-import AButton from "../../components/AButton/index.vue";
-import ADialog from "../../components/ADialog/index.vue";
-import AyoPrism from "../code/AyoPrism.vue";
 
-const componentData = reactive({
-  name: "ADialog",
-  vModel: false,
-  vModelRaw: "",
-  booleanProps: {},
-  stringProps: {
-    width: "500px"
+const arr = ref([
+  {
+    name: "Hasinoor",
+    due: 500,
+    key: 1
+  },
+  {
+    name: "Zibon",
+    due: 300,
+    key: 2
+  },
+  {
+    name: "Naim",
+    due: 200,
+    type: "",
+    key: 3
   },
 
-  numberProps: {},
-  dropdownProps: {},
-  variableProps: {}
-});
+  {
+    name: "Naim",
+    due: 39,
+    key: 4
+  },
+  {
+    name: "Faruk",
+    due: 100,
+    key: 5
+  }
+]);
 
-const code = computed(() => {
-  const slotData = `<p>First dialog content</p>
-  <AButton
-    @click="dialogTwoVModel = true"
-    variant="success"
-    class="my-3"
-  >
-    Show another dialog
-  </AButton>
-
-  <ADialog
-    v-model="dialogTwoVModel"
-    width="200px"
-    title="Second Dialog"
-  >
-    <p>
-      This is second dialog content. You can open as many dialog as
-      you want recursively
-    </p>
-  </ADialog>`;
-  return generateComponentCode(componentData, false, slotData);
-});
-
-const dialogTwoVModel = ref(false);
+function remove(i: any) {
+  arr.value.splice(i, 1);
+}
 </script>
 
 <template>
   <div>
-    <div class="row gap-0 mt-4">
-      <div class="col-md-5">
-        <h2>Dialog in Dialog</h2>
-        <div class="playground__item mt-3">
-          <AButton @click="componentData.vModel = true">Show Dialog</AButton>
-          <ADialog
-            v-model="componentData.vModel"
-            :width="componentData.stringProps.width"
-            title="First Dialog"
-          >
-            <p>First dialog content</p>
-            <AButton
-              @click="dialogTwoVModel = true"
-              variant="success"
-              class="my-3"
-            >
-              Show another dialog
-            </AButton>
+    <ul>
+      <li v-for="(person, i) in arr" :key="person.key">
+        <span>
+          {{ person.name }}
+        </span>
 
-            <ADialog
-              v-model="dialogTwoVModel"
-              width="200px"
-              title="Second Dialog"
-            >
-              <p>
-                This is second dialog content. You can open as many dialog as
-                you want recursively
-              </p>
-            </ADialog>
-          </ADialog>
-        </div>
-      </div>
-
-      <div class="col-md-7">
-        <AyoPrism :code="code" :fixed="true"></AyoPrism>
-      </div>
-    </div>
+        <input type="text" />
+        <span @click="remove(i)">x</span>
+      </li>
+    </ul>
   </div>
 </template>
 
