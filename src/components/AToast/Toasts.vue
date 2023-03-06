@@ -183,7 +183,7 @@ function endAnimation(toast: any) {
   z-index: 9999;
 }
 
-/* .a-toasts-container .a-toast-progress {
+/* .a-toasts-container:hover .a-toast-progress {
   animation-play-state: paused;
 } */
 
