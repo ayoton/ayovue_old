@@ -9,40 +9,37 @@ import vTooltip from "../components/ATooltip";
     <p class="mt-2">Tooltip is ....</p>
     <br />
 
-    Simple tooltip
+    <div class="row">
+      <div class="col-md-6">
+        <div class="mb-2">Simple tooltip</div>
 
-    <AButton v-tooltip="'Click to submit'">Submit</AButton>
-    <AButton
-      v-tooltip="
-        'Click here to save Click here to save Click here to save Click here to save '
-      "
-      class="ml-2"
-    >
-      Save
-    </AButton>
-    <AButton v-tooltip="'Click to cancel'" class="ml-2">Cancel</AButton>
+        <AButton v-tooltip="'Click to submit'">Submit</AButton>
 
-    <br /><br /><br /><br />
+        <div class="mt-4 mb-2">Tooltip positioning</div>
 
-    Tooltip positioning
-
-    <AButton
-      v-tooltip.left="
-        'Tooltip on left Tooltip on left Tooltip on left Tooltip on left Tooltip on left Tooltip on left '
-      "
-      >Left</AButton
-    >
-    <AButton
-      v-tooltip.top="
-        'Tooltip on top Tooltip on top Tooltip on top Tooltip on top '
-      "
-      class="ml-2"
-      >Top</AButton
-    >
-    <AButton v-tooltip.bottom="'Tooltip on bottom'" class="ml-2">
-      Bottom
-    </AButton>
-    <AButton v-tooltip.right="'Tooltip on right'" class="ml-2">Right</AButton>
+        <AButton
+          v-tooltip.left="
+            'Tooltip on left Tooltip on left Tooltip on left Tooltip on left Tooltip on left Tooltip on left '
+          "
+        >
+          Left
+        </AButton>
+        <AButton
+          v-tooltip.top="
+            'Tooltip on top Tooltip on top Tooltip on top Tooltip on top '
+          "
+          class="ml-2"
+          >Top</AButton
+        >
+        <AButton v-tooltip.bottom="'Tooltip on bottom'" class="ml-2">
+          Bottom
+        </AButton>
+        <AButton v-tooltip.right="'Tooltip on right'" class="ml-2"
+          >Right</AButton
+        >
+      </div>
+      <div class="col-md-6"></div>
+    </div>
   </div>
 </template>
 

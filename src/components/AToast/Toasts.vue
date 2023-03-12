@@ -179,7 +179,6 @@ function endAnimation(toast: any) {
   animation: var(--animation);
   animation-timing-function: linear;
   animation-play-state: running;
-
   z-index: 9999;
 }
 
