@@ -2,4 +2,6 @@
 @import url("./loader.css");
 @import url("./input.css");
 @import url("./utils.css");
+@import url("./transitions.css");
 @import url("./select.css");
+@import url("./toast.css");
