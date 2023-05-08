@@ -9,6 +9,8 @@ const DropdownPlayground = () => import("../DropdownPlayground.vue");
 const DialogPlayground = () => import("../dialog/DialogPlayground.vue");
 const ToastPLayground = () => import("../toast/ToastPlayground.vue");
 const TooltipPlayground = () => import("../TooltipPlayground.vue");
+const InputFilePlayground = () =>
+  import("../inputfile/InputFilePlayground.vue");
 
 const routes = <any>[
   { path: "/", component: ``, redirect: "/button" },
@@ -20,7 +22,8 @@ const routes = <any>[
   { path: "/multi-select", component: MultiSelectPlayground },
   { path: "/dialog", component: DialogPlayground },
   { path: "/toast", component: ToastPLayground },
-  { path: "/tooltip", component: TooltipPlayground }
+  { path: "/tooltip", component: TooltipPlayground },
+  { path: "/input-file", component: InputFilePlayground }
 ];
 
 const router = createRouter({

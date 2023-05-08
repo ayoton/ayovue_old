@@ -20,6 +20,7 @@ const addDay = () => {
         <RouterLink to="/toast">Toast</RouterLink>
         <RouterLink to="/switch">Switch</RouterLink>
         <RouterLink to="/tooltip">Tooltip</RouterLink>
+        <RouterLink to="/input-file">Input File</RouterLink>
       </div>
     </div>
     <div class="playground__right">
