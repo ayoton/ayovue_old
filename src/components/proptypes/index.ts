@@ -147,8 +147,3 @@ export const aspectRatioProp = {
   type: String,
   default: "1/1"
 };
-
-export const nameProp = {
-  type: String,
-  default: "1/1"
-};
