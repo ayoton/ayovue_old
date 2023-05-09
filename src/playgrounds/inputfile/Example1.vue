@@ -43,7 +43,11 @@ const code = computed(() => {
       <div class="col-md-6">
         <h2>Default</h2>
         <div class="playground__item mt-3">
-          <AInputFile aspect-ratio="5/3" width="300px"></AInputFile>
+          <AInputFile
+            aspect-ratio="5/3"
+            width="300px"
+            accept="all"
+          ></AInputFile>
         </div>
       </div>
 

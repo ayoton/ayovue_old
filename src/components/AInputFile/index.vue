@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+/***
+ * New Props: accept, capture
+ */
 import { computed, ref } from "vue";
 import {
   variantProp,
@@ -16,7 +19,7 @@ const props = defineProps({
   outlined: booleanProp,
   raised: booleanProp,
   rounded: booleanProp,
-  fileType: stringProp,
+  accept: stringProp,
   width: widthProp,
   aspectRatio: aspectRatioProp,
   name: nameProp
@@ -36,6 +39,8 @@ const classes = computed(() => {
   };
 });
 
+const fileEL = ref<HTMLInputElement | null>(null);
+
 const base64String = ref("");
 const selectedFile: any = ref(null);
 const blobURL = ref("");
@@ -44,9 +49,17 @@ const fileSize: any = ref("");
 
 function handleChange(e: Event) {
   const targetElement: any = e.target;
+  if (!targetElement.files[0]) {
+    return;
+  }
+
+  selectFile(targetElement?.files[0]);
+}
+
+function selectFile(file: File) {
   // console.log(targetElement?.files[0]);
-  selectedFile.value = targetElement?.files[0];
-  blobURL.value = URL.createObjectURL(selectedFile.value);
+  selectedFile.value = file;
+
   fileName.value =
     selectedFile.value.name.length < 20
       ? selectedFile.value.name
@@ -59,12 +72,52 @@ function handleChange(e: Event) {
   } else {
     fileSize.value = fileSize.value + "KB";
   }
+
+  if (fileType.value === "image") {
+    blobURL.value = URL.createObjectURL(selectedFile.value);
+  }
 }
 
 function resetFile() {
   selectedFile.value = null;
   blobURL.value = "";
   fileName.value = "";
+}
+
+function openFileDialog() {
+  console.log(fileEL.value);
+  let el = document.querySelector("#" + props.name);
+  console.log(el);
+}
+
+const fileType = computed(() => {
+  if (!selectedFile.value) {
+    return "";
+  }
+
+  return selectedFile.value.type.split("/")[0];
+});
+
+const fileExtension = computed(() => {
+  if (!selectedFile.value) {
+    return "";
+  }
+
+  var re = /(?:\.([^.]+))?$/;
+
+  const arr = re.exec(selectedFile.value.name);
+  if (arr) {
+    return arr[1];
+  }
+  return "";
+});
+
+function handleDrop(e: DragEvent) {
+  e.preventDefault();
+  const file = e.dataTransfer?.files[0];
+  // console.log(file);
+
+  selectFile(file!!);
 }
 </script>
 
@@ -77,34 +130,65 @@ function resetFile() {
       width: width,
       aspectRatio: aspectRatio
     }"
+    @dragover.prevent
+    @drop="handleDrop"
   >
+    <input
+      :id="name"
+      :name="name"
+      type="file"
+      class="a-file__input"
+      @change="handleChange"
+      ref="fileEl"
+      :accept="accept"
+      capture
+    />
     <label class="a-file__label" :for="name" v-if="!selectedFile">
       <div class="a-file__upload-icon a-icon-upload"></div>
       <div class="mt-1">Drag & Drop files here</div>
-      <input
-        :id="name"
-        :name="name"
-        type="file"
-        class="a-file__input"
-        @change="handleChange"
-      />
     </label>
 
     <img
-      v-else-if="selectedFile.type === 'image/jpeg'"
+      v-else-if="fileType === 'image'"
       :src="blobURL"
       alt=""
       class="a-file__image-preview"
     />
 
-    <div v-if="selectedFile" class="a-file__hover">
+    <div
+      v-else
+      class="a-file__common-preview d-flex jc-center ai-center fd-column"
+    >
+      <div class="a-icon-file a-file__thumbnail"></div>
+      <div>
+        {{ fileName }}
+      </div>
+      <div class="a-cf__size">
+        {{ fileSize }}
+      </div>
+    </div>
+
+    <div
+      v-if="selectedFile"
+      class="a-file__hover"
+      :class="{ 'a-file__hover--forced': fileType !== 'image' }"
+    >
       <div class="a-file__hover-header">
-        <span>E</span>
-        <span @click="resetFile" style="cursor: pointer">X</span>
+        <label
+          class="a-icon-pencil"
+          @click="openFileDialog"
+          :for="name"
+        ></label>
+        <div
+          class="a-icon-close a-file__close"
+          click="resetFile"
+          style="cursor: pointer"
+          @click="resetFile"
+        ></div>
       </div>
 
-      <div class="a-file__hover-footer">
-        <span>{{ fileName }}</span>
+      <div class="a-file__hover-footer" v-if="fileType === 'image'">
+        <span>{{ fileName }} ({{ selectedFile.type }})</span>
         <span>{{ fileSize }}</span>
       </div>
     </div>
@@ -143,6 +227,7 @@ function resetFile() {
 .a-file__input {
   visibility: hidden;
   width: 0;
+  position: absolute;
 }
 
 .a-file__upload-icon {
@@ -168,6 +253,13 @@ function resetFile() {
   color: #fff;
   opacity: 0;
   transition: all 0.2s;
+  padding: 9px 2px;
+}
+
+.a-file__hover--forced {
+  opacity: 1;
+  background: none;
+  color: var(--a-c-gray-400);
 }
 
 .a-file__hover:hover {
@@ -179,5 +271,51 @@ function resetFile() {
   display: flex;
   justify-content: space-between;
   padding: 0 5px;
+}
+
+.a-file__close:hover {
+  color: var(--a-c-red-200);
+}
+
+.a-file__common-preview {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  right: 6px;
+  bottom: 6px;
+  padding: 0.5em 1em;
+  background-color: var(--a-c-gray-50);
+
+  font-size: 1em;
+  color: var(--a-c-gray-600);
+}
+
+.a-fc__left {
+  /* primary/primary-400 */
+
+  border: 2px solid var(--a-c-primary-400);
+  border-radius: 4px;
+  padding: 33px;
+  font-weight: 700;
+  font-size: 1em;
+  color: var(--a-c-primary-400);
+  text-transform: uppercase;
+}
+
+.a-fc__middle {
+  flex: 1;
+  padding: 0 11px;
+}
+
+.a-fc__right {
+}
+
+.a-cf__size {
+  color: var(--a-c-gray-400);
+}
+
+.a-file__thumbnail {
+  font-size: 55px;
+  color: var(--a-c-gray-400);
 }
 </style>
