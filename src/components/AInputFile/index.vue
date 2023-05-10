@@ -46,11 +46,7 @@ const fileEL = ref<HTMLInputElement | null>(null);
 
 const base64String = ref("");
 const selectedFile: any = ref({ raw: null });
-const blobURL = ref("");
-const fileName = ref("");
-const fileSize: any = ref("");
-
-const files = ref([]);
+const selectedFiles = ref([]);
 
 function handleChange(e: Event) {
   const targetElement: any = e.target;
@@ -58,18 +54,25 @@ function handleChange(e: Event) {
     return;
   }
 
-  selectFile(targetElement?.files[0]);
+  selectFile(targetElement?.files);
 
   emit("change", e);
 }
 
-function selectFile(file: File, multiple = false) {
+function selectFile(files: any /*File[]*/) {
+  // console.log(files);
+
+  const filesArray = Array.from(files);
+
   // console.log(targetElement?.files[0]);
   if (props.multiple) {
-    let fileWithMeta = createFileWithMeta(file);
-    selectedFile.value = fileWithMeta;
+    selectedFiles.value = [];
+    filesArray.forEach((file: any) => {
+      let fileWithMeta: any = createFileWithMeta(file);
+      selectedFiles.value.push(fileWithMeta);
+    });
   } else {
-    let fileWithMeta = createFileWithMeta(file);
+    let fileWithMeta = createFileWithMeta(files[0]);
     selectedFile.value = fileWithMeta;
   }
 }
@@ -110,8 +113,6 @@ function createFileWithMeta(file: File): any {
 
 function resetFile() {
   selectedFile.value = { raw: null };
-  blobURL.value = "";
-  fileName.value = "";
 }
 
 function openFileDialog() {
@@ -122,15 +123,14 @@ function openFileDialog() {
 
 function handleDrop(e: DragEvent) {
   e.preventDefault();
-  const file = e.dataTransfer?.files[0];
+  const files = e.dataTransfer?.files;
   // console.log(file);
 
-  selectFile(file!!);
+  selectFile(files);
 }
 </script>
 
 <template>
-  {{ selectedFile }}
   <div
     class=""
     :class="classes"
@@ -153,57 +153,87 @@ function handleDrop(e: DragEvent) {
       :multiple="multiple"
       capture
     />
-    <label class="a-file__label" :for="name" v-if="!selectedFile.raw">
+    <label
+      class="a-file__label"
+      :for="name"
+      v-if="
+        (!multiple && !selectedFile.raw) ||
+        (multiple && selectedFiles.length === 0)
+      "
+    >
       <div class="a-file__upload-icon a-icon-upload"></div>
       <div class="mt-1">Drag & Drop files here</div>
     </label>
 
-    <img
-      v-else-if="selectedFile.fileType === 'image'"
-      :src="selectedFile.blobURL"
-      alt=""
-      class="a-file__image-preview"
-    />
+    <div v-else>
+      <!-- Multiple file upload -->
+      <template v-if="multiple">
+        <!-- {{ selectedFiles }} -->
 
-    <div
-      v-else
-      class="a-file__common-preview d-flex jc-center ai-center fd-column"
-    >
-      <div class="a-icon-file a-file__thumbnail"></div>
-      <div>
-        {{ selectedFile.fileName }}
-      </div>
-      <div class="a-cf__size">
-        {{ selectedFile.fileSize }}
-      </div>
-    </div>
+        <div v-for="f in selectedFiles">
+          <img
+            v-if="f.fileType == 'image'"
+            :src="f.blobURL"
+            alt=""
+            style="max-width: 100%"
+          />
+        </div>
+      </template>
 
-    <div
-      v-if="selectedFile.raw"
-      class="a-file__hover"
-      :class="{ 'a-file__hover--forced': selectedFile.fileType !== 'image' }"
-    >
-      <div class="a-file__hover-header">
-        <label
-          class="a-icon-pencil"
-          @click="openFileDialog"
-          :for="name"
-        ></label>
+      <!-- Single file upload -->
+      <template v-else>
+        <img
+          v-if="selectedFile.raw && selectedFile.fileType === 'image'"
+          :src="selectedFile.blobURL"
+          alt=""
+          class="a-file__image-preview"
+        />
+
         <div
-          class="a-icon-close a-file__close"
-          click="resetFile"
-          style="cursor: pointer"
-          @click="resetFile"
-        ></div>
-      </div>
+          v-else
+          class="a-file__common-preview d-flex jc-center ai-center fd-column"
+        >
+          <div class="a-icon-file a-file__thumbnail"></div>
+          <div>
+            {{ selectedFile.fileName }}
+          </div>
+          <div class="a-cf__size">
+            {{ selectedFile.fileSize }}
+          </div>
+        </div>
 
-      <div
-        class="a-file__hover-footer"
-        v-if="selectedFile.fileType === 'image'"
-      >
-        <span>{{ selectedFile.fileName }} ({{ selectedFile.raw.type }})</span>
-        <span>{{ selectedFile.fileSize }}</span>
-      </div>
+        <div
+          v-if="selectedFile.raw"
+          class="a-file__hover"
+          :class="{
+            'a-file__hover--forced': selectedFile.fileType !== 'image'
+          }"
+        >
+          <div class="a-file__hover-header">
+            <label
+              class="a-icon-pencil"
+              @click="openFileDialog"
+              :for="name"
+            ></label>
+            <div
+              class="a-icon-close a-file__close"
+              click="resetFile"
+              style="cursor: pointer"
+              @click="resetFile"
+            ></div>
+          </div>
+
+          <div
+            class="a-file__hover-footer"
+            v-if="selectedFile.fileType === 'image'"
+          >
+            <span
+              >{{ selectedFile.fileName }} ({{ selectedFile.raw.type }})</span
+            >
+            <span>{{ selectedFile.fileSize }}</span>
+          </div>
+        </div>
+      </template>
     </div>
   </div>
 </template>
