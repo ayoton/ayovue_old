@@ -22,8 +22,11 @@ const props = defineProps({
   accept: stringProp,
   width: widthProp,
   aspectRatio: aspectRatioProp,
-  name: nameProp
+  name: nameProp,
+  multiple: booleanProp
 });
+
+const emit = defineEmits(["change"]);
 
 const classes = computed(() => {
   return {
@@ -42,10 +45,12 @@ const classes = computed(() => {
 const fileEL = ref<HTMLInputElement | null>(null);
 
 const base64String = ref("");
-const selectedFile: any = ref(null);
+const selectedFile: any = ref({ raw: null });
 const blobURL = ref("");
 const fileName = ref("");
 const fileSize: any = ref("");
+
+const files = ref([]);
 
 function handleChange(e: Event) {
   const targetElement: any = e.target;
@@ -54,32 +59,57 @@ function handleChange(e: Event) {
   }
 
   selectFile(targetElement?.files[0]);
+
+  emit("change", e);
 }
 
-function selectFile(file: File) {
+function selectFile(file: File, multiple = false) {
   // console.log(targetElement?.files[0]);
-  selectedFile.value = file;
-
-  fileName.value =
-    selectedFile.value.name.length < 20
-      ? selectedFile.value.name
-      : "..." + selectedFile.value.name.slice(-17);
-
-  fileSize.value = Math.ceil(selectedFile.value.size / 1024);
-
-  if (fileSize.value > 1024) {
-    fileSize.value = Math.ceil(fileSize.value / 1024) + "MB";
+  if (props.multiple) {
+    let fileWithMeta = createFileWithMeta(file);
+    selectedFile.value = fileWithMeta;
   } else {
-    fileSize.value = fileSize.value + "KB";
+    let fileWithMeta = createFileWithMeta(file);
+    selectedFile.value = fileWithMeta;
+  }
+}
+
+function createFileWithMeta(file: File): any {
+  let fwm: any = { raw: file };
+
+  let fileSize: string = "";
+  if (file.size > 1024 * 1024) {
+    fileSize = Math.ceil(file.size / 1024 / 1024) + "MB";
+  } else {
+    fileSize = Math.ceil(file.size / 1024) + "KB";
   }
 
-  if (fileType.value === "image") {
-    blobURL.value = URL.createObjectURL(selectedFile.value);
+  let fileName =
+    file.name.length < 20 ? file.name : "..." + file.name.slice(-17);
+
+  let fileType = file.type.split("/")[0];
+
+  let fileExtension = "";
+  const re = /(?:\.([^.]+))?$/;
+  const arr = re.exec(file.name);
+  if (arr) {
+    fileExtension = arr[1];
   }
+
+  fwm.fileSize = fileSize;
+  fwm.fileName = fileName;
+  fwm.fileType = fileType;
+  fwm.fileExtension = fileExtension;
+
+  if (fileType === "image") {
+    fwm.blobURL = URL.createObjectURL(file);
+  }
+
+  return fwm;
 }
 
 function resetFile() {
-  selectedFile.value = null;
+  selectedFile.value = { raw: null };
   blobURL.value = "";
   fileName.value = "";
 }
@@ -89,28 +119,6 @@ function openFileDialog() {
   let el = document.querySelector("#" + props.name);
   console.log(el);
 }
-
-const fileType = computed(() => {
-  if (!selectedFile.value) {
-    return "";
-  }
-
-  return selectedFile.value.type.split("/")[0];
-});
-
-const fileExtension = computed(() => {
-  if (!selectedFile.value) {
-    return "";
-  }
-
-  var re = /(?:\.([^.]+))?$/;
-
-  const arr = re.exec(selectedFile.value.name);
-  if (arr) {
-    return arr[1];
-  }
-  return "";
-});
 
 function handleDrop(e: DragEvent) {
   e.preventDefault();
@@ -122,6 +130,7 @@ function handleDrop(e: DragEvent) {
 </script>
 
 <template>
+  {{ selectedFile }}
   <div
     class=""
     :class="classes"
@@ -141,16 +150,17 @@ function handleDrop(e: DragEvent) {
       @change="handleChange"
       ref="fileEl"
       :accept="accept"
+      :multiple="multiple"
       capture
     />
-    <label class="a-file__label" :for="name" v-if="!selectedFile">
+    <label class="a-file__label" :for="name" v-if="!selectedFile.raw">
       <div class="a-file__upload-icon a-icon-upload"></div>
       <div class="mt-1">Drag & Drop files here</div>
     </label>
 
     <img
-      v-else-if="fileType === 'image'"
-      :src="blobURL"
+      v-else-if="selectedFile.fileType === 'image'"
+      :src="selectedFile.blobURL"
       alt=""
       class="a-file__image-preview"
     />
@@ -161,17 +171,17 @@ function handleDrop(e: DragEvent) {
     >
       <div class="a-icon-file a-file__thumbnail"></div>
       <div>
-        {{ fileName }}
+        {{ selectedFile.fileName }}
       </div>
       <div class="a-cf__size">
-        {{ fileSize }}
+        {{ selectedFile.fileSize }}
       </div>
     </div>
 
     <div
-      v-if="selectedFile"
+      v-if="selectedFile.raw"
       class="a-file__hover"
-      :class="{ 'a-file__hover--forced': fileType !== 'image' }"
+      :class="{ 'a-file__hover--forced': selectedFile.fileType !== 'image' }"
     >
       <div class="a-file__hover-header">
         <label
@@ -187,9 +197,12 @@ function handleDrop(e: DragEvent) {
         ></div>
       </div>
 
-      <div class="a-file__hover-footer" v-if="fileType === 'image'">
-        <span>{{ fileName }} ({{ selectedFile.type }})</span>
-        <span>{{ fileSize }}</span>
+      <div
+        class="a-file__hover-footer"
+        v-if="selectedFile.fileType === 'image'"
+      >
+        <span>{{ selectedFile.fileName }} ({{ selectedFile.raw.type }})</span>
+        <span>{{ selectedFile.fileSize }}</span>
       </div>
     </div>
   </div>

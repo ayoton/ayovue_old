@@ -35,6 +35,10 @@ const code = computed(() => {
   // return generateComponentCode(componentData);
   return `<AInputFile></AInputFile>`;
 });
+
+function handleChange(e: Event) {
+  console.log(e);
+}
 </script>
 
 <template>
@@ -47,6 +51,8 @@ const code = computed(() => {
             aspect-ratio="5/3"
             width="300px"
             accept="all"
+            @change="handleChange"
+            multiple
           ></AInputFile>
         </div>
       </div>
