@@ -128,6 +128,10 @@ function handleDrop(e: DragEvent) {
 
   selectFile(files);
 }
+
+function removeFile(i: number) {
+  selectedFiles.value.splice(i, 1);
+}
 </script>
 
 <template>
@@ -170,13 +174,25 @@ function handleDrop(e: DragEvent) {
       <template v-if="multiple">
         <!-- {{ selectedFiles }} -->
 
-        <div v-for="f in selectedFiles">
-          <img
-            v-if="f.fileType == 'image'"
-            :src="f.blobURL"
-            alt=""
-            style="max-width: 100%"
-          />
+        <div class="a-file__mf-item" v-for="(f, i) in selectedFiles">
+          <div
+            class="a-file__remove a-icon-circle-with-cross"
+            @click="removeFile(i)"
+          >
+            <!-- <div class="a-icon-circle-with-cross"></div> -->
+          </div>
+          <div class="a-file__mf-item-image">
+            <img
+              v-if="f.fileType == 'image'"
+              :src="f.blobURL"
+              alt=""
+              style="max-width: 100%"
+            />
+          </div>
+          <div class="a-file__mf-name ml-3">
+            <div>{{ f.fileName }}</div>
+            <div class="a-file__mf-size mt-1">{{ f.fileSize }}</div>
+          </div>
         </div>
       </template>
 
@@ -246,7 +262,7 @@ function handleDrop(e: DragEvent) {
   border: 2px dashed var(--a-c-gray-400);
   border-spacing: 16px;
   border-radius: 4px;
-  padding: 5px;
+  padding: 8px;
 }
 
 .a-file:hover {
@@ -360,5 +376,53 @@ function handleDrop(e: DragEvent) {
 .a-file__thumbnail {
   font-size: 55px;
   color: var(--a-c-gray-400);
+}
+
+.a-file__mf-item {
+  aspect-ratio: 29/6;
+  display: flex;
+  align-items: center;
+  background: var(--a-c-gray-50);
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.a-file__mf-item:last-child {
+  margin-bottom: 0;
+}
+
+.a-file__mf-item-image {
+  width: 30%;
+  height: 12%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.a-file__mf-name {
+  flex: 1;
+  font-weight: 400;
+  font-size: 1em;
+  line-height: 1.125em;
+  color: var(--a-c-gray-600);
+}
+
+.a-file__mf-size {
+  color: var(--a-c-gray-400);
+}
+
+.a-file__remove {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  z-index: 99;
+  font-size: 17px;
+  color: var(--a-c-gray-300);
+  cursor: pointer;
+}
+
+.a-file__remove:hover {
+  color: var(--a-c-red-300);
 }
 </style>

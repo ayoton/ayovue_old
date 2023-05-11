@@ -49,7 +49,7 @@ function handleChange(e: Event) {
         <div class="playground__item mt-3">
           <AInputFile
             aspect-ratio="5/3"
-            width="300px"
+            width="360px"
             accept="all"
             @change="handleChange"
             multiple
