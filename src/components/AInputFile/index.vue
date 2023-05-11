@@ -88,17 +88,21 @@ function createFileWithMeta(file: File): any {
     fileSize = Math.ceil(file.size / 1024) + "KB";
   }
 
-  let fileName =
-    file.name.length < 20 ? file.name : "..." + file.name.slice(-17);
+  const parts = file.name.split(".");
+  const fileExtension = parts[parts.length - 1];
+  let fileNameWithoutExtension = parts.slice(0, parts.length - 1).join(".");
+
+  let fileName = file.name;
+  if (fileName.length > 16) {
+    fileName =
+      fileNameWithoutExtension.slice(0, 10) +
+      "..." +
+      fileNameWithoutExtension.slice(-3) +
+      "." +
+      fileExtension;
+  }
 
   let fileType = file.type.split("/")[0];
-
-  let fileExtension = "";
-  const re = /(?:\.([^.]+))?$/;
-  const arr = re.exec(file.name);
-  if (arr) {
-    fileExtension = arr[1];
-  }
 
   fwm.fileSize = fileSize;
   fwm.fileName = fileName;
