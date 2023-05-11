@@ -1,6 +1,7 @@
 {
   "AInput": "src/components/AInput/index.vue",
   "AButton": "src/components/AButton/index.vue",
+  "AInputFile": "src/components/AInputFile/index.vue",
   "proptypes": "src/components/proptypes/index",
   "useDate": "src/components/useDate/",
   "composables": "src/components/composables/"

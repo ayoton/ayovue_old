@@ -3,6 +3,7 @@
  * New Props: accept, capture
  */
 import { computed, ref } from "vue";
+import AButton from "../AButton/index.vue";
 import {
   variantProp,
   sizeProp,
@@ -42,7 +43,7 @@ const classes = computed(() => {
   };
 });
 
-const fileEL = ref<HTMLInputElement | null>(null);
+const fileEl = ref<HTMLInputElement | null>(null);
 
 const base64String = ref("");
 const selectedFile: any = ref({ raw: null });
@@ -66,7 +67,7 @@ function selectFile(files: any /*File[]*/) {
 
   // console.log(targetElement?.files[0]);
   if (props.multiple) {
-    selectedFiles.value = [];
+    // selectedFiles.value = [];
     filesArray.forEach((file: any) => {
       let fileWithMeta: any = createFileWithMeta(file);
       selectedFiles.value.push(fileWithMeta);
@@ -116,7 +117,7 @@ function resetFile() {
 }
 
 function openFileDialog() {
-  console.log(fileEL.value);
+  console.log(fileEl.value);
   let el = document.querySelector("#" + props.name);
   console.log(el);
 }
@@ -131,6 +132,10 @@ function handleDrop(e: DragEvent) {
 
 function removeFile(i: number) {
   selectedFiles.value.splice(i, 1);
+}
+
+function chooseFile() {
+  fileEl.value?.click();
 }
 </script>
 
@@ -188,11 +193,25 @@ function removeFile(i: number) {
               alt=""
               style="max-width: 100%"
             />
+            <div class="a-file__unknown-file" v-else>
+              {{ f.fileExtension }}
+            </div>
           </div>
           <div class="a-file__mf-name ml-3">
             <div>{{ f.fileName }}</div>
             <div class="a-file__mf-size mt-1">{{ f.fileSize }}</div>
           </div>
+        </div>
+
+        <div class="ta-center">
+          <AButton
+            variant="info"
+            outlined
+            class="mt-3 mb-3"
+            @click="chooseFile"
+          >
+            Add More
+          </AButton>
         </div>
       </template>
 
@@ -395,10 +414,11 @@ function removeFile(i: number) {
 
 .a-file__mf-item-image {
   width: 30%;
-  height: 12%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
+  /* background-color: red; */
+  aspect-ratio: 6/4;
 }
 .a-file__mf-name {
   flex: 1;
@@ -424,5 +444,24 @@ function removeFile(i: number) {
 
 .a-file__remove:hover {
   color: var(--a-c-red-300);
+}
+
+.a-file__unknown-file {
+  border: 1px solid var(--a-c-primary-300);
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 1em;
+  line-height: 1.125em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: var(--a-c-primary-400);
+  text-transform: uppercase;
+  background-color: var(--a-c-primary-50);
+}
+
+.c-pointer {
+  cursor: pointer;
 }
 </style>
