@@ -33,17 +33,34 @@ const { showToast } = useToast();
 
 const code = computed(() => {
   // return generateComponentCode(componentData);
-  return `<AInputFile></AInputFile>`;
+  return `<AInputFile
+  aspect-ratio="5/3"
+  width="360px"
+  accept="all"
+  @change="handleChange"
+  multiple
+>
+</AInputFile>`;
 });
+
+function handleChange(e: Event) {
+  console.log(e);
+}
 </script>
 
 <template>
   <div>
     <div class="row gap-0 mt-4">
       <div class="col-md-6">
-        <h2>Default</h2>
+        <h2>Multiple file select</h2>
         <div class="playground__item mt-3">
-          <AInputFile></AInputFile>
+          <AInputFile
+            aspect-ratio="5/3"
+            width="360px"
+            accept="all"
+            @change="handleChange"
+            multiple
+          ></AInputFile>
         </div>
       </div>
 
