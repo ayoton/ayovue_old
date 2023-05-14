@@ -52,7 +52,6 @@ function handleChange(e: Event) {
             width="360px"
             accept="all"
             @change="handleChange"
-            multiple
           ></AInputFile>
         </div>
       </div>

@@ -27,7 +27,7 @@ const props = defineProps({
   multiple: booleanProp
 });
 
-const emit = defineEmits(["change"]);
+const emit = defineEmits(["change", "drop"]);
 
 const classes = computed(() => {
   return {
@@ -56,7 +56,6 @@ function handleChange(e: Event) {
   }
 
   selectFile(targetElement?.files);
-
   emit("change", e);
 }
 
@@ -130,8 +129,8 @@ function handleDrop(e: DragEvent) {
   e.preventDefault();
   const files = e.dataTransfer?.files;
   // console.log(file);
-
   selectFile(files);
+  emit("drop");
 }
 
 function removeFile(i: number) {
@@ -141,6 +140,23 @@ function removeFile(i: number) {
 function chooseFile() {
   fileEl.value?.click();
 }
+
+function getFile() {
+  return getFiles();
+}
+
+function getFiles() {
+  if (props.multiple) {
+    return selectedFiles.value;
+  } else {
+    return selectedFile.value;
+  }
+}
+
+defineExpose({
+  getFile,
+  getFiles
+});
 </script>
 
 <template>
@@ -266,9 +282,7 @@ function chooseFile() {
             class="a-file__hover-footer"
             v-if="selectedFile.fileType === 'image'"
           >
-            <span
-              >{{ selectedFile.fileName }} ({{ selectedFile.raw.type }})</span
-            >
+            <span>{{ selectedFile.fileName }}</span>
             <span>{{ selectedFile.fileSize }}</span>
           </div>
         </div>
