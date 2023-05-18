@@ -31,3 +31,15 @@
   opacity: 0;
   transform: translateY(70px);
 }
+
+.collapse-enter-active,
+.collapse-leave-active {
+  transition: all 0.25s linear;
+  height: var(--height);
+  overflow: hidden;
+  transform: translate(1);
+}
+.collapse-enter-from,
+.collapse-leave-to {
+  height: 10px;
+}

@@ -11,6 +11,7 @@ const ToastPLayground = () => import("../toast/ToastPlayground.vue");
 const TooltipPlayground = () => import("../TooltipPlayground.vue");
 const InputFilePlayground = () =>
   import("../inputfile/InputFilePlayground.vue");
+const CollapsePlayground = () => import("../collapse/CollapsePlayground.vue");
 
 const routes = <any>[
   { path: "/", component: ``, redirect: "/button" },
@@ -23,7 +24,8 @@ const routes = <any>[
   { path: "/dialog", component: DialogPlayground },
   { path: "/toast", component: ToastPLayground },
   { path: "/tooltip", component: TooltipPlayground },
-  { path: "/input-file", component: InputFilePlayground }
+  { path: "/input-file", component: InputFilePlayground },
+  { path: "/collapse", component: CollapsePlayground }
 ];
 
 const router = createRouter({

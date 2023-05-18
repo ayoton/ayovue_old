@@ -46,12 +46,32 @@ const classes = computed(() => {
 const fileEl = ref<HTMLInputElement | null>(null);
 
 const base64String = ref("");
-const selectedFile: any = ref({ raw: null });
-const selectedFiles = ref([]);
+
+// fwm.fileSize = fileSize;
+//   fwm.fileName = fileName;
+//   fwm.fileType = fileType;
+//   fwm.fileExtension = fileExtension;
+
+//   if (fileType === "image") {
+//     fwm.blobURL = URL.createObjectURL(file);
+//   }
+
+interface SelectedFileType {
+  raw: Object | null;
+  fileName?: string;
+  fileType?: string;
+  fileSize?: string;
+  fileExtension?: string;
+  blobURL?: string;
+}
+
+const selectedFile = ref<SelectedFileType>({ raw: null });
+const selectedFiles = ref<Array<SelectedFileType>>([]);
 
 function handleChange(e: Event) {
-  const targetElement: any = e.target;
-  if (!targetElement.files[0]) {
+  const targetElement = e.target as HTMLInputElement;
+
+  if (!targetElement.files || !targetElement.files[0]) {
     return;
   }
 
@@ -59,7 +79,7 @@ function handleChange(e: Event) {
   emit("change", e);
 }
 
-function selectFile(files: any /*File[]*/) {
+function selectFile(files: FileList /*File[]*/) {
   // console.log(files);
 
   const filesArray = Array.from(files);
@@ -67,8 +87,8 @@ function selectFile(files: any /*File[]*/) {
   // console.log(targetElement?.files[0]);
   if (props.multiple) {
     // selectedFiles.value = [];
-    filesArray.forEach((file: any) => {
-      let fileWithMeta: any = createFileWithMeta(file);
+    filesArray.forEach((file: File) => {
+      let fileWithMeta: SelectedFileType = createFileWithMeta(file);
       selectedFiles.value.push(fileWithMeta);
     });
   } else {
@@ -77,8 +97,8 @@ function selectFile(files: any /*File[]*/) {
   }
 }
 
-function createFileWithMeta(file: File): any {
-  let fwm: any = { raw: file };
+function createFileWithMeta(file: File): SelectedFileType {
+  let fwm: SelectedFileType = { raw: file };
 
   let fileSize: string = "";
   if (file.size > 1024 * 1024) {
@@ -129,7 +149,7 @@ function handleDrop(e: DragEvent) {
   e.preventDefault();
   const files = e.dataTransfer?.files;
   // console.log(file);
-  selectFile(files);
+  selectFile(files!!);
   emit("drop");
 }
 
